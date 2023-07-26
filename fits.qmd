@@ -1,0 +1,125 @@
+---
+title: "Forecasting COVID-affected time series"
+author:
+- familyname: Rostami-Tabar
+  othernames: Bahman
+  address:
+    - Cardiff Business School
+    - Wales CF10 3EU
+    - United Kingdom
+  email: rostami-tabarb@cardiff.ac.uk
+  correspondingauthor: true
+- familyname: Hyndman
+  othernames: Rob J
+  address:
+    - Department of Econometrics & Business Statistics
+    - Clayton VIC 3800
+    - Australia
+  email: Rob.Hyndman@monash.edu
+abstract: "A brief summary of our ideas"
+keywords: "blah, blah"
+wpnumber: no/yr
+jelcodes: C10,C14,C22
+blind: false
+cover: false
+toc: false
+bibliography: references.bib
+biblio-style: authoryear-comp
+format:
+  wp-pdf:
+    knitr:
+      opts_chunk:
+        dev: "CairoPDF"
+fig-height: 5
+fig-width: 8
+keep-tex: true
+number-sections: true
+cite-method: biblatex
+execute:
+  echo: false
+  warning: false
+  message: false
+  cache: true
+---
+
+```{r}
+#| label: load
+#| cache: false
+#| eval: true
+# Load all required packages
+library(targets)
+library(fpp3)
+
+# Set ggplot colours and fonts
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis",
+  ggplot2.discrete.colour = c("#D55E00", "#0072B2", "#009E73", "#CC79A7", "#E69F00", "#56B4E9", "#F0E442"),
+  ggplot2.discrete.fill = c("#D55E00", "#0072B2", "#009E73", "#CC79A7", "#E69F00", "#56B4E9", "#F0E442")
+)
+theme_set(theme_get() + theme(text = element_text(family = "Fira Sans")))
+
+# Load main data objects from targets folder
+tar_config_set(store = here::here("_targets"))
+```
+
+# Introduction
+
+Not just about covid. How to handle forecasting when there has been a period of major structural change.
+
+Not interested in identifying structural breaks -- we know they have occured. How to forecast in the presence of such change.
+
+Covid has provided one example that is affecting many forecasters around the world. But similar ideas needed in many other contexts.
+
+Time series models usually assume that the future is similar to the past, at least in how the data evolve. But a big event like covid makes the future different from the past, at least in the short term.
+
+# Handling covid effects when forecasting
+
+Some options are:
+
+1. Use a highly adaptive model -- e.g., ETS with large smoothing parameters
+
+Advantages: simple, easy to implement, fast to compute.
+
+Disadvantages: large prediction intervals, because the model is downweighting the past data. Fails to remember things before the change. Also, the model may not adapt quickly enough to the change.
+
+2. Use a dynamic regression model with intervention covariates
+
+Advantages: retains full memory of the past, and allows the change period to be effectively modelled provided you choose the covariates well.
+
+Disadvantages: requires a lot of thought to choose the covariates well. Assumes that the post-pandemic period will be similar to the pre-pandemic period.
+
+3. Treat the covid period as missing and use a model that handles missing values
+
+Advantages: effectively ignores the change period
+
+Disadvantages: throws away the covid-period data, and so starts the post-covid period with no recent history. Therefore prediction intervals will be relatively large.
+
+4. Estimate what might have been and adjust the data
+
+Advantages: relatively simple and doesn't throw away the covid-period data.
+
+Disadvantages: need to have good estimates of covid-period data, and that may be difficult to obtain. Forecasts are conditional on the estimates being correct.
+
+## Example: Ambulance attendances
+
+
+```{r}
+#| label: plot-data
+tar_read(attended_plot)
+tar_read(stl_plot)
+```
+
+```{r}
+tar_load(fit)
+fit |> filter(Area == "BC") |> select(ets) |> components() |> autoplot()
+```
+
+```{r}
+#| label: forecast
+tar_load(fc)
+fc <- forecast(fit, h=365)
+fc |> filter(Area == "BC", .model=="ets") |> autoplot(df)
+fc |> filter(Area == "BC", .model=="stl_ets") |> autoplot(df)
+fc |> filter(Area == "BC", .model=="arima") |> autoplot(df)
+```
