@@ -1,5 +1,5 @@
 ---
-title: "Forecasting COVID-affected time series"
+title: "Forecasting interrupted time series"
 author:
 - familyname: Rostami-Tabar
   othernames: Bahman
@@ -118,7 +118,7 @@ fit |> filter(Area == "BC") |> select(ets) |> components() |> autoplot()
 ```{r}
 #| label: forecast
 tar_load(fc)
-fc <- forecast(fit, h=365)
+tar_load(df)
 fc |> filter(Area == "BC", .model=="ets") |> autoplot(df)
 fc |> filter(Area == "BC", .model=="stl_ets") |> autoplot(df)
 fc |> filter(Area == "BC", .model=="arima") |> autoplot(df)

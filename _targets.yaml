@@ -1,2 +1,2 @@
 main:
-  store: /home/robjhyndman/git/Research/Covid_affected_forecasting/_targets
+  store: /home/robjhyndman/git/Research/forecasting_interrupted_time_series/_targets

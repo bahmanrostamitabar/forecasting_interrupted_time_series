@@ -2,3 +2,5 @@
 .Rhistory
 .RData
 .Ruserdata
+fits_cache/
+fits_files/

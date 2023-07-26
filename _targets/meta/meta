@@ -1,0 +1,11 @@
+name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
+.Random.seed|object|835c94bd9eec3631|||||||||||||||
+attended_plot|stem|a5f66d1ef17eaddb|eceec1f340e28631|1de047e577e19f85|-980901400||t19564.7011794876s|6102570592c19ccc|501084|rds|local|vector|||0.019||
+create_tsibble|function|69dc847288fa02f3|||||||||||||||
+df|stem|fa270c4a69fe0851|d08dbd041869bea9|8143d9bbac0c7c32|-1046211958||t19564.7011774505s|2e8081ee1d69711f|111736|rds|local|vector|||0.686||
+fc|stem|fff97b80413e0d1c|249f0b6817f319dc|3c49c66a2dbd801d|-846944245||t19564.7017946323s|c369dbea098c5a54|114525|rds|local|vector|||0.81||
+fit|stem|cf16d7cf6160cf5f|2438506d28063f81|bec4d05594507d1d|1780184594||t19564.7017825025s|6a89ac5c707ae66d|6016320|rds|local|vector|||50.938||
+paper|stem|a6d5fe041d0c5f06|33c25048b0c73e97|0d3ffbafc1364887|-1335449298|fits_files*fits.pdf*fits.qmd*references.bib|t19564.7032776544s|bc1e8f0a5d801331|854414|file|local|vector|||7.8||
+stl|stem|03bf25d2ce4bc159|d52859d168f7ef3f|da97d2af8885e22f|1482495795||t19564.7011805061s|8ff86d0f2d87dac4|245332|rds|local|vector|||0.036||
+stl_model|stem|a693ae9ff2051046|41e8ac9be969daa1|082f8d02abfc6dc7|1018666639||t19564.7011780524s|1ce2aef2b0f3bf42|85466|rds|local|vector|||0.016||
+stl_plot|stem|5ae725669684a375|03a113ef46e105ac|efdbfedfb16f581f|1834023863||t19564.7017848174s|1e42f9fe9ec5a35a|629363|rds|local|vector|||0.054||

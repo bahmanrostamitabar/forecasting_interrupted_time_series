@@ -12,7 +12,7 @@ tar_option_set(
 tar_source()
 # source("other_functions.R") # Source other scripts as needed.
 
-# Replace the target list below with your own:
+# List of targets
 list(
   tar_target(df, create_tsibble()),
   tar_target(attended_plot, autoplot(df, Attended)),
