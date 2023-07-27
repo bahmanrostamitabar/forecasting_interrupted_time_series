@@ -14,6 +14,22 @@ tar_source()
 
 # List of targets
 list(
+  # Tourism example
+  tar_target(tourism_csv, here::here("data/340101.xlsx"), format="file"),
+  tar_target(austa, read_tourism(tourism_csv)),
+  # Fit ETS model
+  tar_target(fit_tourism,  
+    austa |>
+      filter(Month < yearmonth("2020 Jan")) |>
+      model(ETS(Visitors))),
+  tar_target(tourism_plot1, tourism_plot(austa)),
+  # ETS forecasts
+  tar_target(fc_tourism, forecast(fit_tourism, h = 48)),
+  tar_target(tourism_plot2, tourism_plot1 + 
+               autolayer(fc_tourism |> mutate(Month = as.Date(Month))) + 
+               geom_line()),
+                              
+  # Attended incidents example
   tar_target(attendant_csv, here::here("data/attendent_incident.csv"), format="file"),
   tar_target(verified_csv, here::here("data/verified_incident.csv"), format="file"),
   tar_target(attendant, readr::read_csv(attendant_csv)),

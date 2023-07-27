@@ -1,15 +1,24 @@
 name|type|data|command|depend|seed|path|time|size|bytes|format|repository|iteration|parent|children|seconds|warnings|error
-.Random.seed|object|e54e14841c4057c8|||||||||||||||
+.Random.seed|object|82f9500e592fc89c|||||||||||||||
 attendant|stem|e0660e639f8a36ad|4a72b0025dcaace0|ca8918d8069a317d|-581664520||t19565.6019059382s|89da3884debc3aa5|34278|rds|local|vector|||0.05||
 attendant_csv|stem|196fae4d49c5343e|a1774e73a9e9330c|c3b5fc02cdc369c1|-1051880483|/home/robjhyndman/git/Research/fits/data/attendent_incident.csv|t19564.6031264242s|7871fd28e28fb1a0|105296|file|local|vector|||0.001||
 attended_plot|stem|643e7440b38416e5|eceec1f340e28631|1de047e577e19f85|-980901400||t19565.6019082067s|349e70263a1911c2|501076|rds|local|vector|||0.021||
+austa|stem|2f98567eb9f74ade|0f6dde8a2038b6fe|4f1a69e0a848a116|2015273815||t19565.6320961315s|4ae17baf8111405a|2257|rds|local|vector|||0.06||
 create_tsibble|function|bd2fa1e5c16829eb|||||||||||||||
 df|stem|fa270c4a69fe0851|8185e1f23a5071a9|e0c7241b22217092|-1046211958||t19565.6019066326s|2e8081ee1d69711f|111736|rds|local|vector|||0.035||
 fc|stem|e7c6886731d122ad|249f0b6817f319dc|107ad1cf1e6047c5|-846944245||t19565.6020675595s|fc7af387b0e2fe27|81480|rds|local|vector|||0.703||
+fc_plot|stem|91183813aec0d645|6406649349046e40|ac4e37f6bbed406b|1800475996||t19565.6247932072s||162198|rds|local|vector|||0.002||unused argument austa
+fc_tourism|stem|86940d23b47dc29b|be5c4fb76b971902|003ef9ca1a146514|232676785||t19565.6406068412s|cdb9a12b35d17c7c|1885|rds|local|vector|||0.103||
 fit|stem|e86a359edf9032df|2438506d28063f81|f4b592da1586331d|1780184594||t19565.6020582076s|d5dc9a81f00528a8|7661242|rds|local|vector|||12.071|7 errors 1 unique encountered for arima7 The urca package must be installed to use this functionality. It can be installed with install.packagesurca|
-paper|stem|2056861a70f0ff68|33c25048b0c73e97|8379f92e7b59b653|-1335449298|fits_files*fits.pdf*fits.qmd*references.bib|t19565.6025145529s|90723da023c7ea55|865288|file|local|vector|||9.55||
+fit_tourism|stem|769cfbbcc370f514|49e9a0be24af01a0|611e75117f640fe3|-1357060638||t19565.6406054523s|bbd81f2877d76312|77023|rds|local|vector|||0.802||
+paper|stem|7efedf1ef02fd4ee|8d45603b48003a3a|e6c09590d5c8473e|-1335449298|fits_files*fits.pdf*fits.qmd*references.bib|t19565.6407733238s|f4160d9561cbb83c|732808|file|local|vector|||13.987||
+read_tourism|function|5badac20fadc754c|||||||||||||||
 stl|stem|068ed0cf33c0656c|d52859d168f7ef3f|da97d2af8885e22f|1482495795||t19565.6020591798s|c276ce24ebe0697f|245328|rds|local|vector|||0.032||
 stl_model|stem|40a33edfb52e8196|41e8ac9be969daa1|082f8d02abfc6dc7|1018666639||t19565.6019032067s|57b84d45845ecc83|85449|rds|local|vector|||0.023||
 stl_plot|stem|704e923f4b37c120|03a113ef46e105ac|4cebcea9ad0a5271|1834023863||t19565.6020693188s|f978b46d7bf872d9|629342|rds|local|vector|||0.041||
+tourism_csv|stem|fde516e7f08c2812|3f61f0c465b3e2a3|c3b5fc02cdc369c1|-269875102|/home/robjhyndman/git/Research/fits/data/340101.xlsx|t19565.6299918569s|5c64e196babff4f8|92331|file|local|vector|||0.495||
+tourism_plot|function|1bf050b7a35e18a4|||||||||||||||
+tourism_plot1|stem|98a287ee64440ea3|b66a132595c21fb4|f409e7aaddd2dcb1|-1525828358||t19565.6320968722s|6a4ef4543a6904a3|106028|rds|local|vector|||0.017||
+tourism_plot2|stem|b7d010379eba1f07|41be5d0ae7cb3933|9aefe577b09d381c|-1835331563||t19565.6406098041s|ef562b37a3ac1c98|183848|rds|local|vector|||0.145||
 verified|stem|204c49414425fd70|70a8a98b11b6d6e9|08c48450213a1347|-1201188819||t19565.6019051974s|f448532c0aec8369|37825|rds|local|vector|||0.161||
 verified_csv|stem|b5578dec5676dd50|3c1781ee8466b043|c3b5fc02cdc369c1|-96857670|/home/robjhyndman/git/Research/fits/data/verified_incident.csv|t19564.6031264705s|611af05dd88bcacf|111785|file|local|vector|||0.436||

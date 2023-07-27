@@ -25,11 +25,7 @@ cover: false
 toc: false
 bibliography: references.bib
 biblio-style: authoryear-comp
-format:
-  wp-pdf:
-    knitr:
-      opts_chunk:
-        dev: "CairoPDF"
+format: wp-pdf
 fig-height: 5
 fig-width: 8
 keep-tex: true
@@ -109,6 +105,11 @@ Disadvantages: need to have good estimates of covid-period data, and that may be
 
 ## Australian tourism
 
+
+```{r austa}
+tar_read(tourism_plot1)
+tar_read(tourism_plot2)
+```
 
 
 ## Example: Ambulance attendances
