@@ -1,8 +1,4 @@
-create_tsibble <- function() {
-  # Read data
-  attendant <- readr::read_csv(here::here("data/attendent_incident.csv"))
-  verified <- readr::read_csv(here::here("data/verified_incident.csv"))
-
+create_tsibble <- function(attendant, verified) {
   # Create tsibble
   left_join(
     attendant |>

@@ -14,7 +14,11 @@ tar_source()
 
 # List of targets
 list(
-  tar_target(df, create_tsibble()),
+  tar_target(attendant_csv, here::here("data/attendent_incident.csv"), format="file"),
+  tar_target(verified_csv, here::here("data/verified_incident.csv"), format="file"),
+  tar_target(attendant, readr::read_csv(attendant_csv)),
+  tar_target(verified, readr::read_csv(verified_csv)),
+  tar_target(df, create_tsibble(attendant, verified)),
   tar_target(attended_plot, autoplot(df, Attended)),
   tar_target(stl, # STL Decomposition
     df |>
