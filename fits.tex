@@ -296,6 +296,7 @@ Australia\newline
  \lfoot{\sf Rostami-Tabar, Hyndman: \@date}
 \makeatother
 
+\usepackage[section]{placeins}
 \makeatletter
 \makeatother
 \makeatletter
@@ -348,7 +349,7 @@ Australia\newline
 \makeatletter
 \makeatother
 \makeatletter
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[breakable, frame hidden, enhanced, boxrule=0pt, interior hidden, borderline west={3pt}{0pt}{shadecolor}, sharp corners]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[breakable, borderline west={3pt}{0pt}{shadecolor}, boxrule=0pt, interior hidden, sharp corners, frame hidden, enhanced]}{\end{tcolorbox}}\fi
 \makeatother
 \makeatletter
 \makeatother
@@ -448,32 +449,102 @@ pre-pandemic period.
 handles missing
 values}\label{treat-the-covid-period-as-missing-and-use-a-model-that-handles-missing-values}}
 
-Advantages: effectively ignores the change period
+Many time series models will handle periods of missing values. So the
+problematic observations that occur during the period of disruption can
+be set to missing, and the model should continue to produce forecasts as
+if the interruption had not occurred. Of course, the forecasts will not
+be accurate for the period of disruption, but they can be interpreted as
+``what might have been''. This solution requires a judgement to be made
+about when the disruption has begun, and when normality resumes.
 
-Disadvantages: throws away the covid-period data, and so starts the
-post-covid period with no recent history. Therefore prediction intervals
-will be relatively large.
+Because no information is retained during the disruption, the prediction
+intervals will become large during the disruption, and after the
+disruption they will remain large until the model has enough data to
+estimate the forecast distribution more accurately.
 
 \hypertarget{estimate-what-might-have-been-and-adjust-the-data}{%
 \subsection{Estimate what might have been and adjust the
 data}\label{estimate-what-might-have-been-and-adjust-the-data}}
 
-Advantages: relatively simple and doesn't throw away the covid-period
-data.
-
-Disadvantages: need to have good estimates of covid-period data, and
-that may be difficult to obtain. Forecasts are conditional on the
-estimates being correct.
+A fourth solution is to estimate what might have been during the period
+of disruption, and then use the adjusted data to fit a model. The
+estimates could be made using any convenient method. One approach would
+be to set the estimates to equal the forecasts made using only
+pre-interruption data. This then becomes almost equal to the previous
+solution except that the prediction intervals will be narrower because
+the estimation uncertainty has not been taken into account.
 
 \hypertarget{examples}{%
 \section{Examples}\label{examples}}
 
+Let's consider some examples
+
 \hypertarget{australian-tourism}{%
 \subsection{Australian tourism}\label{australian-tourism}}
 
-\includegraphics{fits_files/figure-pdf/austa-1.pdf}
+The Australian tourism data set is a monthly time series showing the
+number of short-term overseas visitors to Australia. The data are
+available from January 2000 to May 2023, and are shown in
+Figure~\ref{fig-tourism_plot1}. As the borders closed in March 2020, the
+number of visitors to Australia dropped to near zero, and remained there
+until towards the end of 2021. The borders officially reopened on 21
+February 2022, although it seems visitors began to arrive earlier than
+that. The data are available from the Australian Bureau of Statistics.
 
-\includegraphics{fits_files/figure-pdf/austa-2.pdf}
+\begin{figure}
+
+{\centering \includegraphics{fits_files/figure-pdf/fig-tourism_plot1-1.pdf}
+
+}
+
+\caption{\label{fig-tourism_plot1}\textbf{?(caption)}}
+
+\end{figure}
+
+We will apply each of the approaches above to this data set, and compare
+their performance.
+
+\begin{figure}
+
+{\centering \includegraphics{fits_files/figure-pdf/fig-tsol1_plot-1.pdf}
+
+}
+
+\caption{\label{fig-tsol1_plot}\textbf{?(caption)}}
+
+\end{figure}
+
+\begin{figure}
+
+{\centering \includegraphics{fits_files/figure-pdf/fig-tsol2_plot-1.pdf}
+
+}
+
+\caption{\label{fig-tsol2_plot}\textbf{?(caption)}}
+
+\end{figure}
+
+\begin{figure}
+
+{\centering \includegraphics{fits_files/figure-pdf/fig-tsol3_plot-1.pdf}
+
+}
+
+\caption{\label{fig-tsol3_plot}\textbf{?(caption)}}
+
+\end{figure}
+
+\begin{figure}
+
+{\centering \includegraphics{fits_files/figure-pdf/fig-tsol4_plot-1.pdf}
+
+}
+
+\caption{\label{fig-tsol4_plot}\textbf{?(caption)}}
+
+\end{figure}
+
+\FloatBarrier
 
 \hypertarget{example-ambulance-attendances}{%
 \subsection{Example: Ambulance
@@ -483,7 +554,7 @@ attendances}\label{example-ambulance-attendances}}
 
 \includegraphics{fits_files/figure-pdf/plot-data-2.pdf}
 
-\includegraphics{fits_files/figure-pdf/unnamed-chunk-3-1.pdf}
+\includegraphics{fits_files/figure-pdf/unnamed-chunk-8-1.pdf}
 
 \includegraphics{fits_files/figure-pdf/forecast-1.pdf}
 

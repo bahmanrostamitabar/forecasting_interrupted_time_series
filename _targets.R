@@ -29,12 +29,18 @@ list(
                autolayer(fc_tourism |> mutate(Month = as.Date(Month))) + 
                geom_line()),
   tar_target(tsol1, tourism_sol1(austa)),                            
+  tar_target(tsol2, tourism_sol2(austa)),                            
   tar_target(tsol3, tourism_sol3(austa)),                            
+  tar_target(tsol4, tourism_sol4(austa)),   
   tar_target(tsol1_plot, autoplot(tsol1) + 
+     geom_line(data = austa |> filter(Month >= yearmonth("2016 Jan")), aes(y=Visitors))),
+  tar_target(tsol2_plot, autoplot(tsol2) + 
      geom_line(data = austa |> filter(Month >= yearmonth("2016 Jan")), aes(y=Visitors))),
   tar_target(tsol3_plot, autoplot(tsol3) + 
       geom_line(data = austa |> filter(Month >= yearmonth("2016 Jan")), aes(y=Visitors))),
-
+  tar_target(tsol4_plot, autoplot(tsol4) + 
+               geom_line(data = austa |> filter(Month >= yearmonth("2016 Jan")), aes(y=Visitors))),
+  
   # Attended incidents example
   tar_target(attendant_csv, here::here("data/attendent_incident.csv"), format="file"),
   tar_target(verified_csv, here::here("data/verified_incident.csv"), format="file"),

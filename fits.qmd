@@ -25,12 +25,14 @@ cover: false
 toc: false
 bibliography: references.bib
 biblio-style: authoryear-comp
-format: wp-pdf
+format: 
+  wp-pdf:
+    include-in-header: header.tex
+cite-method: biblatex
+number-sections: true
+keep-tex: true
 fig-height: 5
 fig-width: 8
-keep-tex: true
-number-sections: true
-cite-method: biblatex
 execute:
   echo: false
   warning: false
@@ -110,6 +112,7 @@ The Australian tourism data set is a monthly time series showing the number of s
 ```{r}
 #| label: fig-tourism_plot1
 #| caption: Australian tourism data"
+#| fig-height: 3
 tar_read(tourism_plot1)
 ```
 
@@ -118,14 +121,35 @@ We will apply each of the approaches above to this data set, and compare their p
 ```{r}
 #| label: fig-tsol1_plot
 #| fig-height: 8
+#| fig-caption: Solution 1. ETS is highly adaptive.
 tar_read(tsol1_plot)
+```
+
+```{r}
+#| label: fig-tsol2_plot
+#| fig-height: 8
+#| fig-caption: Solution 2. We use a left shift in March 2020, and a ramp from November 2022.
+tar_read(tsol2_plot)
 ```
 
 ```{r}
 #| label: fig-tsol3_plot
 #| fig-height: 8
+#| fig-caption: Solution 3. The period from March 2020 to November 2022 is set to missing.
 tar_read(tsol3_plot)
 ```
+
+
+```{r}
+#| label: fig-tsol4_plot
+#| fig-height: 8
+#| fig-caption: Solution 4. The period from March 2020 to November 2022 is set to missing.
+tar_read(tsol4_plot)
+```
+
+
+
+\FloatBarrier
 
 ## Example: Ambulance attendances
 
