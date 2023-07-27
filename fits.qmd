@@ -91,22 +91,26 @@ Disadvantages: requires a lot of thought to choose the covariates well. Assumes 
 
 ## Treat the covid period as missing and use a model that handles missing values
 
-Advantages: effectively ignores the change period
+Many time series models will handle periods of missing values. So the problematic observations that occur during the period of disruption can be set to missing, and the model should continue to produce forecasts as if the interruption had not occurred. Of course, the forecasts will not be accurate for the period of disruption, but they can be interpreted as "what might have been". This solution requires a judgement to be made about when the disruption has begun, and when normality resumes.
 
-Disadvantages: throws away the covid-period data, and so starts the post-covid period with no recent history. Therefore prediction intervals will be relatively large.
+Because no information is retained during the disruption, the prediction intervals will become large during the disruption, and after the disruption they will remain large until the model has enough data to estimate the forecast distribution more accurately.
 
 ## Estimate what might have been and adjust the data
 
-Advantages: relatively simple and doesn't throw away the covid-period data.
-
-Disadvantages: need to have good estimates of covid-period data, and that may be difficult to obtain. Forecasts are conditional on the estimates being correct.
+A fourth solution is to estimate what might have been during the period of disruption, and then use the adjusted data to fit a model. The estimates could be made using any convenient method. One approach would be to set the estimates to equal the forecasts made using only pre-interruption data. This then becomes almost equal to the previous solution except that the prediction intervals will be narrower because the estimation uncertainty has not been taken into account.
 
 # Examples
 
+Let's consider some examples
+
 ## Australian tourism
 
+The Australian tourism data set is a monthly time series showing the number of short-term overseas visitors to Australia. The data are available from January 2000 to May 2023, and are shown in @fig-tourism_plot1
 
-```{r austa}
+
+```{r}
+#| label: fig-tourism-plot1
+#| caption: Australian tourism data"
 tar_read(tourism_plot1)
 tar_read(tourism_plot2)
 ```
