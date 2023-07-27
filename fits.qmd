@@ -57,7 +57,7 @@ options(
   ggplot2.discrete.colour = c("#D55E00", "#0072B2", "#009E73", "#CC79A7", "#E69F00", "#56B4E9", "#F0E442"),
   ggplot2.discrete.fill = c("#D55E00", "#0072B2", "#009E73", "#CC79A7", "#E69F00", "#56B4E9", "#F0E442")
 )
-theme_set(theme_get() + theme(text = element_text(family = "Fira Sans")))
+#theme_set(theme_get() + theme(text = element_text(family = "Fira Sans")))
 
 # Load main data objects from targets folder
 tar_config_set(store = here::here("_targets"))
@@ -106,6 +106,10 @@ Advantages: relatively simple and doesn't throw away the covid-period data.
 Disadvantages: need to have good estimates of covid-period data, and that may be difficult to obtain. Forecasts are conditional on the estimates being correct.
 
 # Examples
+
+## Australian tourism
+
+
 
 ## Example: Ambulance attendances
 
