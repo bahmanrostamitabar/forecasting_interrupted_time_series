@@ -28,3 +28,46 @@ tourism_plot <- function(austa) {
     ) 
 }
 
+tourism_sol1 <- function(austa) {
+  austa |> 
+    stretch_tsibble(.step = 12, .init = 240) |> 
+    model(
+      ets = ETS(Visitors),
+      arima = ARIMA(Visitors)
+    ) |> 
+    forecast(h=12)
+}
+
+tourism_sol3 <- function(austa) {
+austa |> 
+  stretch_tsibble(.step = 12, .init = 240) |> 
+  mutate(
+    Visitors = if_else(Month >= yearmonth("2020 Mar") & Month <= yearmonth("2022 Nov"),
+                       NA_real_, Visitors)
+  ) |> 
+  model(
+    arima = ARIMA(Visitors)
+  ) |> 
+  forecast(h=12)
+}
+
+tourism_sol2 <- function(austa) {
+  austa_stretch <- austa |> 
+    mutate(
+      covid = as.numeric(Month >= yearmonth("2020 Mar")),
+      recovery = Month >= yearmonth("2022 Nov"),
+      recovery = recovery * (Month - yearmonth("2022 Oct"))
+    ) |> 
+    stretch_tsibble(.step = 12, .init = 240) 
+  fit1 <- austa_stretch |> 
+    model(arima = ARIMA(Visitors))
+  fit2 <- austa_stretch |>
+    model(arima = ARIMA(Visitors ~ covid))
+  fit3 <- austa_stretch |>
+    model(arima = ARIMA(Visitors ~ covid + recovery))
+  
+  #  newd <- new_data(austa, h = 48) 
+    
+  #  forecast(h=12)
+  #fc 
+}
