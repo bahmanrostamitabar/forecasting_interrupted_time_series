@@ -16,11 +16,6 @@ tourism_plot <- function(austa) {
     mutate(Month = as.Date(Month)) |>
     ggplot(aes(x = Month, y = Visitors)) +
     geom_line() +
-    labs(
-      x = "Month",
-      y = "Thousands of visitors",
-      title = "Total short-term visitors to Australia"
-    ) +
     scale_x_date(
       breaks = seq(as.Date("2000-01-01"), by = "5 years", l = 5),
       labels = paste("Jan", seq(2000, 2020, by = 5)),
@@ -32,28 +27,31 @@ tourism_sol1 <- function(austa) {
   austa |>
     stretch_tsibble(.step = 12, .init = 240) |>
     model(
-      ets = ETS(Visitors),
-      arima = ARIMA(Visitors)
+      ets = ETS(log(Visitors)),
+      arima = ARIMA(log(Visitors))
     ) |>
-    forecast(h = 12) 
+    forecast(h = 12) |>
+    mutate(.id = paste("Forecasts of", .id + 2019))
 }
 
 tourism_sol2 <- function(austa) {
   austa_stretch <- austa |>
     mutate(
-      covid = as.numeric(Month >= yearmonth("2020 Mar")),
-      recovery = Month >= yearmonth("2022 Nov") & Month <= yearmonth("2023 Jun"),
-      recovery = recovery * (Month - yearmonth("2022 Oct"))
+      covid = as.numeric(Month >= yearmonth("2020 Mar") & 
+                         Month <= yearmonth("2022 Oct")),
+      recovery = Month >= yearmonth("2021 Oct") & 
+                 Month <= yearmonth("2022 Oct"),
+      recovery = recovery * (Month - yearmonth("2021 Sep"))
     ) |>
     stretch_tsibble(.step = 12, .init = 240)
   # Fit models using none, one or two covariates
   fit1 <- austa_stretch |>
-    model(arima1 = ARIMA(Visitors))
+    model(arima1 = ARIMA(log(Visitors)))
   fit2 <- austa_stretch |>
-    model(arima2 = ARIMA(Visitors ~ covid)) |> 
+    model(arima2 = ARIMA(log(Visitors) ~ covid)) |>
     suppressWarnings()
   fit3 <- austa_stretch |>
-    model(arima3 = ARIMA(Visitors ~ covid + recovery)) |> 
+    model(arima3 = ARIMA(log(Visitors) ~ covid + recovery)) |>
     suppressWarnings()
   # Choose final model for each series
   fit <- fit1 |>
@@ -75,7 +73,8 @@ tourism_sol2 <- function(austa) {
     as_fable(
       index = Month, key = c(.id, .model), response = "Visitors",
       distribution = Visitors
-    )
+    ) |>
+    mutate(.id = paste("Forecasts of", .id + 2019))
 }
 
 tourism_sol2_fc <- function(fit, h = h) {
@@ -83,9 +82,11 @@ tourism_sol2_fc <- function(fit, h = h) {
   id <- fit$.id[1]
   newd <- new_data(training_data, n = h) |>
     mutate(
-      covid = as.numeric(Month >= yearmonth("2020 Mar")),
-      recovery = Month >= yearmonth("2022 Nov") & Month <= yearmonth("2023 Jun"),
-      recovery = recovery * (Month - yearmonth("2022 Oct"))
+      covid = as.numeric(Month >= yearmonth("2020 Mar") & 
+                         Month <= yearmonth("2022 Oct")),
+      recovery = Month >= yearmonth("2021 Oct") & 
+                 Month <= yearmonth("2022 Oct"),
+      recovery = recovery * (Month - yearmonth("2021 Sep"))
     )
   fit |>
     select(-.id) |>
@@ -97,37 +98,43 @@ tourism_sol3 <- function(austa) {
   austa |>
     stretch_tsibble(.step = 12, .init = 240) |>
     mutate(
-      Visitors = if_else(Month >= yearmonth("2020 Mar") & Month <= yearmonth("2022 Nov"),
+      Visitors = if_else(Month >= yearmonth("2020 Mar") & 
+                         Month <= yearmonth("2022 Oct"),
         NA_real_, Visitors
       )
     ) |>
     model(
-      arima = ARIMA(Visitors)
+      arima = ARIMA(log(Visitors))
     ) |>
-    forecast(h = 12)
+    forecast(h = 12) |>
+    mutate(.id = paste("Forecasts of", .id + 2019))
 }
 
 tourism_sol4 <- function(austa) {
   # Replace Mar 2020 - Nov 2022 with average of last three years
-  ave_3y <- austa |> 
-    filter(Month >= yearmonth("2020 March") - 3*12,
-           Month <= yearmonth("2020 Feb")) |> 
-    mutate(month = month(Month)) |> 
-    as_tibble() |> 
+  ave_3y <- austa |>
+    filter(
+      Month >= yearmonth("2020 March") - 3 * 12,
+      Month <= yearmonth("2020 Feb")
+    ) |>
+    mutate(month = month(Month)) |>
+    as_tibble() |>
     summarise(ave = mean(Visitors), .by = "month")
-  austa <- austa |> 
-    mutate(month = month(Month)) |> 
-    left_join(ave_3y, by="month") |> 
+  austa <- austa |>
+    mutate(month = month(Month)) |>
+    left_join(ave_3y, by = "month") |>
     mutate(
       Visitors_adj = if_else(Month < yearmonth("2022 Nov") &
-                         Month > yearmonth("2020 Feb"),
-          ave, Visitors),
+        Month > yearmonth("2020 Feb"),
+      ave, Visitors
+      ),
     )
-  austa |> 
+  austa |>
     stretch_tsibble(.step = 12, .init = 240) |>
     model(
-      ets = ETS(Visitors_adj),
-      arima = ARIMA(Visitors_adj)
+      ets = ETS(log(Visitors_adj)),
+      arima = ARIMA(log(Visitors_adj))
     ) |>
-    forecast(h = 12)
+    forecast(h = 12) |>
+    mutate(.id = paste("Forecasts of", .id + 2019))
 }
