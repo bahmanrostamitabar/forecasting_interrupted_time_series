@@ -349,7 +349,7 @@ Australia\newline
 \makeatletter
 \makeatother
 \makeatletter
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[breakable, borderline west={3pt}{0pt}{shadecolor}, boxrule=0pt, interior hidden, sharp corners, frame hidden, enhanced]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[borderline west={3pt}{0pt}{shadecolor}, sharp corners, enhanced, breakable, frame hidden, interior hidden, boxrule=0pt]}{\end{tcolorbox}}\fi
 \makeatother
 \makeatletter
 \makeatother
@@ -483,13 +483,14 @@ Let's consider some examples
 \subsection{Australian tourism}\label{australian-tourism}}
 
 The Australian tourism data set is a monthly time series showing the
-number of short-term overseas visitors to Australia. The data are
-available from January 2000 to May 2023, and are shown in
-Figure~\ref{fig-tourism_plot1}. As the borders closed in March 2020, the
-number of visitors to Australia dropped to near zero, and remained there
-until towards the end of 2021. The borders officially reopened on 21
-February 2022, although it seems visitors began to arrive earlier than
-that. The data are available from the Australian Bureau of Statistics.
+number of short-term overseas visitors to Australia. The data
+\autocite{tourismdata} are available from January 2000 to May 2023, and
+are shown in Figure~\ref{fig-tourism_plot1}. As the borders closed in
+March 2020, the number of visitors to Australia dropped to near zero,
+and remained there until towards the end of 2021. The borders officially
+reopened on 21 February 2022, although it seems visitors began to arrive
+earlier than that. The data are available from the Australian Bureau of
+Statistics.
 
 \begin{figure}
 
@@ -497,7 +498,8 @@ that. The data are available from the Australian Bureau of Statistics.
 
 }
 
-\caption{\label{fig-tourism_plot1}\textbf{?(caption)}}
+\caption{\label{fig-tourism_plot1}Short-term visitor arrivals to
+Australia (monthly): Jan 2000 -- May 2023.}
 
 \end{figure}
 
@@ -510,7 +512,9 @@ their performance.
 
 }
 
-\caption{\label{fig-tsol1_plot}\textbf{?(caption)}}
+\caption{\label{fig-tsol1_plot}Solution 1. This should show that ETS is
+highly adaptive. However, for some reason, that is no longer the case,
+and I don't know why.}
 
 \end{figure}
 
@@ -520,7 +524,9 @@ their performance.
 
 }
 
-\caption{\label{fig-tsol2_plot}\textbf{?(caption)}}
+\caption{\label{fig-tsol2_plot}Solution 2. We use a left shift in March
+2020, and a ramp from November 2022. We possibly need to stop the ramp
+around mid 2023.}
 
 \end{figure}
 
@@ -530,7 +536,11 @@ their performance.
 
 }
 
-\caption{\label{fig-tsol3_plot}\textbf{?(caption)}}
+\caption{\label{fig-tsol3_plot}Solution 3. The period from March 2020 to
+November 2022 is set to missing. So the first three years of forecasts
+show what might have been. The fourth set of forecasts uses observations
+from November and December 2022, and so the forecasts have been adjusted
+downwards.}
 
 \end{figure}
 
@@ -540,7 +550,9 @@ their performance.
 
 }
 
-\caption{\label{fig-tsol4_plot}\textbf{?(caption)}}
+\caption{\label{fig-tsol4_plot}Solution 4. We replace the observations
+from March 2020 to November 2022 with the average of the same month in
+the 3 preceding years.}
 
 \end{figure}
 

@@ -111,7 +111,7 @@ The Australian tourism data set is a monthly time series showing the number of s
 
 ```{r}
 #| label: fig-tourism_plot1
-#| caption: Australian tourism data"
+#| fig-cap: "Short-term visitor arrivals to Australia (monthly): Jan 2000 -- May 2023."
 #| fig-height: 3
 tar_read(tourism_plot1)
 ```
@@ -121,21 +121,21 @@ We will apply each of the approaches above to this data set, and compare their p
 ```{r}
 #| label: fig-tsol1_plot
 #| fig-height: 8
-#| fig-caption: Solution 1. ETS is highly adaptive.
+#| fig-cap: Solution 1. This should show that ETS is highly adaptive. However, for some reason, that is no longer the case, and I don't know why.
 tar_read(tsol1_plot)
 ```
 
 ```{r}
 #| label: fig-tsol2_plot
 #| fig-height: 8
-#| fig-caption: Solution 2. We use a left shift in March 2020, and a ramp from November 2022.
+#| fig-cap: Solution 2. We use a left shift in March 2020, and a ramp from November 2022 to June 2023.
 tar_read(tsol2_plot)
 ```
 
 ```{r}
 #| label: fig-tsol3_plot
 #| fig-height: 8
-#| fig-caption: Solution 3. The period from March 2020 to November 2022 is set to missing.
+#| fig-cap: Solution 3. The period from March 2020 to November 2022 is set to missing. So the first three years of forecasts show what might have been. The fourth set of forecasts uses observations from November and December 2022, and so the forecasts have been adjusted downwards.
 tar_read(tsol3_plot)
 ```
 
@@ -143,7 +143,7 @@ tar_read(tsol3_plot)
 ```{r}
 #| label: fig-tsol4_plot
 #| fig-height: 8
-#| fig-caption: Solution 4. The period from March 2020 to November 2022 is set to missing.
+#| fig-cap: Solution 4. We replace the observations from March 2020 to November 2022 with the average of the same month in the 3 preceding years. 
 tar_read(tsol4_plot)
 ```
 

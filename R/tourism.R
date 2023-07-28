@@ -35,15 +35,14 @@ tourism_sol1 <- function(austa) {
       ets = ETS(Visitors),
       arima = ARIMA(Visitors)
     ) |>
-    forecast(h = 12)
+    forecast(h = 12) 
 }
-
 
 tourism_sol2 <- function(austa) {
   austa_stretch <- austa |>
     mutate(
       covid = as.numeric(Month >= yearmonth("2020 Mar")),
-      recovery = Month >= yearmonth("2022 Nov"),
+      recovery = Month >= yearmonth("2022 Nov") & Month <= yearmonth("2023 Jun"),
       recovery = recovery * (Month - yearmonth("2022 Oct"))
     ) |>
     stretch_tsibble(.step = 12, .init = 240)
@@ -85,7 +84,7 @@ tourism_sol2_fc <- function(fit, h = h) {
   newd <- new_data(training_data, n = h) |>
     mutate(
       covid = as.numeric(Month >= yearmonth("2020 Mar")),
-      recovery = Month >= yearmonth("2022 Nov"),
+      recovery = Month >= yearmonth("2022 Nov") & Month <= yearmonth("2023 Jun"),
       recovery = recovery * (Month - yearmonth("2022 Oct"))
     )
   fit |>
@@ -120,15 +119,15 @@ tourism_sol4 <- function(austa) {
     mutate(month = month(Month)) |> 
     left_join(ave_3y, by="month") |> 
     mutate(
-      Vis = if_else(Month < yearmonth("2022 Nov") &
+      Visitors_adj = if_else(Month < yearmonth("2022 Nov") &
                          Month > yearmonth("2020 Feb"),
           ave, Visitors),
     )
   austa |> 
     stretch_tsibble(.step = 12, .init = 240) |>
     model(
-      ets = ETS(Visitors),
-      arima = ARIMA(Visitors)
+      ets = ETS(Visitors_adj),
+      arima = ARIMA(Visitors_adj)
     ) |>
     forecast(h = 12)
 }
