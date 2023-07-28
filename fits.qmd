@@ -13,6 +13,7 @@ author:
   othernames: Rob J
   address:
     - Department of Econometrics & Business Statistics
+    - Monash University
     - Clayton VIC 3800
     - Australia
   email: Rob.Hyndman@monash.edu
@@ -25,7 +26,7 @@ cover: false
 toc: false
 bibliography: references.bib
 biblio-style: authoryear-comp
-format: 
+format:
   wp-pdf:
     include-in-header: header.tex
 cite-method: biblatex
@@ -64,13 +65,13 @@ tar_load(c(austa))
 
 # Introduction
 
-Time series are sometimes interrupted by unusual events; for example, a natural disaster may occur, or a there may be a temporary policy change. Many forecasters have faced this issue recently with the COVID-19 pandemic, where historical patterns may have been severely disrupted due to lockdowns and other restrictions. In this paper, we consider the problem of forecasting after such an event has occurred.
+Time series are sometimes interrupted by unusual events; for example, a natural disaster may occur, or a there may be a temporary policy change. Many forecasters have faced this issue recently with the COVID-19 pandemic, where historical patterns have been severely disrupted due to lockdowns and other restrictions. In this paper, we consider the problem of forecasting during such an event, and after it has occurred.
 
-This is a different problem from change point detection. In the situations we consider, we know that a change has occurred, and we want to forecast the future after the change. Change point detection is about identifying when a change has occurred.
+This is a different problem from change point detection. In the situations we consider, we know that a change has occurred, and we want to forecast the future after the change. Change point detection is about identifying *when* a change has occurred.
 
-The changes in the series as a result of the disruption may be relatively simple, for example a left shift at the start of the disruption, and another at the end of the disruption. Or they may be more complex, with changes to the seasonal patterns, and changes to the level, which evolve over time. In this paper, we consider a range of models that can be used to handle such changes, and compare their performance on some real data sets.
+The changes in the series as a result of the disruption may be relatively simple; for example a left shift at the start of the disruption, and another at the end of the disruption. Or they may be more complex, with changes to the seasonal patterns, and changes to the level, which evolve over time. In this paper, we consider a range of models that can be used to handle such changes, and compare their performance on some real data sets.
 
-Time series models usually assume that the future is similar to the past, at least in how the data evolve. But a big event like covid makes the future different from the past, at least in the short term.
+Time series models usually assume that the data evolve in the future in a similar way to how they have evolved in the past. But a big event (such as COVID-19) can result in a future that is different from the past, at least in the short term.
 
 # Handling interruptions when forecasting
 
