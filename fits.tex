@@ -286,6 +286,7 @@ United Kingdom\newline
 {Email: rostami-tabarb@cardiff.ac.uk}\newline Corresponding author\newline\\[0.5cm]
 \textbf{Rob J Hyndman}\newline
 Department of Econometrics \& Business Statistics\newline
+Monash University\newline
 Clayton VIC 3800\newline
 Australia\newline
 {Email: Rob.Hyndman@monash.edu}\\[0.5cm]
@@ -349,7 +350,7 @@ Australia\newline
 \makeatletter
 \makeatother
 \makeatletter
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[interior hidden, boxrule=0pt, borderline west={3pt}{0pt}{shadecolor}, frame hidden, enhanced, breakable, sharp corners]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[interior hidden, enhanced, frame hidden, borderline west={3pt}{0pt}{shadecolor}, breakable, sharp corners, boxrule=0pt]}{\end{tcolorbox}}\fi
 \makeatother
 \makeatletter
 \makeatother
@@ -372,26 +373,27 @@ blah, blah
 Time series are sometimes interrupted by unusual events; for example, a
 natural disaster may occur, or a there may be a temporary policy change.
 Many forecasters have faced this issue recently with the COVID-19
-pandemic, where historical patterns may have been severely disrupted due
-to lockdowns and other restrictions. In this paper, we consider the
-problem of forecasting after such an event has occurred.
+pandemic, where historical patterns have been severely disrupted due to
+lockdowns and other restrictions. In this paper, we consider the problem
+of forecasting during such an event, and after it has occurred.
 
 This is a different problem from change point detection. In the
 situations we consider, we know that a change has occurred, and we want
 to forecast the future after the change. Change point detection is about
-identifying when a change has occurred.
+identifying \emph{when} a change has occurred.
 
 The changes in the series as a result of the disruption may be
-relatively simple, for example a left shift at the start of the
+relatively simple; for example a left shift at the start of the
 disruption, and another at the end of the disruption. Or they may be
 more complex, with changes to the seasonal patterns, and changes to the
 level, which evolve over time. In this paper, we consider a range of
 models that can be used to handle such changes, and compare their
 performance on some real data sets.
 
-Time series models usually assume that the future is similar to the
-past, at least in how the data evolve. But a big event like covid makes
-the future different from the past, at least in the short term.
+Time series models usually assume that the data evolve in the future in
+a similar way to how they have evolved in the past. But a big event
+(such as COVID-19) can result in a future that is different from the
+past, at least in the short term.
 
 \hypertarget{handling-interruptions-when-forecasting}{%
 \section{Handling interruptions when
@@ -508,7 +510,8 @@ data, making 12 month forecasts at the end of each year from 2019 to
 \autocite{fpp3}, first applying a log transformation to ensure the
 resulting forecasts are positive. This is possible, because the
 observations never reach exactly zero, with the smallest number of
-visitors per month equal to 2250 in April 2020.
+visitors per month equal to 2250 in April 2020. For all forecasts, we
+also show 90\% prediction intervals.
 
 \begin{figure}[t]
 
@@ -516,9 +519,9 @@ visitors per month equal to 2250 in April 2020.
 
 }
 
-\caption{\label{fig-tsol1_plot}Solution 1. This should show that ETS is
-highly adaptive. However, for some reason, that is no longer the case,
-and I don't know why.}
+\caption{\label{fig-tsol1_plot}Solution 1. Forecasts from ETS and ARIMA
+models. Neither works particularly well for disruptions of this
+magnitude.}
 
 \end{figure}
 
@@ -543,7 +546,8 @@ possible to make ETS more adaptive to changes in the data by increasing
 the value of the smoothing parameters. For example, a high value of
 \(\beta\) (the smoothing parameter for the slope), will result in
 changes of trend being incorporated into the forecasts more quickly, at
-the risk of over-reacting to noise in the data.
+the risk of over-reacting to noise in the data, and increasing the size
+of the prediction intervals even more.
 
 \begin{figure}[t]
 
@@ -599,17 +603,17 @@ been sufficient recent data.
 
 \caption{\label{fig-tsol4_plot}Solution 4. We replace the observations
 from March 2020 to October 2022 with the average of the same month in
-the 3 preceding years.}
+the three years prior to March 2020.}
 
 \end{figure}
 
 Finally, we show in Figure~\ref{fig-tsol4_plot} the forecasts obtained
 using solution 4. Here we have replaced observations between March 2020
 and October 2022 with estimates based on the average of the same month
-in the three preceding years. The resulting forecasts are similar to
-those from solution 3, but with narrower prediction intervals because
-the model is (falsely) assuming that the ``observations'' during the
-disruption are real.
+in the three years prior to March 2020. The resulting forecasts are
+similar to those from solution 3, but with narrower prediction intervals
+because the model is (falsely) assuming that the ``observations'' during
+the disruption are real.
 
 \FloatBarrier
 
