@@ -107,7 +107,7 @@ Let's consider some examples
 
 ## Australian tourism
 
-The Australian tourism data set is a monthly time series showing the number of short-term overseas visitors to Australia. The data are available from January 2000 to May 2023, and are shown in @fig-tourism_plot1. As the borders closed in March 2020, the number of visitors to Australia dropped to near zero, and remained there until towards the end of 2021. The borders officially reopened on 21 February 2022, although it seems visitors began to arrive earlier than that. The data are available from the Australian Bureau of Statistics.
+The Australian tourism data set is a monthly time series showing the number of short-term overseas visitors to Australia. The data [@tourismdata] are available from January 2000 to May 2023, and are shown in @fig-tourism_plot1. As the borders closed in March 2020, the number of visitors to Australia dropped to near zero, and remained there until towards the end of 2021. The borders officially reopened on 21 February 2022, although it seems visitors began to arrive earlier than that. The data are available from the Australian Bureau of Statistics.
 
 ```{r}
 #| label: fig-tourism_plot1
