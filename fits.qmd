@@ -103,6 +103,27 @@ Because no information is retained during the disruption, the prediction interva
 
 A fourth solution is to estimate what might have been during the period of disruption, and then use the adjusted data to fit a model. The estimates could be made using any convenient method. One approach would be to set the estimates to equal the forecasts made using only pre-interruption data. This then becomes almost equal to the previous solution except that the prediction intervals will be narrower because the estimation uncertainty has not been taken into account.
 
+## Over sampling (weighting)
+
+Oversampling is a technique used in machine learning to address class imbalance within a dataset. In this context, the goal is to ensure that the model is more influenced by the patterns observed before the disruption period while still accounting for the observations during the disruption period. 
+
+Using this weighting approach, we can leverage the insights from the pre-disruptive period while still accounting for the disruptive period's influence. It allows the model to better capture the underlying patterns of the time series data, considering both periods, and potentially producing more accurate forecasts.
+
+Advantages:
+
+Preserves pre-event patterns: By assigning higher weights to the pre-disruption time series data, the model is encouraged to focus more on the patterns observed before the disruptive event. This can be beneficial in capturing the underlying dynamics of the time series that might be essential for accurate forecasting in the post-disruption era.
+
+Robustness to disruption impact: The weighting approach allows the model to still take the disruption period into account, even if it's considered less influential. This ensures that the model is not completely blind to the disruption's effects and can adapt to changes or shifts in the time series caused by the event.
+
+Easy to Implement: ??
+
+Interpretability?: 
+
+Disadvantages:
+
+## Ensemble models
+
+
 # Examples
 
 Let's consider some examples
