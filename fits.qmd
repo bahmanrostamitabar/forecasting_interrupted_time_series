@@ -130,11 +130,11 @@ Let's consider some examples
 
 ## Australian tourism
 
-The Australian tourism data set is a monthly time series showing the number of short-term overseas visitors to Australia. The data [@tourismdata] are available from January 2000 to May 2023, and are shown in @fig-tourism_plot1. As the borders closed in March 2020, the number of visitors to Australia dropped to near zero, and remained there until towards the end of 2021. The borders officially reopened on 21 February 2022, although it seems visitors began to arrive earlier than that.
+The Australian tourism data set is a monthly time series showing the number of short-term overseas visitors to Australia. The data [@tourismdata] are available from January 2000 to May 2023, and are shown in @fig-tourism-plot1. As the borders closed in March 2020, the number of visitors to Australia dropped to near zero, and remained there until towards the end of 2021. The borders officially reopened on 21 February 2022, although it seems visitors began to arrive earlier than that.
 
 
 ```{r}
-#| label: fig-tourism_plot1
+#| label: fig-tourism-plot1
 #| fig-cap: "Short-term visitor arrivals to Australia (monthly): Jan 2000 -- May 2023."
 #| fig-height: 3
 tar_read(tourism_plot1)
@@ -144,29 +144,29 @@ We apply the four solutions discussed in the previous section to these data, mak
 
 
 ```{r}
-#| label: fig-tsol1_plot
+#| label: fig-tsol1-plot
 #| fig-height: 8
 #| fig-pos: "t"
-#| fig-cap: Solution 1. Forecasts from ETS and ARIMA models. Neither works particularly well for disruptions of this magnitude.
+#| fig-cap: "Solution 1. Forecasts from ETS and ARIMA models. Neither works particularly well for disruptions of this magnitude."
 tar_read(tsol1_plot)
 ```
 
 
-In @fig-tsol1_plot, we show forecasts by applying ETS and ARIMA models to the data. ETS, in particular, is well-known to be relatively adaptive to changes in the series, and this is evident in these forecasts. The forecasts for 2020 were made using data before COVID-19 had any affect, and so they show similar patterns to the past. The forecasts for 2021 were made after 9 months of very low levels of arrivals, and both models show forecasts consistent with the recent history. The use of logarithms is particularly important here as the variance is much smaller during 2020 than previously, but after taking logarithms, the variance is more stable over time. The forecasts made at the start of 2022 have struggled to detect the small increase in traffic at the end of 2021, and both models have forecast relatively flat trajectories as a result, although the prediction intervals are wide indicating model uncertainty. Finally, the forecasts made at the end of 2022 have captured the increasing trend, but ETS is much closer to the reality, adapting more quickly to the changing patterns. Again, the wide prediction intervals indicate a high level of uncertainty. It is possible to make ETS more adaptive to changes in the data by increasing the value of the smoothing parameters. For example, a high value of $\beta$ (the smoothing parameter for the slope), will result in changes of trend being incorporated into the forecasts more quickly, at the risk of over-reacting to noise in the data, and increasing the size of the prediction intervals even more.
+In @fig-tsol1-plot, we show forecasts by applying ETS and ARIMA models to the data. ETS, in particular, is well-known to be relatively adaptive to changes in the series, and this is evident in these forecasts. The forecasts for 2020 were made using data before COVID-19 had any affect, and so they show similar patterns to the past. The forecasts for 2021 were made after 9 months of very low levels of arrivals, and both models show forecasts consistent with the recent history. The use of logarithms is particularly important here as the variance is much smaller during 2020 than previously, but after taking logarithms, the variance is more stable over time. The forecasts made at the start of 2022 have struggled to detect the small increase in traffic at the end of 2021, and both models have forecast relatively flat trajectories as a result, although the prediction intervals are wide indicating model uncertainty. Finally, the forecasts made at the end of 2022 have captured the increasing trend, but ETS is much closer to the reality, adapting more quickly to the changing patterns. Again, the wide prediction intervals indicate a high level of uncertainty. It is possible to make ETS more adaptive to changes in the data by increasing the value of the smoothing parameters. For example, a high value of $\beta$ (the smoothing parameter for the slope), will result in changes of trend being incorporated into the forecasts more quickly, at the risk of over-reacting to noise in the data, and increasing the size of the prediction intervals even more.
 
 ```{r}
-#| label: fig-tsol2_plot
+#| label: fig-tsol2-plot
 #| fig-height: 8
 #| fig-pos: "t"
 #| fig-cap: Solution 2. We use a left shift from March 2020 to October 2022, and a ramp from October 2021 to October 2022. After October 2022, there are no non-zero predictors.
 tar_read(tsol2_plot)
 ```
 
-@fig-tsol2_plot shows forecasts obtained using a dynamic regression model (i.e., a regression with ARIMA errors) using two intervention variables: a level shift from March 2022 to November 2022, and a ramp from October 2021 to November 2022. It is evident that the level shift variable has worked well, giving relatively good forecasts for 2021. However, the forecasts for 2022 are particularly poor, because the ramp slope has been greatly overestimated, as it was based on only three observations (Oct -- Dec 2021). The forecasts for 2023 are much better, and the relatively large prediction intervals are appropriate given the uncertainty in the industry at the end of 2022.
+@fig-tsol2-plot shows forecasts obtained using a dynamic regression model (i.e., a regression with ARIMA errors) using two intervention variables: a level shift from March 2022 to November 2022, and a ramp from October 2021 to November 2022. It is evident that the level shift variable has worked well, giving relatively good forecasts for 2021. However, the forecasts for 2022 are particularly poor, because the ramp slope has been greatly overestimated, as it was based on only three observations (Oct -- Dec 2021). The forecasts for 2023 are much better, and the relatively large prediction intervals are appropriate given the uncertainty in the industry at the end of 2022.
 
 
 ```{r}
-#| label: fig-tsol3_plot
+#| label: fig-tsol3-plot
 #| fig-height: 8
 #| fig-pos: "t"
 #| fig-cap: Solution 3. The period from March 2020 to October 2022 is set to missing. So the first three years of forecasts show what might have been. The fourth set of forecasts uses observations from November and December 2022, and so the forecasts have been adjusted downwards.
@@ -177,14 +177,14 @@ The third solution involved setting the observations during the disruption perio
 
 
 ```{r}
-#| label: fig-tsol4_plot
+#| label: fig-tsol4-plot
 #| fig-height: 8
 #| fig-pos: "t"
 #| fig-cap: Solution 4. We replace the observations from March 2020 to October 2022 with the average of the same month in the three years prior to March 2020.
 tar_read(tsol4_plot)
 ```
 
-Finally, we show in @fig-tsol4_plot the forecasts obtained using solution 4. Here we have replaced observations between March 2020 and October 2022 with estimates based on the average of the same month in the three years prior to March 2020. The resulting forecasts are similar to those from solution 3, but with narrower prediction intervals because the model is (falsely) assuming that the "observations" during the disruption are real.
+Finally, we show in @fig-tsol4-plot the forecasts obtained using solution 4. Here we have replaced observations between March 2020 and October 2022 with estimates based on the average of the same month in the three years prior to March 2020. The resulting forecasts are similar to those from solution 3, but with narrower prediction intervals because the model is (falsely) assuming that the "observations" during the disruption are real.
 
 
 \FloatBarrier

@@ -299,10 +299,6 @@ Australia\newline
 
 \usepackage[section]{placeins}
 \makeatletter
-\makeatother
-\makeatletter
-\makeatother
-\makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \AtBeginDocument{%
 \ifdefined\contentsname
@@ -338,21 +334,10 @@ Australia\newline
 \newcommand*\listoflistings{\listof{codelisting}{List of Listings}}
 \makeatother
 \makeatletter
+\makeatother
+\makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
-\makeatother
-\makeatletter
-\@ifpackageloaded{tcolorbox}{}{\usepackage[skins,breakable]{tcolorbox}}
-\makeatother
-\makeatletter
-\@ifundefined{shadecolor}{\definecolor{shadecolor}{rgb}{.97, .97, .97}}
-\makeatother
-\makeatletter
-\makeatother
-\makeatletter
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[interior hidden, enhanced, frame hidden, borderline west={3pt}{0pt}{shadecolor}, breakable, sharp corners, boxrule=0pt]}{\end{tcolorbox}}\fi
-\makeatother
-\makeatletter
 \makeatother
 
 % Adjust headwidth in case user has changed geometry in header-includes
@@ -367,8 +352,7 @@ A brief summary of our ideas
 blah, blah
 \end{keywords}
 
-\hypertarget{introduction}{%
-\section{Introduction}\label{introduction}}
+\section{Introduction}\label{introduction}
 
 Time series are sometimes interrupted by unusual events; for example, a
 natural disaster may occur, or a there may be a temporary policy change.
@@ -395,16 +379,14 @@ a similar way to how they have evolved in the past. But a big event
 (such as COVID-19) can result in a future that is different from the
 past, at least in the short term.
 
-\hypertarget{handling-interruptions-when-forecasting}{%
 \section{Handling interruptions when
-forecasting}\label{handling-interruptions-when-forecasting}}
+forecasting}\label{handling-interruptions-when-forecasting}
 
 We consider several possible ways to handle interruptions when
 forecasting.
 
-\hypertarget{use-a-highly-adaptive-model}{%
 \subsection{Use a highly adaptive
-model}\label{use-a-highly-adaptive-model}}
+model}\label{use-a-highly-adaptive-model}
 
 Highly adaptive models can adjust to the interruption as it is
 happening, and will therefore be able to approximate the data generating
@@ -421,9 +403,8 @@ present before the interruption. Consequently, the approach works best
 if there is no assumption that the post-interruption period will be
 similar to the pre-interruption period.
 
-\hypertarget{use-a-dynamic-regression-model-with-intervention-covariates}{%
 \subsection{Use a dynamic regression model with intervention
-covariates}\label{use-a-dynamic-regression-model-with-intervention-covariates}}
+covariates}\label{use-a-dynamic-regression-model-with-intervention-covariates}
 
 A dynamic regression model with intervention covariates can be used to
 model the interruption explicitly. For example, if the intervention
@@ -446,10 +427,9 @@ Disadvantages: requires a lot of thought to choose the covariates well.
 Assumes that the post-pandemic period will be similar to the
 pre-pandemic period.
 
-\hypertarget{treat-the-covid-period-as-missing-and-use-a-model-that-handles-missing-values}{%
 \subsection{Treat the covid period as missing and use a model that
 handles missing
-values}\label{treat-the-covid-period-as-missing-and-use-a-model-that-handles-missing-values}}
+values}\label{treat-the-covid-period-as-missing-and-use-a-model-that-handles-missing-values}
 
 Many time series models will handle periods of missing values. So the
 problematic observations that occur during the period of disruption can
@@ -464,9 +444,8 @@ intervals will become large during the disruption, and after the
 disruption they will remain large until the model has enough data to
 estimate the forecast distribution more accurately.
 
-\hypertarget{estimate-what-might-have-been-and-adjust-the-data}{%
 \subsection{Estimate what might have been and adjust the
-data}\label{estimate-what-might-have-been-and-adjust-the-data}}
+data}\label{estimate-what-might-have-been-and-adjust-the-data}
 
 A fourth solution is to estimate what might have been during the period
 of disruption, and then use the adjusted data to fit a model. The
@@ -476,18 +455,52 @@ pre-interruption data. This then becomes almost equal to the previous
 solution except that the prediction intervals will be narrower because
 the estimation uncertainty has not been taken into account.
 
-\hypertarget{examples}{%
-\section{Examples}\label{examples}}
+\subsection{Over sampling (weighting)}\label{over-sampling-weighting}
+
+Oversampling is a technique used in machine learning to address class
+imbalance within a dataset. In this context, the goal is to ensure that
+the model is more influenced by the patterns observed before the
+disruption period while still accounting for the observations during the
+disruption period.
+
+Using this weighting approach, we can leverage the insights from the
+pre-disruptive period while still accounting for the disruptive period's
+influence. It allows the model to better capture the underlying patterns
+of the time series data, considering both periods, and potentially
+producing more accurate forecasts.
+
+Advantages:
+
+Preserves pre-event patterns: By assigning higher weights to the
+pre-disruption time series data, the model is encouraged to focus more
+on the patterns observed before the disruptive event. This can be
+beneficial in capturing the underlying dynamics of the time series that
+might be essential for accurate forecasting in the post-disruption era.
+
+Robustness to disruption impact: The weighting approach allows the model
+to still take the disruption period into account, even if it's
+considered less influential. This ensures that the model is not
+completely blind to the disruption's effects and can adapt to changes or
+shifts in the time series caused by the event.
+
+Easy to Implement: ??
+
+Interpretability?:
+
+Disadvantages:
+
+\subsection{Ensemble models}\label{ensemble-models}
+
+\section{Examples}\label{examples}
 
 Let's consider some examples
 
-\hypertarget{australian-tourism}{%
-\subsection{Australian tourism}\label{australian-tourism}}
+\subsection{Australian tourism}\label{australian-tourism}
 
 The Australian tourism data set is a monthly time series showing the
 number of short-term overseas visitors to Australia. The data
 \autocite{tourismdata} are available from January 2000 to May 2023, and
-are shown in Figure~\ref{fig-tourism_plot1}. As the borders closed in
+are shown in Figure~\ref{fig-tourism-plot1}. As the borders closed in
 March 2020, the number of visitors to Australia dropped to near zero,
 and remained there until towards the end of 2021. The borders officially
 reopened on 21 February 2022, although it seems visitors began to arrive
@@ -495,14 +508,16 @@ earlier than that.
 
 \begin{figure}
 
-{\centering \includegraphics{fits_files/figure-pdf/fig-tourism_plot1-1.pdf}
+\centering{
+
+\includegraphics{fits_files/figure-pdf/fig-tourism-plot1-1.pdf}
 
 }
 
-\caption{\label{fig-tourism_plot1}Short-term visitor arrivals to
+\caption{\label{fig-tourism-plot1}Short-term visitor arrivals to
 Australia (monthly): Jan 2000 -- May 2023.}
 
-\end{figure}
+\end{figure}%
 
 We apply the four solutions discussed in the previous section to these
 data, making 12 month forecasts at the end of each year from 2019 to
@@ -515,17 +530,19 @@ also show 90\% prediction intervals.
 
 \begin{figure}[t]
 
-{\centering \includegraphics{fits_files/figure-pdf/fig-tsol1_plot-1.pdf}
+\centering{
+
+\includegraphics{fits_files/figure-pdf/fig-tsol1-plot-1.pdf}
 
 }
 
-\caption{\label{fig-tsol1_plot}Solution 1. Forecasts from ETS and ARIMA
+\caption{\label{fig-tsol1-plot}Solution 1. Forecasts from ETS and ARIMA
 models. Neither works particularly well for disruptions of this
 magnitude.}
 
-\end{figure}
+\end{figure}%
 
-In Figure~\ref{fig-tsol1_plot}, we show forecasts by applying ETS and
+In Figure~\ref{fig-tsol1-plot}, we show forecasts by applying ETS and
 ARIMA models to the data. ETS, in particular, is well-known to be
 relatively adaptive to changes in the series, and this is evident in
 these forecasts. The forecasts for 2020 were made using data before
@@ -551,17 +568,19 @@ of the prediction intervals even more.
 
 \begin{figure}[t]
 
-{\centering \includegraphics{fits_files/figure-pdf/fig-tsol2_plot-1.pdf}
+\centering{
+
+\includegraphics{fits_files/figure-pdf/fig-tsol2-plot-1.pdf}
 
 }
 
-\caption{\label{fig-tsol2_plot}Solution 2. We use a left shift from
+\caption{\label{fig-tsol2-plot}Solution 2. We use a left shift from
 March 2020 to October 2022, and a ramp from October 2021 to October
 2022. After October 2022, there are no non-zero predictors.}
 
-\end{figure}
+\end{figure}%
 
-Figure~\ref{fig-tsol2_plot} shows forecasts obtained using a dynamic
+Figure~\ref{fig-tsol2-plot} shows forecasts obtained using a dynamic
 regression model (i.e., a regression with ARIMA errors) using two
 intervention variables: a level shift from March 2022 to November 2022,
 and a ramp from October 2021 to November 2022. It is evident that the
@@ -574,17 +593,19 @@ given the uncertainty in the industry at the end of 2022.
 
 \begin{figure}[t]
 
-{\centering \includegraphics{fits_files/figure-pdf/fig-tsol3_plot-1.pdf}
+\centering{
+
+\includegraphics{fits_files/figure-pdf/fig-tsol3-plot-1.pdf}
 
 }
 
-\caption{\label{fig-tsol3_plot}Solution 3. The period from March 2020 to
+\caption{\label{fig-tsol3-plot}Solution 3. The period from March 2020 to
 October 2022 is set to missing. So the first three years of forecasts
 show what might have been. The fourth set of forecasts uses observations
 from November and December 2022, and so the forecasts have been adjusted
 downwards.}
 
-\end{figure}
+\end{figure}%
 
 The third solution involved setting the observations during the
 disruption period to missing, and then fitting an ARIMA model to the
@@ -597,17 +618,19 @@ been sufficient recent data.
 
 \begin{figure}[t]
 
-{\centering \includegraphics{fits_files/figure-pdf/fig-tsol4_plot-1.pdf}
+\centering{
+
+\includegraphics{fits_files/figure-pdf/fig-tsol4-plot-1.pdf}
 
 }
 
-\caption{\label{fig-tsol4_plot}Solution 4. We replace the observations
+\caption{\label{fig-tsol4-plot}Solution 4. We replace the observations
 from March 2020 to October 2022 with the average of the same month in
 the three years prior to March 2020.}
 
-\end{figure}
+\end{figure}%
 
-Finally, we show in Figure~\ref{fig-tsol4_plot} the forecasts obtained
+Finally, we show in Figure~\ref{fig-tsol4-plot} the forecasts obtained
 using solution 4. Here we have replaced observations between March 2020
 and October 2022 with estimates based on the average of the same month
 in the three years prior to March 2020. The resulting forecasts are
@@ -617,9 +640,8 @@ the disruption are real.
 
 \FloatBarrier
 
-\hypertarget{example-ambulance-attendances}{%
 \subsection{Example: Ambulance
-attendances}\label{example-ambulance-attendances}}
+attendances}\label{example-ambulance-attendances}
 
 \includegraphics{fits_files/figure-pdf/plot-data-1.pdf}
 
