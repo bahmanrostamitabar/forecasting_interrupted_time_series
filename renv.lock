@@ -1971,6 +1971,21 @@
       ],
       "Hash": "a4a5ac819a467808c60e36e92ddf195e"
     },
+    "rwalkr": {
+      "Package": "rwalkr",
+      "Version": "0.5.7",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "R",
+        "dplyr",
+        "hms",
+        "httr",
+        "progress",
+        "tidyr"
+      ],
+      "Hash": "8f5c5d172af3da24423f7ba6ad592a63"
+    },
     "sass": {
       "Package": "sass",
       "Version": "0.4.8",
@@ -2588,6 +2603,21 @@
       "Source": "Repository",
       "Repository": "CRAN",
       "Hash": "29240487a071f535f5e5d5a323b7afbd"
+    },
+    "zoo": {
+      "Package": "zoo",
+      "Version": "1.8-12",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Requirements": [
+        "R",
+        "grDevices",
+        "graphics",
+        "lattice",
+        "stats",
+        "utils"
+      ],
+      "Hash": "5c715954112b45499fb1dadc6ee6ee3e"
     }
   }
 }
