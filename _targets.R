@@ -54,6 +54,21 @@ list(
     autoplot(tsol4, level = 90) + tourism_history + tourism_labels
   ),
 
+  # Pedestrians
+  tar_target(raw_walkers, fetch_walkers(start = "2019-01-01", end = "2021-12-31")),
+  tar_target(lockdowns, lockdown_table()),
+  tar_target(walkers2, clean_walkers(raw_walkers)),
+  tar_target(walkers3, ave_walkers(walkers2)),
+  tar_target(walkers, add_lockdowns(walkers3)),
+  tar_target(walkers_plot, pedestrian_plot(walkers)),
+  tar_target(init, 365),
+  tar_target(step, 7),
+  tar_target(h, 21),
+  tar_target(walkers_sol1, pedestrian_sol1(walkers, step = step, init = init, h = h)),
+  tar_target(walkers_sol2, pedestrian_sol2(walkers, step = step, init = init, h = h)),
+  tar_target(walkers_sol3, pedestrian_sol3(walkers, step = step, init = init, h = h)),
+  tar_target(walkers_sol4, pedestrian_sol4(walkers, step = step, init = init, h = h)),
+
   # Attended incidents example
   tar_target(attendant_csv, here::here("data/attendent_incident.csv"), format = "file"),
   tar_target(verified_csv, here::here("data/verified_incident.csv"), format = "file"),

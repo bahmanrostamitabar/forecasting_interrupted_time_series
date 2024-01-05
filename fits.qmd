@@ -73,7 +73,7 @@ The changes in the series as a result of the disruption may be relatively simple
 
 Time series models usually assume that the data evolve in the future in a similar way to how they have evolved in the past. But a big event (such as COVID-19) can result in a future that is different from the past, at least in the short term.
 
-# Handling interruptions when forecasting
+# Handling interruptions when forecasting {#sec-methods}
 
 We consider several possible ways to handle interruptions when forecasting.
 
@@ -105,7 +105,7 @@ A fourth solution is to estimate what might have been during the period of disru
 
 ## Over sampling (weighting)
 
-Oversampling is a technique used in machine learning to address class imbalance within a dataset. In this context, the goal is to ensure that the model is more influenced by the patterns observed before the disruption period while still accounting for the observations during the disruption period. 
+Oversampling is a technique used in machine learning to address class imbalance within a dataset. In this context, the goal is to ensure that the model is more influenced by the patterns observed before the disruption period while still accounting for the observations during the disruption period.
 
 Using this weighting approach, we can leverage the insights from the pre-disruptive period while still accounting for the disruptive period's influence. It allows the model to better capture the underlying patterns of the time series data, considering both periods, and potentially producing more accurate forecasts.
 
@@ -117,7 +117,7 @@ Robustness to disruption impact: The weighting approach allows the model to stil
 
 Easy to Implement: ??
 
-Interpretability?: 
+Interpretability?:
 
 Disadvantages:
 
@@ -189,6 +189,31 @@ Finally, we show in @fig-tsol4-plot the forecasts obtained using solution 4. Her
 
 \FloatBarrier
 
+## Example: Pedestrians
+
+```{r}
+#| include: false
+tar_load(c(raw_walkers, walkers2, lockdowns))
+nsensors <- length(unique(raw_walkers$Sensor))
+ngoodsensors <- length(unique(walkers2$Sensor))
+lockdowns <- lockdowns |>
+  mutate(Duration = End - Start + 1)
+```
+
+The pedestrian data set is a daily time series showing the number of pedestrians per day in Melbourne, Australia. The data were obtained from the Pedestrian Counting System maintained by the City of Melbourne [@pedestrians], and are based on automated hourly counts from sensors at `r nsensors` locations over the period from `r min(raw_walkers$Date)` to `r max(raw_walkers$Date)`. All sensors had some missing data, and we chose to use sensors with no more than `r 30*24` missing hours, equivalent to 30 days of missing data. This resulted in `r ngoodsensors` sensors being used in the analysis. The data were aggregated to daily counts for each sensor, and then the results were averaged across sensors to obtain a measure of pedestrian traffic per day. The resulting time series is shown in @fig-walkers.
+
+```{r}
+#| label: fig-walkers
+#| fig-height: 3.7
+#| fig-cap: "Pedestrian traffic in Melbourne, Australia, from 2018 to 2023. The gray shaded regions indicate periods of lockdown due to COVID-19."
+tar_read(walkers_plot)
+```
+
+We have also shown the periods of lockdown due to COVID-19. In Melbourne, there were six separate lockdowns ranging from `r as.numeric(min(lockdowns$Duration))` days to `r as.numeric(max(lockdowns$Duration))` days in length. The first official lockdown period was from 31 March 2020 to `r format(min(lockdowns$End), "%d %b %Y")`, and the last lockdown was from `r format(max(lockdowns$Start), "%d %b %Y")` to `r format(max(lockdowns$End), "%d %b %Y")`. However, the first period was preceded by over a week when most people elected to stay and work at home, so we have chosen to start the first period on `r format(min(lockdowns$Start), "%d %b %Y")`, to better reflect human behaviour. Otherwise, we have used the official lockdown dates.
+
+We apply the four solutions discussed in @sec-methods. We fit ETS, ARIMA and dynamic ARIMA models to the data, with no transformations used. We have evaluated the methods by using time series cross-validation, with the initial training set comprising the whole of 2019, and subsequent training sets growing by 1 week at a time, to the end of 2021. The test sets are always 3 weeks long. Thus, we have evaluated the forecasts during 2020 and 2021, covering all lockdown periods, and the start of the recovery period. The results are shown in @fig-walkers-plot1.
+
+
 ## Example: Ambulance attendances
 
 
@@ -211,3 +236,5 @@ fc |> filter(Area == "BC", .model=="ets") |> autoplot(df)
 fc |> filter(Area == "BC", .model=="stl_ets") |> autoplot(df)
 fc |> filter(Area == "BC", .model=="arima") |> autoplot(df)
 ```
+
+# References
