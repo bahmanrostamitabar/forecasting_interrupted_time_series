@@ -379,8 +379,7 @@ a similar way to how they have evolved in the past. But a big event
 (such as COVID-19) can result in a future that is different from the
 past, at least in the short term.
 
-\section{Handling interruptions when
-forecasting}\label{handling-interruptions-when-forecasting}
+\section{Handling interruptions when forecasting}\label{sec-methods}
 
 We consider several possible ways to handle interruptions when
 forecasting.
@@ -640,6 +639,53 @@ the disruption are real.
 
 \FloatBarrier
 
+\subsection{Example: Pedestrians}\label{example-pedestrians}
+
+The pedestrian data set is a daily time series showing the number of
+pedestrians per day in Melbourne, Australia. The data were obtained from
+the Pedestrian Counting System maintained by the City of Melbourne
+\autocite{pedestrians}, and are based on automated hourly counts from
+sensors at 66 locations over the period from 2019-01-01 to 2021-12-31.
+All sensors had some missing data, and we chose to use sensors with no
+more than 720 missing hours, equivalent to 30 days of missing data. This
+resulted in 25 sensors being used in the analysis. The data were
+aggregated to daily counts for each sensor, and then the results were
+averaged across sensors to obtain a measure of pedestrian traffic per
+day. The resulting time series is shown in Figure~\ref{fig-walkers}.
+
+\begin{figure}
+
+\centering{
+
+\includegraphics{fits_files/figure-pdf/fig-walkers-1.pdf}
+
+}
+
+\caption{\label{fig-walkers}Pedestrian traffic in Melbourne, Australia,
+from 2018 to 2023. The gray shaded regions indicate periods of lockdown
+due to COVID-19.}
+
+\end{figure}%
+
+We have also shown the periods of lockdown due to COVID-19. In
+Melbourne, there were six separate lockdowns ranging from 5 days to 111
+days in length. The first official lockdown period was from 31 March
+2020 to 12 May 2020, and the last lockdown was from 05 Aug 2021 to 21
+Oct 2021. However, the first period was preceded by over a week when
+most people elected to stay and work at home, so we have chosen to start
+the first period on 23 Mar 2020, to better reflect human behaviour.
+Otherwise, we have used the official lockdown dates.
+
+We apply the four solutions discussed in Section~\ref{sec-methods}. We
+fit ETS, ARIMA and dynamic ARIMA models to the data, with no
+transformations used. We have evaluated the methods by using time series
+cross-validation, with the initial training set comprising the whole of
+2019, and subsequent training sets growing by 1 week at a time, to the
+end of 2021. The test sets are always 3 weeks long. Thus, we have
+evaluated the forecasts during 2020 and 2021, covering all lockdown
+periods, and the start of the recovery period. The results are shown in
+\textbf{?@fig-walkers-plot1}.
+
 \subsection{Example: Ambulance
 attendances}\label{example-ambulance-attendances}
 
@@ -647,7 +693,7 @@ attendances}\label{example-ambulance-attendances}
 
 \includegraphics{fits_files/figure-pdf/plot-data-2.pdf}
 
-\includegraphics{fits_files/figure-pdf/unnamed-chunk-8-1.pdf}
+\includegraphics{fits_files/figure-pdf/unnamed-chunk-10-1.pdf}
 
 \includegraphics{fits_files/figure-pdf/forecast-1.pdf}
 
@@ -655,6 +701,6 @@ attendances}\label{example-ambulance-attendances}
 
 \includegraphics{fits_files/figure-pdf/forecast-3.pdf}
 
-\printbibliography
+\printbibliography[title=References]
 
 \end{document}

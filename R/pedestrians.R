@@ -16,6 +16,8 @@ clean_walkers <- function(walkers) {
 
   # Find sensors that are used throughout the whole period
   sensors_to_use <- walkers |> 
+    group_by(Sensor, Date_Time) |>
+    summarise(Count = sum(Count), .groups = "drop") |>
     as_tsibble(index = Date_Time, key = Sensor) |> 
     fill_gaps(.full = TRUE) |> 
     as_tibble() |> 
@@ -95,10 +97,7 @@ pedestrian_plot <- function(data) {
 pedestrian_sol1 <- function(walkers, step, init, h) {
   walkers |>
     stretch_tsibble(.step = step, .init = init) |>
-    model(
-      ets = ETS(Count),
-      arima = ARIMA(Count ~ PDQ(period = "week"))
-    ) |>
+    model(arima = ARIMA(Count ~ PDQ(period = "week"))) |>
     forecast(h = h) 
 }
 
@@ -165,9 +164,6 @@ pedestrian_sol4 <- function(walkers, step, init, h) {
     interpolate(new_data = tmp) 
   new_walkers |>
     stretch_tsibble(.step = step, .init = init) |>
-    model(
-      ets = ETS(Count),
-      arima = ARIMA(Count ~ PDQ(period = "week"))
-    ) |>
+    model(arima = ARIMA(Count ~ PDQ(period = "week"))) |>
     forecast(h = h) 
 }
