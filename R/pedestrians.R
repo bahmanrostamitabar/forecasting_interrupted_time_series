@@ -66,8 +66,8 @@ add_lockdowns <- function(walkers) {
   lockdowns <- lockdown_table()  
   walkers <- walkers |>
     mutate(Lockdown_period = 0)
-  for(i in seq(nrow(lockdowns))) {
-    awalkers <- walkers |>
+  for (i in seq(nrow(lockdowns))) {
+    walkers <- walkers |>
       mutate(
         Lockdown_period = if_else(Date >= lockdowns$Start[i] & Date <= lockdowns$End[i], i, Lockdown_period)
       )
