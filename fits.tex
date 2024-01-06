@@ -677,14 +677,71 @@ the first period on 23 Mar 2020, to better reflect human behaviour.
 Otherwise, we have used the official lockdown dates.
 
 We apply the four solutions discussed in Section~\ref{sec-methods}. We
-fit ETS, ARIMA and dynamic ARIMA models to the data, with no
-transformations used. We have evaluated the methods by using time series
+fit ARIMA and dynamic ARIMA models to the data, with no transformations
+used. We have evaluated the methods by using time series
 cross-validation, with the initial training set comprising the whole of
 2019, and subsequent training sets growing by 1 week at a time, to the
-end of 2021. The test sets are always 3 weeks long. Thus, we have
+end of 2021. The test sets are always 1 week long. Thus, we have
 evaluated the forecasts during 2020 and 2021, covering all lockdown
 periods, and the start of the recovery period. The results are shown in
-\textbf{?@fig-walkers-plot1}.
+Figures \ref{fig-walkers-plot1}--\ref{fig-walkers-plot4}
+
+\begin{figure}
+
+\centering{
+
+\includegraphics{fits_files/figure-pdf/fig-walkers-plot1-1.pdf}
+
+}
+
+\caption{\label{fig-walkers-plot1}Solution 1: the forecasts do not take
+into account the lockdown periods, but the ARIMA model is able to adjust
+to the changing level of the series.}
+
+\end{figure}%
+
+\begin{figure}
+
+\centering{
+
+\includegraphics{fits_files/figure-pdf/fig-walkers-plot2-1.pdf}
+
+}
+
+\caption{\label{fig-walkers-plot2}Solution 2: the forecasts are based on
+an ARIMA model with a dummy variable indicating when the lockdown
+periods occurred.}
+
+\end{figure}%
+
+\begin{figure}
+
+\centering{
+
+\includegraphics{fits_files/figure-pdf/fig-walkers-plot3-1.pdf}
+
+}
+
+\caption{\label{fig-walkers-plot3}Solution 3: the lockdown periods are
+set to missing, and the ARIMA model uses the remaining data to produce
+forecasts}
+
+\end{figure}%
+
+\begin{figure}
+
+\centering{
+
+\includegraphics{fits_files/figure-pdf/fig-walkers-plot4-1.pdf}
+
+}
+
+\caption{\label{fig-walkers-plot4}Solution 4: the lockdown periods are
+replaced with estimated counts based on an ARIMA model applied to the
+remaining data. Then a new ARIMA model is fitted to the whole data set,
+and used to produce forecasts.}
+
+\end{figure}%
 
 \subsection{Example: Ambulance
 attendances}\label{example-ambulance-attendances}
@@ -693,7 +750,7 @@ attendances}\label{example-ambulance-attendances}
 
 \includegraphics{fits_files/figure-pdf/plot-data-2.pdf}
 
-\includegraphics{fits_files/figure-pdf/unnamed-chunk-10-1.pdf}
+\includegraphics{fits_files/figure-pdf/unnamed-chunk-14-1.pdf}
 
 \includegraphics{fits_files/figure-pdf/forecast-1.pdf}
 
