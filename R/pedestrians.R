@@ -172,4 +172,17 @@ pedestrian_sol4 <- function(walkers, step, init, h) {
     model(arima = ARIMA(Count ~ PDQ(period = "week"))) |>
     forecast(h = h)
 }
+
+pedestrian_fc_plot <- function(fc, data) {
+  fc |>
+    group_by(.id) |>
+    slice(1:7) |>
+    mutate(.id = as.character(.id)) |>
+    ggplot(aes(x = Date)) +
+    geom_line(aes(y = .mean, group = .id), col = "blue") +
+    geom_line(
+      data = data |> filter(Date >= "2020-01-01"),
+      mapping = aes(y = Count)
+    ) +
+    guides(col = "none")
 }

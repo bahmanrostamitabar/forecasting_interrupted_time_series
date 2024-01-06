@@ -68,7 +68,11 @@ list(
   tar_target(walkers_sol2, pedestrian_sol2(walkers, step = step, init = init, h = h)),
   tar_target(walkers_sol3, pedestrian_sol3(walkers, step = step, init = init, h = h)),
   tar_target(walkers_sol4, pedestrian_sol4(walkers, step = step, init = init, h = h)),
-
+  tar_target(walkers_plot1, pedestrian_fc_plot(walkers_sol1, walkers)),
+  tar_target(walkers_plot2, pedestrian_fc_plot(walkers_sol2, walkers)),
+  tar_target(walkers_plot3, pedestrian_fc_plot(walkers_sol3, walkers)),
+  tar_target(walkers_plot4, pedestrian_fc_plot(walkers_sol4, walkers)),
+  
   # Attended incidents example
   tar_target(attendant_csv, here::here("data/attendent_incident.csv"), format = "file"),
   tar_target(verified_csv, here::here("data/verified_incident.csv"), format = "file"),
