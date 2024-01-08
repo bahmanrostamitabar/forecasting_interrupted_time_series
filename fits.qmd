@@ -135,7 +135,7 @@ The Australian tourism data set is a monthly time series showing the number of s
 tar_read(tourism_plot1)
 ```
 
-We apply the four solutions discussed in the previous section to these data, making 12 month forecasts at the end of each year from 2019 to 2022. We fit ETS, ARIMA and dynamic ARIMA models to the data [@fpp3], first applying a log transformation to ensure the resulting forecasts are positive. This is possible, because the observations never reach exactly zero, with the smallest number of visitors per month equal to `r min(austa$Visitors)*1000` in `r austa |> filter(Visitors == min(Visitors)) |> pull(Month) |> format("%B %Y")`. For all forecasts, we also show 90% prediction intervals.
+We apply the first four solutions discussed in the previous section to these data, making 12 month forecasts at the end of each year from 2019 to 2022. We fit ETS, ARIMA and dynamic ARIMA models to the data [@fpp3], first applying a log transformation to ensure the resulting forecasts are positive. This is possible, because the observations never reach exactly zero, with the smallest number of visitors per month equal to `r min(austa$Visitors)*1000` in `r austa |> filter(Visitors == min(Visitors)) |> pull(Month) |> format("%B %Y")`. For all forecasts, we also show 90% prediction intervals.
 
 
 ```{r}
@@ -146,14 +146,13 @@ We apply the four solutions discussed in the previous section to these data, mak
 tar_read(tsol1_plot)
 ```
 
-
 In @fig-tsol1-plot, we show forecasts by applying ETS and ARIMA models to the data. ETS, in particular, is well-known to be relatively adaptive to changes in the series, and this is evident in these forecasts. The forecasts for 2020 were made using data before COVID-19 had any affect, and so they show similar patterns to the past. The forecasts for 2021 were made after 9 months of very low levels of arrivals, and both models show forecasts consistent with the recent history. The use of logarithms is particularly important here as the variance is much smaller during 2020 than previously, but after taking logarithms, the variance is more stable over time. The forecasts made at the start of 2022 have struggled to detect the small increase in traffic at the end of 2021, and both models have forecast relatively flat trajectories as a result, although the prediction intervals are wide indicating model uncertainty. Finally, the forecasts made at the end of 2022 have captured the increasing trend, but ETS is much closer to the reality, adapting more quickly to the changing patterns. Again, the wide prediction intervals indicate a high level of uncertainty. It is possible to make ETS more adaptive to changes in the data by increasing the value of the smoothing parameters. For example, a high value of $\beta$ (the smoothing parameter for the slope), will result in changes of trend being incorporated into the forecasts more quickly, at the risk of over-reacting to noise in the data, and increasing the size of the prediction intervals even more.
 
 ```{r}
 #| label: fig-tsol2-plot
 #| fig-height: 8
-#| fig-pos: "t"
-#| fig-cap: Solution 2. We use a left shift from March 2020 to October 2022, and a ramp from October 2021 to October 2022. After October 2022, there are no non-zero predictors.
+#| fig-pos: "b"
+#| fig-cap: Solution 2. We use a level shift from March 2020 to October 2022, and a ramp from October 2021 to October 2022. After October 2022, all intervention variables are set to zero.
 tar_read(tsol2_plot)
 ```
 
@@ -163,24 +162,33 @@ tar_read(tsol2_plot)
 ```{r}
 #| label: fig-tsol3-plot
 #| fig-height: 8
-#| fig-pos: "t"
+#| fig-pos: "b"
 #| fig-cap: Solution 3. The period from March 2020 to October 2022 is set to missing. So the first three years of forecasts show what might have been. The fourth set of forecasts uses observations from November and December 2022, and so the forecasts have been adjusted downwards.
 tar_read(tsol3_plot)
 ```
 
-The third solution involved setting the observations during the disruption period to missing, and then fitting an ARIMA model to the series. Consequently, the first three years of forecasts show what might have been without the COVID-19 pandemic, based on the history to the end of 2019. The final forecasts for 2023 use the data to the end of 2019, and the two observations in November and December 2022. These are much better, but the prediction intervals are too narrow, as there hasn't been sufficient recent data.
+The third solution (@fig-tsol3-plot) involved setting the observations during the disruption period to missing, and then fitting an ARIMA model to the series. Consequently, the first three years of forecasts show what might have been without the COVID-19 pandemic, based on the history to the end of 2019. The final forecasts for 2023 use the data to the end of 2019, and the two observations in November and December 2022. These are much better, but the prediction intervals are too narrow, as there hasn't been sufficient recent data.
 
 
 ```{r}
 #| label: fig-tsol4-plot
 #| fig-height: 8
-#| fig-pos: "t"
+#| fig-pos: "!b"
 #| fig-cap: Solution 4. We replace the observations from March 2020 to October 2022 with the average of the same month in the three years prior to March 2020.
 tar_read(tsol4_plot)
 ```
 
-Finally, we show in @fig-tsol4-plot the forecasts obtained using solution 4. Here we have replaced observations between March 2020 and October 2022 with estimates based on the average of the same month in the three years prior to March 2020. The resulting forecasts are similar to those from solution 3, but with narrower prediction intervals because the model is (falsely) assuming that the "observations" during the disruption are real.
+We show in @fig-tsol4-plot the forecasts obtained using solution 4. Here we have replaced observations between March 2020 and October 2022 with estimates based on the average of the same month in the three years prior to March 2020. The resulting forecasts are similar to those from solution 3, but with narrower prediction intervals because the model is (falsely) assuming that the "observations" during the disruption are real.
 
+Finally, in @fig-tensemble-plot, we show the ensemble forecasts obtained by averaging the forecasts from the four solutions discussed above. The first and fourth solutions carry double weight, because both the ETS and ARIMA forecasts were included in the ensemble. This time, no prediction intervals have been computed. The first set of forecasts have not taken any account of the disruption, and so are almost identical to those obtained in the previous plots. The last set of forecasts are reasonably good, showing what is obtained by combining the forecasting methods used to handle the disruption period. However, the forecasts for 2021 and 2022 are particularly poor, because they are averaging forecasts that aim to achieve different objectives, and are affected by the poor forecasts obtained using the dynamic regression model.
+
+```{r}
+#| label: fig-tensemble-plot
+#| fig-height: 8
+#| fig-pos: "t"
+#| fig-cap: Ensemble solution, combining the previous four approaches shown in Figures [-@fig-tsol1-plot]--[-@fig-tsol4-plot].
+tar_read(tensemble_plot)
+```
 
 \FloatBarrier
 

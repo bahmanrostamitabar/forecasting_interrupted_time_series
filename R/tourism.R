@@ -138,3 +138,22 @@ tourism_sol4 <- function(austa) {
     forecast(h = 12) |>
     mutate(.id = paste("Forecasts of", .id + 2019))
 }
+
+# Create ensemble from list of fable objects
+# Assumes the key structures are identical other than .model
+tourism_ensemble <- function(object) {
+  lapply(object, function(x) {
+      x |> as_tibble() |> mutate(.model = NULL)
+    }) |> 
+    bind_rows() |> 
+    group_by(Month) |> 
+    summarise(
+      .id = unique(.id),
+      .mean = mean(.mean)
+    ) |> 
+    mutate(Visitors = distributional::dist_degenerate(.mean)) |> 
+    as_fable(index = Month, key = .id, response = "Visitors", distribution = Visitors)
+}
+
+
+    

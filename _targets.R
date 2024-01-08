@@ -29,6 +29,8 @@ list(
   tar_target(tsol2, tourism_sol2(austa)),
   tar_target(tsol3, tourism_sol3(austa)),
   tar_target(tsol4, tourism_sol4(austa)),
+  tar_target(tensemble, tourism_ensemble(list(tsol1,tsol2,tsol3,tsol4))),
+  
   # Forecast plots
   tar_target(
     tourism_history,
@@ -53,7 +55,11 @@ list(
     tsol4_plot,
     autoplot(tsol4, level = 90) + tourism_history + tourism_labels
   ),
-
+  tar_target(
+    tensemble_plot,
+    autoplot(tensemble, level = NULL) + tourism_history + tourism_labels
+  ),
+  
   # Pedestrians
   tar_target(raw_walkers, fetch_walkers(start = "2019-01-01", end = "2021-12-31")),
   tar_target(lockdowns, lockdown_table()),
