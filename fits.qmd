@@ -212,38 +212,54 @@ The pedestrian data set is a daily time series showing the number of pedestrians
 tar_read(walkers_plot)
 ```
 
-We have also shown the periods of lockdown due to COVID-19. In Melbourne, there were six separate lockdowns ranging from `r as.numeric(min(lockdowns$Duration))` days to `r as.numeric(max(lockdowns$Duration))` days in length. The first official lockdown period was from 31 March 2020 to `r format(min(lockdowns$End), "%d %b %Y")`, and the last lockdown was from `r format(max(lockdowns$Start), "%d %b %Y")` to `r format(max(lockdowns$End), "%d %b %Y")`. However, the first period was preceded by over a week when most people elected to stay and work at home, so we have chosen to start the first period on `r format(min(lockdowns$Start), "%d %b %Y")`, to better reflect human behaviour. Otherwise, we have used the official lockdown dates.
+We have also shown the periods of lockdown due to COVID-19. In Melbourne, there were six separate lockdowns ranging from `r as.numeric(min(lockdowns$Duration))` days to `r as.numeric(max(lockdowns$Duration))` days in length. The first official lockdown period was from 31 March 2020 to `r format(min(lockdowns$End), "%d %b %Y")`, and the last lockdown was from `r format(max(lockdowns$Start), "%d %b %Y")` to `r format(max(lockdowns$End), "%d %b %Y")`. However, the first period was preceded by over a week when most people elected to stay and work at home, so we have chosen to start the first period on `r format(min(lockdowns$Start), "%d %b %Y")`, to better reflect human behaviour. Otherwise, we have used the official lockdown dates [@MelbourneLockdowns].
 
-We apply the four solutions discussed in @sec-methods. We fit ARIMA and dynamic ARIMA models to the data, with no transformations used. We have evaluated the methods by using time series cross-validation, with the initial training set comprising the whole of 2019, and subsequent training sets growing by 1 week at a time, to the end of 2021. The test sets are always 1 week long. Thus, we have evaluated the forecasts during 2020 and 2021, covering all lockdown periods, and the start of the recovery period. The results are shown in Figures [-@fig-walkers-plot1]--[-@fig-walkers-plot4]
+We evaluate the solutions discussed in @sec-methods by using time series cross-validation, with the initial training set comprising the whole of 2019, and subsequent training sets growing by 1 week at a time, to the end of 2021. The test sets are always 1 week long. Thus, we have evaluated the forecasts during 2020 and 2021, covering all lockdown periods, and the start of the recovery period. No transformations of the data have been used. The results are shown in Figures [-@fig-walkers-plot1]--[-@fig-walkers-plot4]. Prediction intervals have not been shown to avoid cluttering the plots.
 
 ```{r}
 #| label: fig-walkers-plot1
 #| fig-height: 3
-#| fig-cap: "Solution 1: the forecasts do not take into account the lockdown periods, but the ARIMA model is able to adjust to the changing level of the series."
+#| fig-cap: "Solution 1: the forecasts do not take into account the lockdown periods, but the ARIMA model is largely able to adjust to the changing level of the series."
 tar_read(walkers_plot1)
 ```
+
+We use ARIMA models in @fig-walkers-plot1, which have mostly been able to adapt to the changing level of the series, apart from during the first few weeks of the first lockdown, and the first day or two of subsequent lockdowns.
+
+In @fig-walkers-plot2, we have used an intervention model, with a dummy variable indicating the lockdown periods. This has worked a little better than the ARIMA model used in @fig-walkers-plot1, apart from around the first lockdown period. Many people were in self-imposed lockdown before the start of the first lockdown period, and were reluctant to return to the city after it ended, resulting in poor forecasts on either side of the first lockdown.
 
 ```{r}
 #| label: fig-walkers-plot2
 #| fig-height: 3
-#| fig-cap: "Solution 2: the forecasts are based on an ARIMA model with a dummy variable indicating when the lockdown periods occurred."
+#| fig-cap: "Solution 2: the forecasts are based on an ARIMA model with a dummy variable indicating when the lockdown periods occurred. Many people were in self-imposed lockdown before the start of the first lockdown period, and were reluctant to return to the city after it ended, resulting in poor forecasts on either side of the first lockdown. The model was able to adjust to the changing level of the series during subsequent lockdowns."
 tar_read(walkers_plot2)
 ```
 
 ```{r}
 #| label: fig-walkers-plot3
 #| fig-height: 3
-#| fig-cap: "Solution 3: the lockdown periods are set to missing, and the ARIMA model uses the remaining data to produce forecasts"
+#| fig-cap: "Solution 3: the lockdown periods are set to missing, and the ARIMA model uses the remaining data to produce forecasts. Thus, the forecasts are based on only previous non-lockdown data. Naturally, the forecasts during the lockdown periods do not reflect reality, but they can be interpreted as what might have been."
 tar_read(walkers_plot3)
 ```
 
 ```{r}
 #| label: fig-walkers-plot4
 #| fig-height: 3
-#| fig-cap: "Solution 4: the lockdown periods are replaced with estimated counts based on an ARIMA model applied to the remaining data. Then a new ARIMA model is fitted to the whole data set, and used to produce forecasts."
+#| fig-cap: "Solution 4: the lockdown periods are replaced with estimated counts based on an ARIMA model applied to the remaining data. Then a new ARIMA model is fitted to the whole data set, and used to produce forecasts. As a result, the forecasts during the lockdown periods are not true forecasts, as they use non-lockdown data from the future."
 tar_read(walkers_plot4)
 ```
 
+```{r}
+#| label: fig-walkers-ensemble-plot
+#| fig-height: 3
+#| fig-cap: "Ensemble forecasts based on the first two solutions shown in Figures [-@fig-walkers-plot1] and [-@fig-walkers-plot2]. Other than having some difficulty around the period of the first lockdown, the results are relatively good."
+tar_read(walkers_ensemble_plot)
+```
+
+@fig-walkers-plot3 shows the results obtained by setting the observations during the lockdown periods to missing, and then fitting an ARIMA model to the remaining data. The forecasts during lockdowns show what might have been if that particular lockdown hadn't occurred, based on previous non-lockdown data.
+
+The forecasts shown in @fig-walkers-plot4 are obtained by replacing the observations during the lockdown periods with estimates based on an ARIMA model applied to the remaining data. Then a new ARIMA model is fitted to the whole data set, and used to produce forecasts. As a result, the "forecasts" appear to interpolate across the lockdown periods, reflecting neither the true lockdown pattern, or the pattern that might have occurred without the lockdowns.
+
+Finally, in @fig-walkers-ensemble-plot, we show the ensemble forecasts obtained by averaging the forecasts from the first two solutions discussed above. The results are relatively good, other than having some difficulty around the period of the first lockdown.
 
 ## Example: Ambulance attendances
 

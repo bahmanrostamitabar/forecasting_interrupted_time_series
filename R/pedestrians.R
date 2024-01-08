@@ -174,15 +174,29 @@ pedestrian_sol4 <- function(walkers, step, init, h) {
 }
 
 pedestrian_fc_plot <- function(fc, data) {
-  fc |>
+  # Plot of data showing lockdown periods
+  p <- pedestrian_plot(data |> filter(Date >= "2020-01-01"))
+  fc <- fc |>
     group_by(.id) |>
     slice(1:7) |>
-    mutate(.id = as.character(.id)) |>
-    ggplot(aes(x = Date)) +
-    geom_line(aes(y = .mean, group = .id), col = "blue") +
-    geom_line(
-      data = data |> filter(Date >= "2020-01-01"),
-      mapping = aes(y = Count)
-    ) +
-    guides(col = "none")
+    mutate(.id = as.character(.id))
+  p + 
+    geom_line(data = fc, mapping = aes(x = Date, y = .mean, group = .id), col = "blue") 
+}
+
+
+# Create ensemble from list of fable objects
+# Assumes the key structures are identical other than .model
+pedestrian_ensemble <- function(object) {
+  lapply(object, function(x) {
+    x |> as_tibble() |> mutate(.model = NULL) |> group_by(.id) |> slice(1:7)
+  }) |> 
+    bind_rows() |> 
+    group_by(Date) |> 
+    summarise(
+      .id = unique(.id),
+      .mean = mean(.mean)
+    ) |> 
+    mutate(Count = distributional::dist_degenerate(.mean)) |> 
+    as_fable(index = Date, key = .id, response = "Count", distribution = Count)
 }
