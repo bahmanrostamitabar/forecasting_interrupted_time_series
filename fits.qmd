@@ -1,14 +1,6 @@
 ---
 title: "Forecasting interrupted time series"
 author:
-- familyname: Rostami-Tabar
-  othernames: Bahman
-  address:
-    - Cardiff Business School
-    - Wales CF10 3EU
-    - United Kingdom
-  email: rostami-tabarb@cardiff.ac.uk
-  correspondingauthor: true
 - familyname: Hyndman
   othernames: Rob J
   address:
@@ -17,6 +9,14 @@ author:
     - Clayton VIC 3800
     - Australia
   email: Rob.Hyndman@monash.edu
+  correspondingauthor: true
+- familyname: Rostami-Tabar
+  othernames: Bahman
+  address:
+    - Cardiff Business School
+    - Wales CF10 3EU
+    - United Kingdom
+  email: rostami-tabarb@cardiff.ac.uk
 abstract: "A brief summary of our ideas"
 keywords: "blah, blah"
 wpnumber: no/yr
@@ -91,7 +91,7 @@ A dynamic regression model with intervention covariates can be used to model the
 
 This has the advantage of retaining the memory of the past, and so the seasonal patterns and other dynamics will be retained. This allows the change period to be effectively modelled provided the intervention variables are chosen well. However, the model will assume that the post-interruption period will be similar to the pre-interruption period, and so the prediction intervals may be be too narrow, especially if there is a lasting effect beyond the end of the interruption.
 
-## Treat the interruption period as missing
+## Set to missing
 
 Many time series models will handle periods of missing values. So the problematic observations that occur during the period of disruption can be set to missing, and the model should continue to produce forecasts as if the interruption had not occurred. Of course, the forecasts will not be accurate for the period of disruption, but they can be interpreted as "what might have been". This solution requires a judgement to be made about when the disruption has begun, and when normality resumes.
 
@@ -141,8 +141,8 @@ We apply the first four solutions discussed in the previous section to these dat
 ```{r}
 #| label: fig-tsol1-plot
 #| fig-height: 8
-#| fig-pos: "t"
-#| fig-cap: "Solution 1. Forecasts from ETS and ARIMA models. Neither works particularly well for disruptions of this magnitude."
+#| fig-pos: "!b"
+#| fig-cap: "**Highly adaptive models**. Forecasts from ETS and ARIMA models. Neither works particularly well for disruptions of this magnitude."
 tar_read(tsol1_plot)
 ```
 
@@ -151,8 +151,8 @@ In @fig-tsol1-plot, we show forecasts by applying ETS and ARIMA models to the da
 ```{r}
 #| label: fig-tsol2-plot
 #| fig-height: 8
-#| fig-pos: "b"
-#| fig-cap: Solution 2. We use a level shift from March 2020 to October 2022, and a ramp from October 2021 to October 2022. After October 2022, all intervention variables are set to zero.
+#| fig-pos: "!b"
+#| fig-cap: "**Intervention model**. We use a level shift from March 2020 to October 2022, and a ramp from October 2021 to October 2022. After October 2022, all intervention variables are set to zero."
 tar_read(tsol2_plot)
 ```
 
@@ -162,8 +162,8 @@ tar_read(tsol2_plot)
 ```{r}
 #| label: fig-tsol3-plot
 #| fig-height: 8
-#| fig-pos: "b"
-#| fig-cap: Solution 3. The period from March 2020 to October 2022 is set to missing. So the first three years of forecasts show what might have been. The fourth set of forecasts uses observations from November and December 2022, and so the forecasts have been adjusted downwards.
+#| fig-pos: "!b"
+#| fig-cap: "**Set to missing**. The period from March 2020 to October 2022 is set to missing. So the first three years of forecasts show what might have been. The fourth set of forecasts uses observations from November and December 2022, and so the forecasts have been adjusted downwards."
 tar_read(tsol3_plot)
 ```
 
@@ -174,7 +174,7 @@ The third solution (@fig-tsol3-plot) involved setting the observations during th
 #| label: fig-tsol4-plot
 #| fig-height: 8
 #| fig-pos: "!b"
-#| fig-cap: Solution 4. We replace the observations from March 2020 to October 2022 with the average of the same month in the three years prior to March 2020.
+#| fig-cap: "**Estimate what might have been**. We replace the observations from March 2020 to October 2022 with the average of the same month in the three years prior to March 2020."
 tar_read(tsol4_plot)
 ```
 
@@ -185,8 +185,8 @@ Finally, in @fig-tensemble-plot, we show the ensemble forecasts obtained by aver
 ```{r}
 #| label: fig-tensemble-plot
 #| fig-height: 8
-#| fig-pos: "t"
-#| fig-cap: Ensemble solution, combining the previous four approaches shown in Figures [-@fig-tsol1-plot]--[-@fig-tsol4-plot].
+#| fig-pos: "!t"
+#| fig-cap: "**Ensemble approach**, combining the previous four approaches shown in Figures [-@fig-tsol1-plot]--[-@fig-tsol4-plot]."
 tar_read(tensemble_plot)
 ```
 
@@ -219,7 +219,7 @@ We evaluate the solutions discussed in @sec-methods by using time series cross-v
 ```{r}
 #| label: fig-walkers-plot1
 #| fig-height: 3
-#| fig-cap: "Solution 1: the forecasts do not take into account the lockdown periods, but the ARIMA model is largely able to adjust to the changing level of the series."
+#| fig-cap: "**Highly adaptive model**: the forecasts do not take into account the lockdown periods, but the ARIMA model is largely able to adjust to the changing level of the series."
 tar_read(walkers_plot1)
 ```
 
@@ -230,28 +230,28 @@ In @fig-walkers-plot2, we have used an intervention model, with a dummy variable
 ```{r}
 #| label: fig-walkers-plot2
 #| fig-height: 3
-#| fig-cap: "Solution 2: the forecasts are based on an ARIMA model with a dummy variable indicating when the lockdown periods occurred. Many people were in self-imposed lockdown before the start of the first lockdown period, and were reluctant to return to the city after it ended, resulting in poor forecasts on either side of the first lockdown. The model was able to adjust to the changing level of the series during subsequent lockdowns."
+#| fig-cap: "**Intervention model**: the forecasts are based on an ARIMA model with a dummy variable indicating when the lockdown periods occurred. Many people were in self-imposed lockdown before the start of the first lockdown period, and were reluctant to return to the city after it ended, resulting in poor forecasts on either side of the first lockdown. The model was able to adjust to the changing level of the series during subsequent lockdowns."
 tar_read(walkers_plot2)
 ```
 
 ```{r}
 #| label: fig-walkers-plot3
 #| fig-height: 3
-#| fig-cap: "Solution 3: the lockdown periods are set to missing, and the ARIMA model uses the remaining data to produce forecasts. Thus, the forecasts are based on only previous non-lockdown data. Naturally, the forecasts during the lockdown periods do not reflect reality, but they can be interpreted as what might have been."
+#| fig-cap: "**Set to missing**: the lockdown periods are set to missing, and the ARIMA model uses the remaining data to produce forecasts. Thus, the forecasts are based on only previous non-lockdown data. Naturally, the forecasts during the lockdown periods do not reflect reality, but they can be interpreted as what might have been."
 tar_read(walkers_plot3)
 ```
 
 ```{r}
 #| label: fig-walkers-plot4
 #| fig-height: 3
-#| fig-cap: "Solution 4: the lockdown periods are replaced with estimated counts based on an ARIMA model applied to the remaining data. Then a new ARIMA model is fitted to the whole data set, and used to produce forecasts. As a result, the forecasts during the lockdown periods are not true forecasts, as they use non-lockdown data from the future."
+#| fig-cap: "**Estimate what might have been**: the lockdown periods are replaced with estimated counts based on an ARIMA model applied to the remaining data. Then a new ARIMA model is fitted to the whole data set, and used to produce forecasts. As a result, the forecasts during the lockdown periods are not true forecasts, as they use non-lockdown data from the future."
 tar_read(walkers_plot4)
 ```
 
 ```{r}
 #| label: fig-walkers-ensemble-plot
 #| fig-height: 3
-#| fig-cap: "Ensemble forecasts based on the first two solutions shown in Figures [-@fig-walkers-plot1] and [-@fig-walkers-plot2]. Other than having some difficulty around the period of the first lockdown, the results are relatively good."
+#| fig-cap: "**Ensemble forecasts** based on the first two solutions shown in Figures [-@fig-walkers-plot1] and [-@fig-walkers-plot2]. Other than having some difficulty around the period of the first lockdown, the results are relatively good."
 tar_read(walkers_ensemble_plot)
 ```
 

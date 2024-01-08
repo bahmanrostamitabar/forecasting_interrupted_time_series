@@ -278,23 +278,23 @@
 
 \nocover
 
-\author{Bahman~Rostami-Tabar, Rob J~Hyndman}
-\addresses{\textbf{Bahman Rostami-Tabar}\newline
-Cardiff Business School\newline
-Wales CF10 3EU\newline
-United Kingdom\newline
-{Email: rostami-tabarb@cardiff.ac.uk}\newline Corresponding author\newline\\[0.5cm]
-\textbf{Rob J Hyndman}\newline
+\author{Rob J~Hyndman, Bahman~Rostami-Tabar}
+\addresses{\textbf{Rob J Hyndman}\newline
 Department of Econometrics \& Business Statistics\newline
 Monash University\newline
 Clayton VIC 3800\newline
 Australia\newline
-{Email: Rob.Hyndman@monash.edu}\\[0.5cm]
+{Email: Rob.Hyndman@monash.edu}\newline Corresponding author\newline\\[0.5cm]
+\textbf{Bahman Rostami-Tabar}\newline
+Cardiff Business School\newline
+Wales CF10 3EU\newline
+United Kingdom\newline
+{Email: rostami-tabarb@cardiff.ac.uk}\\[0.5cm]
 }
 
 \date{\sf\Date~\Month~\Year}
 \makeatletter
- \lfoot{\sf Rostami-Tabar, Hyndman: \@date}
+ \lfoot{\sf Hyndman, Rostami-Tabar: \@date}
 \makeatother
 
 \usepackage[section]{placeins}
@@ -427,8 +427,7 @@ post-interruption period will be similar to the pre-interruption period,
 and so the prediction intervals may be be too narrow, especially if
 there is a lasting effect beyond the end of the interruption.
 
-\subsection{Treat the interruption period as
-missing}\label{treat-the-interruption-period-as-missing}
+\subsection{Set to missing}\label{set-to-missing}
 
 Many time series models will handle periods of missing values. So the
 problematic observations that occur during the period of disruption can
@@ -548,7 +547,7 @@ observations never reach exactly zero, with the smallest number of
 visitors per month equal to 2250 in April 2020. For all forecasts, we
 also show 90\% prediction intervals.
 
-\begin{figure}[t]
+\begin{figure}[!b]
 
 \centering{
 
@@ -556,9 +555,9 @@ also show 90\% prediction intervals.
 
 }
 
-\caption{\label{fig-tsol1-plot}Solution 1. Forecasts from ETS and ARIMA
-models. Neither works particularly well for disruptions of this
-magnitude.}
+\caption{\label{fig-tsol1-plot}\textbf{Highly adaptive models}.
+Forecasts from ETS and ARIMA models. Neither works particularly well for
+disruptions of this magnitude.}
 
 \end{figure}%
 
@@ -586,7 +585,7 @@ changes of trend being incorporated into the forecasts more quickly, at
 the risk of over-reacting to noise in the data, and increasing the size
 of the prediction intervals even more.
 
-\begin{figure}[b]
+\begin{figure}[!b]
 
 \centering{
 
@@ -594,9 +593,10 @@ of the prediction intervals even more.
 
 }
 
-\caption{\label{fig-tsol2-plot}Solution 2. We use a level shift from
-March 2020 to October 2022, and a ramp from October 2021 to October
-2022. After October 2022, all intervention variables are set to zero.}
+\caption{\label{fig-tsol2-plot}\textbf{Intervention model}. We use a
+level shift from March 2020 to October 2022, and a ramp from October
+2021 to October 2022. After October 2022, all intervention variables are
+set to zero.}
 
 \end{figure}%
 
@@ -611,7 +611,7 @@ three observations (Oct -- Dec 2021). The forecasts for 2023 are much
 better, and the relatively large prediction intervals are appropriate
 given the uncertainty in the industry at the end of 2022.
 
-\begin{figure}[b]
+\begin{figure}[!b]
 
 \centering{
 
@@ -619,11 +619,11 @@ given the uncertainty in the industry at the end of 2022.
 
 }
 
-\caption{\label{fig-tsol3-plot}Solution 3. The period from March 2020 to
-October 2022 is set to missing. So the first three years of forecasts
-show what might have been. The fourth set of forecasts uses observations
-from November and December 2022, and so the forecasts have been adjusted
-downwards.}
+\caption{\label{fig-tsol3-plot}\textbf{Set to missing}. The period from
+March 2020 to October 2022 is set to missing. So the first three years
+of forecasts show what might have been. The fourth set of forecasts uses
+observations from November and December 2022, and so the forecasts have
+been adjusted downwards.}
 
 \end{figure}%
 
@@ -644,9 +644,9 @@ too narrow, as there hasn't been sufficient recent data.
 
 }
 
-\caption{\label{fig-tsol4-plot}Solution 4. We replace the observations
-from March 2020 to October 2022 with the average of the same month in
-the three years prior to March 2020.}
+\caption{\label{fig-tsol4-plot}\textbf{Estimate what might have been}.
+We replace the observations from March 2020 to October 2022 with the
+average of the same month in the three years prior to March 2020.}
 
 \end{figure}%
 
@@ -672,7 +672,7 @@ averaging forecasts that aim to achieve different objectives, and are
 affected by the poor forecasts obtained using the dynamic regression
 model.
 
-\begin{figure}[t]
+\begin{figure}[!t]
 
 \centering{
 
@@ -680,8 +680,8 @@ model.
 
 }
 
-\caption{\label{fig-tensemble-plot}Ensemble solution, combining the
-previous four approaches shown in Figures
+\caption{\label{fig-tensemble-plot}\textbf{Ensemble approach}, combining
+the previous four approaches shown in Figures
 \ref{fig-tsol1-plot}--\ref{fig-tsol4-plot}.}
 
 \end{figure}%
@@ -744,9 +744,9 @@ intervals have not been shown to avoid cluttering the plots.
 
 }
 
-\caption{\label{fig-walkers-plot1}Solution 1: the forecasts do not take
-into account the lockdown periods, but the ARIMA model is largely able
-to adjust to the changing level of the series.}
+\caption{\label{fig-walkers-plot1}\textbf{Highly adaptive model}: the
+forecasts do not take into account the lockdown periods, but the ARIMA
+model is largely able to adjust to the changing level of the series.}
 
 \end{figure}%
 
@@ -772,13 +772,13 @@ lockdown.
 
 }
 
-\caption{\label{fig-walkers-plot2}Solution 2: the forecasts are based on
-an ARIMA model with a dummy variable indicating when the lockdown
-periods occurred. Many people were in self-imposed lockdown before the
-start of the first lockdown period, and were reluctant to return to the
-city after it ended, resulting in poor forecasts on either side of the
-first lockdown. The model was able to adjust to the changing level of
-the series during subsequent lockdowns.}
+\caption{\label{fig-walkers-plot2}\textbf{Intervention model}: the
+forecasts are based on an ARIMA model with a dummy variable indicating
+when the lockdown periods occurred. Many people were in self-imposed
+lockdown before the start of the first lockdown period, and were
+reluctant to return to the city after it ended, resulting in poor
+forecasts on either side of the first lockdown. The model was able to
+adjust to the changing level of the series during subsequent lockdowns.}
 
 \end{figure}%
 
@@ -790,11 +790,12 @@ the series during subsequent lockdowns.}
 
 }
 
-\caption{\label{fig-walkers-plot3}Solution 3: the lockdown periods are
-set to missing, and the ARIMA model uses the remaining data to produce
-forecasts. Thus, the forecasts are based on only previous non-lockdown
-data. Naturally, the forecasts during the lockdown periods do not
-reflect reality, but they can be interpreted as what might have been.}
+\caption{\label{fig-walkers-plot3}\textbf{Set to missing}: the lockdown
+periods are set to missing, and the ARIMA model uses the remaining data
+to produce forecasts. Thus, the forecasts are based on only previous
+non-lockdown data. Naturally, the forecasts during the lockdown periods
+do not reflect reality, but they can be interpreted as what might have
+been.}
 
 \end{figure}%
 
@@ -806,12 +807,12 @@ reflect reality, but they can be interpreted as what might have been.}
 
 }
 
-\caption{\label{fig-walkers-plot4}Solution 4: the lockdown periods are
-replaced with estimated counts based on an ARIMA model applied to the
-remaining data. Then a new ARIMA model is fitted to the whole data set,
-and used to produce forecasts. As a result, the forecasts during the
-lockdown periods are not true forecasts, as they use non-lockdown data
-from the future.}
+\caption{\label{fig-walkers-plot4}\textbf{Estimate what might have
+been}: the lockdown periods are replaced with estimated counts based on
+an ARIMA model applied to the remaining data. Then a new ARIMA model is
+fitted to the whole data set, and used to produce forecasts. As a
+result, the forecasts during the lockdown periods are not true
+forecasts, as they use non-lockdown data from the future.}
 
 \end{figure}%
 
@@ -823,10 +824,11 @@ from the future.}
 
 }
 
-\caption{\label{fig-walkers-ensemble-plot}Ensemble forecasts based on
-the first two solutions shown in Figures \ref{fig-walkers-plot1} and
-\ref{fig-walkers-plot2}. Other than having some difficulty around the
-period of the first lockdown, the results are relatively good.}
+\caption{\label{fig-walkers-ensemble-plot}\textbf{Ensemble forecasts}
+based on the first two solutions shown in Figures
+\ref{fig-walkers-plot1} and \ref{fig-walkers-plot2}. Other than having
+some difficulty around the period of the first lockdown, the results are
+relatively good.}
 
 \end{figure}%
 
@@ -884,8 +886,8 @@ approach is producing counterfactual (``what might have been'')
 forecasts, the prediction intervals will often not include the actual
 observations during the disruption period. Prediction intervals for
 ensemble forecasts can be obtained by averaging the end points of the
-component prediction intervals, for those models where the prediction
-intervals seem reasonable.
+component prediction intervals \autocite{lichtendahl2013better}, for
+those models where the prediction intervals seem reasonable.
 
 \printbibliography[title=References]
 
