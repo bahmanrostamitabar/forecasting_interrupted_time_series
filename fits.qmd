@@ -261,17 +261,15 @@ The forecasts shown in @fig-walkers-plot4 are obtained by replacing the observat
 
 Finally, in @fig-walkers-ensemble-plot, we show the ensemble forecasts obtained by averaging the forecasts from the first two solutions discussed above. The results are relatively good, other than having some difficulty around the period of the first lockdown.
 
+# Discussion
 
+We have presented several approaches to forecasting in the presence of an interruption. Each has its advantages and disadvantages, and the choice of which to use will depend on the situation. In fact, we have used almost all of these approaches in our own consulting work. An intervention model is often a good solution, provided the intervention can be modelled relatively simply. However, if the intervention is complex, then a highly adaptive method is often better. The highly adaptive model is also useful when the timing of the interruption is unknown, or when the post-interruption period is expected to be very different from the pre-interruption period. The missing value approach is particularly useful when only post-interruption forecasts are required, and forecasts during the interruption period are not needed.
 
+We have not previously used the weighted approach in practice, and software to implement it is not currently available. However, it seems to be a good compromise between the highly adaptive model and the intervention model, and we expect it to be useful in many situations, once software is available to implement it easily.
 
+Finally, the ensemble approach is useful when there is uncertainty about which approach to use, and will often result in greater accuracy due the power of averaging.
 
-
-
-
-
-
-
-
+We have not discussed probabilistic forecasting in any detail in this paper, other than producing some prediction intervals for some of the examples. One would expect forecast uncertainty to increase during, and to some extent after, a major disruption. The highly adaptive model and innovation model should produce relatively good prediction intervals, although the variance is often underestimated. Because the missing value approach is producing counterfactual ("what might have been") forecasts, the prediction intervals will often not include the actual observations during the disruption period. Prediction intervals for ensemble forecasts can be obtained by averaging the end points of the component prediction intervals [@lichtendahl2013better], for those models where the prediction intervals seem reasonable.
 
 
 

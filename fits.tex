@@ -366,18 +366,24 @@ situations we consider, we know that a change has occurred, and we want
 to forecast the future after the change. Change point detection is about
 identifying \emph{when} a change has occurred.
 
-The changes in the series as a result of the disruption may be
-relatively simple; for example a left shift at the start of the
-disruption, and another at the end of the disruption. Or they may be
-more complex, with changes to the seasonal patterns, and changes to the
-level, which evolve over time. In this paper, we consider a range of
-models that can be used to handle such changes, and compare their
-performance on some real data sets.
-
 Time series models usually assume that the data evolve in the future in
 a similar way to how they have evolved in the past. But a big event
 (such as COVID-19) can result in a future that is different from the
 past, at least in the short term.
+
+The disruption may result in relatively simple changes in the series;
+for example a level shift at the start of the disruption, and another at
+the end of the disruption. Or they may be more complex, with changes to
+the seasonal patterns, and changes to the level, which evolve over time.
+In this paper, we consider a range of models that can be used to handle
+such changes, and compare their performance on some real data sets.
+
+We introduce several approaches to handling interruptions when
+forecasting in Section~\ref{sec-methods}. We then apply these approaches
+to two real data sets in \textbf{?@sec-sec-examples}. Finally, in
+\textbf{?@sec-conclusions}, we discuss some of the advantages and
+disadvantages of each approach, and provide some recommendations for
+practitioners.
 
 \section{Handling interruptions when forecasting}\label{sec-methods}
 
@@ -392,7 +398,9 @@ happening, and will therefore be able to approximate the data generating
 process relatively well. For example, an ETS model with large smoothing
 parameters will be able to adjust to the interruption relatively
 quickly. This has the advantage of being a very simple solution that is
-easy to implement and fast to compute.
+easy to implement and fast to compute. There is no need to explicitly
+model the interruption, and so the model can be used for forecasting
+even if the timing or effect of the interruption is unknown.
 
 However, the prediction intervals will be large, because the model will
 have heavily discounted past data. In fact, the model will largely
@@ -402,8 +410,7 @@ present before the interruption. Consequently, the approach works best
 if there is no assumption that the post-interruption period will be
 similar to the pre-interruption period.
 
-\subsection{Use a dynamic regression model with intervention
-covariates}\label{use-a-dynamic-regression-model-with-intervention-covariates}
+\subsection{Use an intervention model}\label{use-an-intervention-model}
 
 A dynamic regression model with intervention covariates can be used to
 model the interruption explicitly. For example, if the intervention
@@ -413,22 +420,15 @@ interruption period, and allow the model to adjust to the interruption.
 More complicated interventions can be handled by using more covariates.
 
 This has the advantage of retaining the memory of the past, and so the
-seasonal patterns and other dynamics will be retained. However, the
-model will assume that the post-interruption period will be similar to
-the pre-interruption period, and so the prediction intervals may be be
-too narrow.
+seasonal patterns and other dynamics will be retained. This allows the
+change period to be effectively modelled provided the intervention
+variables are chosen well. However, the model will assume that the
+post-interruption period will be similar to the pre-interruption period,
+and so the prediction intervals may be be too narrow, especially if
+there is a lasting effect beyond the end of the interruption.
 
-Advantages: retains full memory of the past, and allows the change
-period to be effectively modelled provided you choose the covariates
-well.
-
-Disadvantages: requires a lot of thought to choose the covariates well.
-Assumes that the post-pandemic period will be similar to the
-pre-pandemic period.
-
-\subsection{Treat the covid period as missing and use a model that
-handles missing
-values}\label{treat-the-covid-period-as-missing-and-use-a-model-that-handles-missing-values}
+\subsection{Treat the interruption period as
+missing}\label{treat-the-interruption-period-as-missing}
 
 Many time series models will handle periods of missing values. So the
 problematic observations that occur during the period of disruption can
@@ -443,8 +443,8 @@ intervals will become large during the disruption, and after the
 disruption they will remain large until the model has enough data to
 estimate the forecast distribution more accurately.
 
-\subsection{Estimate what might have been and adjust the
-data}\label{estimate-what-might-have-been-and-adjust-the-data}
+\subsection{Estimate what might have
+been}\label{estimate-what-might-have-been}
 
 A fourth solution is to estimate what might have been during the period
 of disruption, and then use the adjusted data to fit a model. The
@@ -452,49 +452,70 @@ estimates could be made using any convenient method. One approach would
 be to set the estimates to equal the forecasts made using only
 pre-interruption data. This then becomes almost equal to the previous
 solution except that the prediction intervals will be narrower because
-the estimation uncertainty has not been taken into account.
+the estimation uncertainty has not been taken into account. On the other
+hand, it is more flexible than the previous approach because models that
+do not handle missing values can then be used.
 
-\subsection{Over sampling (weighting)}\label{over-sampling-weighting}
+An alternative would be to take the model estimated under the previous
+solution (setting the observations during the disruption to missing),
+and use it to estimate what might have been during the disruption. Then
+the model can be re-estimated using the adjusted data. Note that
+forecasts obtained in this way during the disruption will not be true
+forecasts, because they will have used data from the future in computing
+the adjusted data during the disruption. But post-disruption forecasts
+will be true forecasts, and should be almost the same as those obtained
+using the previous solution.
 
-Oversampling is a technique used in machine learning to address class
-imbalance within a dataset. In this context, the goal is to ensure that
-the model is more influenced by the patterns observed before the
-disruption period while still accounting for the observations during the
+\subsection{Downweight the interruption
+period}\label{downweight-the-interruption-period}
+
+Intuitively, we want the model to be more influenced by the patterns
+observed before the disruption period than those during the disruption,
+but we still want to take some account of the observations during the
 disruption period.
 
 Using this weighting approach, we can leverage the insights from the
 pre-disruptive period while still accounting for the disruptive period's
-influence. It allows the model to better capture the underlying patterns
-of the time series data, considering both periods, and potentially
-producing more accurate forecasts.
+influence. It allows the model to better capture the underlying dynamics
+of the time series in non-disrupted periods, which may be essential for
+accurate forecasting in the post-disruption era.
 
-Advantages:
+If the weights during the disruption are set to zero, and the weights at
+other times are set to 1, this becomes equivalent to the missing value
+solution above. Rather than ignoring the data during the disruption, the
+weighting approach allows the model to not be completely blind to the
+disruption's effects, and adapt to changes or shifts in the time series
+caused by the event.
 
-Preserves pre-event patterns: By assigning higher weights to the
-pre-disruption time series data, the model is encouraged to focus more
-on the patterns observed before the disruptive event. This can be
-beneficial in capturing the underlying dynamics of the time series that
-might be essential for accurate forecasting in the post-disruption era.
-
-Robustness to disruption impact: The weighting approach allows the model
-to still take the disruption period into account, even if it's
-considered less influential. This ensures that the model is not
-completely blind to the disruption's effects and can adapt to changes or
-shifts in the time series caused by the event.
-
-Easy to Implement: ??
-
-Interpretability?:
-
-Disadvantages:
+While conceptually simple to implement, in practice, this approach may
+require more work than the other methods discussed here as most
+forecasting software does not allow for the explicit use of weights.
 
 \subsection{Ensemble models}\label{ensemble-models}
 
-\section{Examples}\label{examples}
+As with may forecasting problems, taken an ensemble approach often leads
+to more accurate forecasts \autocite{combinations}. Here, we could
+combine some or all four of the approaches discussed above to obtain an
+ensemble forecast. In fact, if we were unable to implement the weighted
+approach, by using an ensemble of the other approaches we are
+effectively downweighting the observations during the disruption period
+as they are only explicitly used in the first two approaches (using a
+highly adaptive model, or using an intervention model).
 
-Let's consider some examples
+However, a disadvantage of this approach is that it is averaging
+forecasts that aim to achieve different objectives. For example, the
+highly adaptive model and the intervention model are trying to forecast
+what happened during the disruption, while the missing value and
+estimation approaches are trying to forecast what might have happened.
+So the ensemble approach will lie somewhere between these two
+objectives.
 
-\subsection{Australian tourism}\label{australian-tourism}
+\section{Examples}\label{sec-examples}
+
+Let's consider some examples to data observed during the last few years,
+where the effect of the COVID-19 pandemic has been particularly evident.
+
+\subsection{Australian tourism}\label{sec-tourism}
 
 The Australian tourism data set is a monthly time series showing the
 number of short-term overseas visitors to Australia. The data
@@ -518,9 +539,9 @@ Australia (monthly): Jan 2000 -- May 2023.}
 
 \end{figure}%
 
-We apply the four solutions discussed in the previous section to these
-data, making 12 month forecasts at the end of each year from 2019 to
-2022. We fit ETS, ARIMA and dynamic ARIMA models to the data
+We apply the first four solutions discussed in the previous section to
+these data, making 12 month forecasts at the end of each year from 2019
+to 2022. We fit ETS, ARIMA and dynamic ARIMA models to the data
 \autocite{fpp3}, first applying a log transformation to ensure the
 resulting forecasts are positive. This is possible, because the
 observations never reach exactly zero, with the smallest number of
@@ -565,7 +586,7 @@ changes of trend being incorporated into the forecasts more quickly, at
 the risk of over-reacting to noise in the data, and increasing the size
 of the prediction intervals even more.
 
-\begin{figure}[t]
+\begin{figure}[b]
 
 \centering{
 
@@ -573,9 +594,9 @@ of the prediction intervals even more.
 
 }
 
-\caption{\label{fig-tsol2-plot}Solution 2. We use a left shift from
+\caption{\label{fig-tsol2-plot}Solution 2. We use a level shift from
 March 2020 to October 2022, and a ramp from October 2021 to October
-2022. After October 2022, there are no non-zero predictors.}
+2022. After October 2022, all intervention variables are set to zero.}
 
 \end{figure}%
 
@@ -590,7 +611,7 @@ three observations (Oct -- Dec 2021). The forecasts for 2023 are much
 better, and the relatively large prediction intervals are appropriate
 given the uncertainty in the industry at the end of 2022.
 
-\begin{figure}[t]
+\begin{figure}[b]
 
 \centering{
 
@@ -606,16 +627,16 @@ downwards.}
 
 \end{figure}%
 
-The third solution involved setting the observations during the
-disruption period to missing, and then fitting an ARIMA model to the
-series. Consequently, the first three years of forecasts show what might
-have been without the COVID-19 pandemic, based on the history to the end
-of 2019. The final forecasts for 2023 use the data to the end of 2019,
-and the two observations in November and December 2022. These are much
-better, but the prediction intervals are too narrow, as there hasn't
-been sufficient recent data.
+The third solution (Figure~\ref{fig-tsol3-plot}) involved setting the
+observations during the disruption period to missing, and then fitting
+an ARIMA model to the series. Consequently, the first three years of
+forecasts show what might have been without the COVID-19 pandemic, based
+on the history to the end of 2019. The final forecasts for 2023 use the
+data to the end of 2019, and the two observations in November and
+December 2022. These are much better, but the prediction intervals are
+too narrow, as there hasn't been sufficient recent data.
 
-\begin{figure}[t]
+\begin{figure}[!b]
 
 \centering{
 
@@ -629,13 +650,41 @@ the three years prior to March 2020.}
 
 \end{figure}%
 
-Finally, we show in Figure~\ref{fig-tsol4-plot} the forecasts obtained
-using solution 4. Here we have replaced observations between March 2020
-and October 2022 with estimates based on the average of the same month
-in the three years prior to March 2020. The resulting forecasts are
-similar to those from solution 3, but with narrower prediction intervals
-because the model is (falsely) assuming that the ``observations'' during
-the disruption are real.
+We show in Figure~\ref{fig-tsol4-plot} the forecasts obtained using
+solution 4. Here we have replaced observations between March 2020 and
+October 2022 with estimates based on the average of the same month in
+the three years prior to March 2020. The resulting forecasts are similar
+to those from solution 3, but with narrower prediction intervals because
+the model is (falsely) assuming that the ``observations'' during the
+disruption are real.
+
+Finally, in Figure~\ref{fig-tensemble-plot}, we show the ensemble
+forecasts obtained by averaging the forecasts from the four solutions
+discussed above. The first and fourth solutions carry double weight,
+because both the ETS and ARIMA forecasts were included in the ensemble.
+This time, no prediction intervals have been computed. The first set of
+forecasts have not taken any account of the disruption, and so are
+almost identical to those obtained in the previous plots. The last set
+of forecasts are reasonably good, showing what is obtained by combining
+the forecasting methods used to handle the disruption period. However,
+the forecasts for 2021 and 2022 are particularly poor, because they are
+averaging forecasts that aim to achieve different objectives, and are
+affected by the poor forecasts obtained using the dynamic regression
+model.
+
+\begin{figure}[t]
+
+\centering{
+
+\includegraphics{fits_files/figure-pdf/fig-tensemble-plot-1.pdf}
+
+}
+
+\caption{\label{fig-tensemble-plot}Ensemble solution, combining the
+previous four approaches shown in Figures
+\ref{fig-tsol1-plot}--\ref{fig-tsol4-plot}.}
+
+\end{figure}%
 
 \FloatBarrier
 
@@ -674,17 +723,18 @@ days in length. The first official lockdown period was from 31 March
 Oct 2021. However, the first period was preceded by over a week when
 most people elected to stay and work at home, so we have chosen to start
 the first period on 23 Mar 2020, to better reflect human behaviour.
-Otherwise, we have used the official lockdown dates.
+Otherwise, we have used the official lockdown dates
+\autocite{MelbourneLockdowns}.
 
-We apply the four solutions discussed in Section~\ref{sec-methods}. We
-fit ARIMA and dynamic ARIMA models to the data, with no transformations
-used. We have evaluated the methods by using time series
-cross-validation, with the initial training set comprising the whole of
-2019, and subsequent training sets growing by 1 week at a time, to the
-end of 2021. The test sets are always 1 week long. Thus, we have
-evaluated the forecasts during 2020 and 2021, covering all lockdown
-periods, and the start of the recovery period. The results are shown in
-Figures \ref{fig-walkers-plot1}--\ref{fig-walkers-plot4}
+We evaluate the solutions discussed in Section~\ref{sec-methods} by
+using time series cross-validation, with the initial training set
+comprising the whole of 2019, and subsequent training sets growing by 1
+week at a time, to the end of 2021. The test sets are always 1 week
+long. Thus, we have evaluated the forecasts during 2020 and 2021,
+covering all lockdown periods, and the start of the recovery period. No
+transformations of the data have been used. The results are shown in
+Figures \ref{fig-walkers-plot1}--\ref{fig-walkers-plot4}. Prediction
+intervals have not been shown to avoid cluttering the plots.
 
 \begin{figure}
 
@@ -695,10 +745,24 @@ Figures \ref{fig-walkers-plot1}--\ref{fig-walkers-plot4}
 }
 
 \caption{\label{fig-walkers-plot1}Solution 1: the forecasts do not take
-into account the lockdown periods, but the ARIMA model is able to adjust
-to the changing level of the series.}
+into account the lockdown periods, but the ARIMA model is largely able
+to adjust to the changing level of the series.}
 
 \end{figure}%
+
+We use ARIMA models in Figure~\ref{fig-walkers-plot1}, which have mostly
+been able to adapt to the changing level of the series, apart from
+during the first few weeks of the first lockdown, and the first day or
+two of subsequent lockdowns.
+
+In Figure~\ref{fig-walkers-plot2}, we have used an intervention model,
+with a dummy variable indicating the lockdown periods. This has worked a
+little better than the ARIMA model used in
+Figure~\ref{fig-walkers-plot1}, apart from around the first lockdown
+period. Many people were in self-imposed lockdown before the start of
+the first lockdown period, and were reluctant to return to the city
+after it ended, resulting in poor forecasts on either side of the first
+lockdown.
 
 \begin{figure}
 
@@ -710,7 +774,11 @@ to the changing level of the series.}
 
 \caption{\label{fig-walkers-plot2}Solution 2: the forecasts are based on
 an ARIMA model with a dummy variable indicating when the lockdown
-periods occurred.}
+periods occurred. Many people were in self-imposed lockdown before the
+start of the first lockdown period, and were reluctant to return to the
+city after it ended, resulting in poor forecasts on either side of the
+first lockdown. The model was able to adjust to the changing level of
+the series during subsequent lockdowns.}
 
 \end{figure}%
 
@@ -724,7 +792,9 @@ periods occurred.}
 
 \caption{\label{fig-walkers-plot3}Solution 3: the lockdown periods are
 set to missing, and the ARIMA model uses the remaining data to produce
-forecasts}
+forecasts. Thus, the forecasts are based on only previous non-lockdown
+data. Naturally, the forecasts during the lockdown periods do not
+reflect reality, but they can be interpreted as what might have been.}
 
 \end{figure}%
 
@@ -739,24 +809,83 @@ forecasts}
 \caption{\label{fig-walkers-plot4}Solution 4: the lockdown periods are
 replaced with estimated counts based on an ARIMA model applied to the
 remaining data. Then a new ARIMA model is fitted to the whole data set,
-and used to produce forecasts.}
+and used to produce forecasts. As a result, the forecasts during the
+lockdown periods are not true forecasts, as they use non-lockdown data
+from the future.}
 
 \end{figure}%
 
-\subsection{Example: Ambulance
-attendances}\label{example-ambulance-attendances}
+\begin{figure}
 
-\includegraphics{fits_files/figure-pdf/plot-data-1.pdf}
+\centering{
 
-\includegraphics{fits_files/figure-pdf/plot-data-2.pdf}
+\includegraphics{fits_files/figure-pdf/fig-walkers-ensemble-plot-1.pdf}
 
-\includegraphics{fits_files/figure-pdf/unnamed-chunk-14-1.pdf}
+}
 
-\includegraphics{fits_files/figure-pdf/forecast-1.pdf}
+\caption{\label{fig-walkers-ensemble-plot}Ensemble forecasts based on
+the first two solutions shown in Figures \ref{fig-walkers-plot1} and
+\ref{fig-walkers-plot2}. Other than having some difficulty around the
+period of the first lockdown, the results are relatively good.}
 
-\includegraphics{fits_files/figure-pdf/forecast-2.pdf}
+\end{figure}%
 
-\includegraphics{fits_files/figure-pdf/forecast-3.pdf}
+Figure~\ref{fig-walkers-plot3} shows the results obtained by setting the
+observations during the lockdown periods to missing, and then fitting an
+ARIMA model to the remaining data. The forecasts during lockdowns show
+what might have been if that particular lockdown hadn't occurred, based
+on previous non-lockdown data.
+
+The forecasts shown in Figure~\ref{fig-walkers-plot4} are obtained by
+replacing the observations during the lockdown periods with estimates
+based on an ARIMA model applied to the remaining data. Then a new ARIMA
+model is fitted to the whole data set, and used to produce forecasts. As
+a result, the ``forecasts'' appear to interpolate across the lockdown
+periods, reflecting neither the true lockdown pattern, or the pattern
+that might have occurred without the lockdowns.
+
+Finally, in Figure~\ref{fig-walkers-ensemble-plot}, we show the ensemble
+forecasts obtained by averaging the forecasts from the first two
+solutions discussed above. The results are relatively good, other than
+having some difficulty around the period of the first lockdown.
+
+\section{Discussion}\label{discussion}
+
+We have presented several approaches to forecasting in the presence of
+an interruption. Each has its advantages and disadvantages, and the
+choice of which to use will depend on the situation. In fact, we have
+used almost all of these approaches in our own consulting work. An
+intervention model is often a good solution, provided the intervention
+can be modelled relatively simply. However, if the intervention is
+complex, then a highly adaptive method is often better. The highly
+adaptive model is also useful when the timing of the interruption is
+unknown, or when the post-interruption period is expected to be very
+different from the pre-interruption period. The missing value approach
+is particularly useful when only post-interruption forecasts are
+required, and forecasts during the interruption period are not needed.
+
+We have not previously used the weighted approach in practice, and
+software to implement it is not currently available. However, it seems
+to be a good compromise between the highly adaptive model and the
+intervention model, and we expect it to be useful in many situations,
+once software is available to implement it easily.
+
+Finally, the ensemble approach is useful when there is uncertainty about
+which approach to use, and will often result in greater accuracy due the
+power of averaging.
+
+We have not discussed probabilistic forecasting in any detail in this
+paper, other than producing some prediction intervals for some of the
+examples. One would expect forecast uncertainty to increase during, and
+to some extent after, a major disruption. The highly adaptive model and
+innovation model should produce relatively good prediction intervals,
+although the variance is often underestimated. Because the missing value
+approach is producing counterfactual (``what might have been'')
+forecasts, the prediction intervals will often not include the actual
+observations during the disruption period. Prediction intervals for
+ensemble forecasts can be obtained by averaging the end points of the
+component prediction intervals, for those models where the prediction
+intervals seem reasonable.
 
 \printbibliography[title=References]
 
