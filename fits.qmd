@@ -261,27 +261,18 @@ The forecasts shown in @fig-walkers-plot4 are obtained by replacing the observat
 
 Finally, in @fig-walkers-ensemble-plot, we show the ensemble forecasts obtained by averaging the forecasts from the first two solutions discussed above. The results are relatively good, other than having some difficulty around the period of the first lockdown.
 
-## Example: Ambulance attendances
 
 
-```{r}
-#| label: plot-data
-tar_read(attended_plot)
-tar_read(stl_plot)
-```
 
-```{r}
-tar_load(fit)
-fit |> filter(Area == "BC") |> select(ets) |> components() |> autoplot()
-```
 
-```{r}
-#| label: forecast
-tar_load(fc)
-tar_load(df)
-fc |> filter(Area == "BC", .model=="ets") |> autoplot(df)
-fc |> filter(Area == "BC", .model=="stl_ets") |> autoplot(df)
-fc |> filter(Area == "BC", .model=="arima") |> autoplot(df)
-```
+
+
+
+
+
+
+
+
+
 
 # References
