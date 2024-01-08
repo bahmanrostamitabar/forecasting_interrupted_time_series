@@ -69,9 +69,11 @@ Time series are sometimes interrupted by unusual events; for example, a natural 
 
 This is a different problem from change point detection. In the situations we consider, we know that a change has occurred, and we want to forecast the future after the change. Change point detection is about identifying *when* a change has occurred.
 
-The changes in the series as a result of the disruption may be relatively simple; for example a left shift at the start of the disruption, and another at the end of the disruption. Or they may be more complex, with changes to the seasonal patterns, and changes to the level, which evolve over time. In this paper, we consider a range of models that can be used to handle such changes, and compare their performance on some real data sets.
-
 Time series models usually assume that the data evolve in the future in a similar way to how they have evolved in the past. But a big event (such as COVID-19) can result in a future that is different from the past, at least in the short term.
+
+The disruption may result in relatively simple changes in the series; for example a level shift at the start of the disruption, and another at the end of the disruption. Or they may be more complex, with changes to the seasonal patterns, and changes to the level, which evolve over time. In this paper, we consider a range of models that can be used to handle such changes, and compare their performance on some real data sets.
+
+We introduce several approaches to handling interruptions when forecasting in @sec-methods. We then apply these approaches to two real data sets in @sec-sec-examples. Finally, in @sec-conclusions, we discuss some of the advantages and disadvantages of each approach, and provide some recommendations for practitioners.
 
 # Handling interruptions when forecasting {#sec-methods}
 
@@ -79,56 +81,49 @@ We consider several possible ways to handle interruptions when forecasting.
 
 ## Use a highly adaptive model
 
-Highly adaptive models can adjust to the interruption as it is happening, and will therefore be able to approximate the data generating process relatively well. For example, an ETS model with large smoothing parameters will be able to adjust to the interruption relatively quickly. This has the advantage of being a very simple solution that is easy to implement and fast to compute.
+Highly adaptive models can adjust to the interruption as it is happening, and will therefore be able to approximate the data generating process relatively well. For example, an ETS model with large smoothing parameters will be able to adjust to the interruption relatively quickly. This has the advantage of being a very simple solution that is easy to implement and fast to compute. There is no need to explicitly model the interruption, and so the model can be used for forecasting even if the timing or effect of the interruption is unknown.
 
 However, the prediction intervals will be large, because the model will have heavily discounted past data. In fact, the model will largely forget the past data other than the most recent observations, so there is no memory of the seasonal patterns and other dynamics that were present before the interruption. Consequently, the approach works best if there is no assumption that the post-interruption period will be similar to the pre-interruption period.
 
-## Use a dynamic regression model with intervention covariates
+## Use an intervention model
 
 A dynamic regression model with intervention covariates can be used to model the interruption explicitly. For example, if the intervention involves a simple level shift, with a reverse level shift at the end of the intervention, we can use a dummy variable to indicate the interruption period, and allow the model to adjust to the interruption. More complicated interventions can be handled by using more covariates.
 
-This has the advantage of retaining the memory of the past, and so the seasonal patterns and other dynamics will be retained. However, the model will assume that the post-interruption period will be similar to the pre-interruption period, and so the prediction intervals may be be too narrow.
+This has the advantage of retaining the memory of the past, and so the seasonal patterns and other dynamics will be retained. This allows the change period to be effectively modelled provided the intervention variables are chosen well. However, the model will assume that the post-interruption period will be similar to the pre-interruption period, and so the prediction intervals may be be too narrow, especially if there is a lasting effect beyond the end of the interruption.
 
-Advantages: retains full memory of the past, and allows the change period to be effectively modelled provided you choose the covariates well.
-
-Disadvantages: requires a lot of thought to choose the covariates well. Assumes that the post-pandemic period will be similar to the pre-pandemic period.
-
-## Treat the covid period as missing and use a model that handles missing values
+## Treat the interruption period as missing
 
 Many time series models will handle periods of missing values. So the problematic observations that occur during the period of disruption can be set to missing, and the model should continue to produce forecasts as if the interruption had not occurred. Of course, the forecasts will not be accurate for the period of disruption, but they can be interpreted as "what might have been". This solution requires a judgement to be made about when the disruption has begun, and when normality resumes.
 
 Because no information is retained during the disruption, the prediction intervals will become large during the disruption, and after the disruption they will remain large until the model has enough data to estimate the forecast distribution more accurately.
 
-## Estimate what might have been and adjust the data
+## Estimate what might have been
 
-A fourth solution is to estimate what might have been during the period of disruption, and then use the adjusted data to fit a model. The estimates could be made using any convenient method. One approach would be to set the estimates to equal the forecasts made using only pre-interruption data. This then becomes almost equal to the previous solution except that the prediction intervals will be narrower because the estimation uncertainty has not been taken into account.
+A fourth solution is to estimate what might have been during the period of disruption, and then use the adjusted data to fit a model. The estimates could be made using any convenient method. One approach would be to set the estimates to equal the forecasts made using only pre-interruption data. This then becomes almost equal to the previous solution except that the prediction intervals will be narrower because the estimation uncertainty has not been taken into account. On the other hand, it is more flexible than the previous approach because models that do not handle missing values can then be used.
 
-## Over sampling (weighting)
+An alternative would be to take the model estimated under the previous solution (setting the observations during the disruption to missing), and use it to estimate what might have been during the disruption. Then the model can be re-estimated using the adjusted data. Note that forecasts obtained in this way during the disruption will not be true forecasts, because they will have used data from the future in computing the adjusted data during the disruption. But post-disruption forecasts will be true forecasts, and should be almost the same as those obtained using the previous solution.
 
-Oversampling is a technique used in machine learning to address class imbalance within a dataset. In this context, the goal is to ensure that the model is more influenced by the patterns observed before the disruption period while still accounting for the observations during the disruption period.
+## Downweight the interruption period
 
-Using this weighting approach, we can leverage the insights from the pre-disruptive period while still accounting for the disruptive period's influence. It allows the model to better capture the underlying patterns of the time series data, considering both periods, and potentially producing more accurate forecasts.
+Intuitively, we want the model to be more influenced by the patterns observed before the disruption period than those during the disruption, but we still want to take some account of the observations during the disruption period.
 
-Advantages:
+Using this weighting approach, we can leverage the insights from the pre-disruptive period while still accounting for the disruptive period's influence. It allows the model to better capture the underlying dynamics of the time series in non-disrupted periods, which may be essential for accurate forecasting in the post-disruption era.
 
-Preserves pre-event patterns: By assigning higher weights to the pre-disruption time series data, the model is encouraged to focus more on the patterns observed before the disruptive event. This can be beneficial in capturing the underlying dynamics of the time series that might be essential for accurate forecasting in the post-disruption era.
+If the weights during the disruption are set to zero, and the weights at other times are set to 1, this becomes equivalent to the missing value solution above. Rather than ignoring the data during the disruption, the weighting approach allows the model to not be completely blind to the disruption's effects, and adapt to changes or shifts in the time series caused by the event.
 
-Robustness to disruption impact: The weighting approach allows the model to still take the disruption period into account, even if it's considered less influential. This ensures that the model is not completely blind to the disruption's effects and can adapt to changes or shifts in the time series caused by the event.
-
-Easy to Implement: ??
-
-Interpretability?:
-
-Disadvantages:
+While conceptually simple to implement, in practice, this approach may require more work than the other methods discussed here as most forecasting software does not allow for the explicit use of weights.
 
 ## Ensemble models
 
+As with may forecasting problems, taken an ensemble approach often leads to more accurate forecasts [@combinations]. Here, we could combine some or all four of the approaches discussed above to obtain an ensemble forecast. In fact, if we were unable to implement the weighted approach, by using an ensemble of the other approaches we are effectively downweighting the observations during the disruption period as they are only explicitly used in the first two approaches (using a highly adaptive model, or using an intervention model).
 
-# Examples
+However, a disadvantage of this approach is that it is averaging forecasts that aim to achieve different objectives. For example, the highly adaptive model and the intervention model are trying to forecast what happened during the disruption, while the missing value and estimation approaches are trying to forecast what might have happened. So the ensemble approach will lie somewhere between these two objectives.
 
-Let's consider some examples
+# Examples {#sec-examples}
 
-## Australian tourism
+Let's consider some examples to data observed during the last few years, where the effect of the COVID-19 pandemic has been particularly evident.
+
+## Australian tourism {#sec-tourism}
 
 The Australian tourism data set is a monthly time series showing the number of short-term overseas visitors to Australia. The data [@tourismdata] are available from January 2000 to May 2023, and are shown in @fig-tourism-plot1. As the borders closed in March 2020, the number of visitors to Australia dropped to near zero, and remained there until towards the end of 2021. The borders officially reopened on 21 February 2022, although it seems visitors began to arrive earlier than that.
 
