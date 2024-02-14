@@ -65,15 +65,36 @@ tar_load(c(austa))
 
 # Introduction
 
-Time series are sometimes interrupted by unusual events; for example, a natural disaster may occur, or a there may be a temporary policy change. Many forecasters have faced this issue recently with the COVID-19 pandemic, where historical patterns have been severely disrupted due to lockdowns and other restrictions. In this paper, we consider the problem of forecasting during such an event, and after it has occurred.
+Time series forecasting models use historical data to forecast future values based on consistent patterns observed in the past. However, time series are sometimes interrupted by unusual events, that jeopardise the regularity of the time series pattern. Such interruptions may take a variety of forms including from a temporary policy change to a natural disaster; a few examples are provided below:
 
-This is a different problem from change point detection. In the situations we consider, we know that a change has occurred, and we want to forecast the future after the change. Change point detection is about identifying *when* a change has occurred.
+- Outbreaks, epidemics, and pandemics may all have a substantial influence on population behaviour, causing fluctuations and affecting time series data in a wide range of areas such as hospital admissions, pharmaceutical sales, transportation, retail sales, tourism, transportation, and traffic. 
 
-Time series models usually assume that the data evolve in the future in a similar way to how they have evolved in the past. But a big event (such as COVID-19) can result in a future that is different from the past, at least in the short term.
+- Supply chain interruptions, such as strikes, trade disputes, or shortages, may cause inconsistencies in data, including sales, inventory levels, production, and deliveries . Firms may need to shut down for repair, overhaul, or maintenance purposes. These events force production to halt, leaving a gap in the data.
 
-The disruption may result in relatively simple changes in the series; for example a level shift at the start of the disruption, and another at the end of the disruption. Or they may be more complex, with changes to the seasonal patterns, and changes to the level, which evolve over time. In this paper, we consider a range of models that can be used to handle such changes, and compare their performance on some real data sets.
+- Equipment failures in transportation: Vehicle, aeroplane, or rail malfunctions or breakdowns may result in missing or incorrect data points in transportation-related datasets . 
+
+- Cyberattacks: Cybersecurity breaches may jeopardise data integrity, resulting in incorrect readings in datasets including financial transactions, network traffic, and user activity. 
+
+
+The occurrence of such events presents a tremendous challenge to time series forecasting methods, limiting their capacity to automatically and accurately capture systematic information and forecast future values. Therefore, practitioners face a critical question: how to effectively handle time series data impacted by such disruptive events?  Many forecasters have faced this issue recently with the COVID-19 pandemic, where historical patterns have been severely disrupted due to lockdowns and other restrictions. This study is motivated by numerous conversations with academics and practitioners, which demonstrate widespread concern about dealing with data affected by events like the COVID-19 pandemic.
+
+Time series models usually assume that the data will evolve in the future in a similar way to how it has evolved in the past. But a big event (such as COVID-19) can result in a future that is different from the past, at least in the short term.
+
+The disruption may result in relatively simple changes in the series; for example a level shift at the start of the disruption, and another at the end of the disruption. Or they may be more complex, with changes to the seasonal patterns, and changes to the level, which evolve over time.  In this paper, we consider a range of models that can be used to handle such changes, and compare their performance on some real data sets.
+
+<!-- Time series are sometimes interrupted by unusual events; for example, a natural disaster may occur, or a there may be a temporary policy change. Many forecasters have faced this issue recently with the COVID-19 pandemic, where historical patterns have been severely disrupted due to lockdowns and other restrictions. -->
+
+It is important to note that in this study, we consider the problem of forecasting both during and after the event. This is a separate problem from change point detection. In the situations we investigate, we know that a change has occurred and want to forecast what will happen next. Change point detection refers to determining *when* a change occurred.
+
+The paper proposes and evaluates multiple forecasting strategies designed to handle interruptions in time series data caused by disruptive events. These approaches include a range of models capable of capturing different types of changes, from simple level shifts to more complex alterations in seasonal patterns and trends. By comparing the performance of these models on two real data sets, the paper offers valuable insights into the effectiveness and practical implications of each approach.The paper offers practical guidance for practitioners seeking to improve the accuracy and reliability of time series forecasts in the presence of disruptive events. By discussing the advantages and disadvantages of each strategy and providing recommendations based on the findings, the paper equips practitioners with actionable insights for addressing the challenges associated with forecasting during and after disruptive events. 
+Furthermore, by adhering to reproducibility principles and providing both data and R codes for the forecasting models, the research not only contributes to transparency but also promotes the generalizability of the suggested strategies to a variety of domains. This openness allows for the replication of results, ensuring the reliability of findings, and enhancing the accessibility and utility of study outputs for the larger research community.
+ 
 
 We introduce several approaches to handling interruptions when forecasting in @sec-methods. We then apply these approaches to two real data sets in @sec-sec-examples. Finally, in @sec-conclusions, we discuss some of the advantages and disadvantages of each approach, and provide some recommendations for practitioners.
+
+# Related work
+
+Stock out, maintenancem sensors
 
 # Handling interruptions when forecasting {#sec-methods}
 
@@ -271,6 +292,7 @@ Finally, the ensemble approach is useful when there is uncertainty about which a
 
 We have not discussed probabilistic forecasting in any detail in this paper, other than producing some prediction intervals for some of the examples. One would expect forecast uncertainty to increase during, and to some extent after, a major disruption. The highly adaptive model and innovation model should produce relatively good prediction intervals, although the variance is often underestimated. Because the missing value approach is producing counterfactual ("what might have been") forecasts, the prediction intervals will often not include the actual observations during the disruption period. Prediction intervals for ensemble forecasts can be obtained by averaging the end points of the component prediction intervals [@lichtendahl2013better], for those models where the prediction intervals seem reasonable.
 
+# Conclusion
 
 
 # References
