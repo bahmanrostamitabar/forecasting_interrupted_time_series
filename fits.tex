@@ -398,7 +398,7 @@ interrupted data in numerous domains.
 \end{keywords}
 
 \setstretch{1.5}
-\section{Introduction}\label{introduction}
+\section{Introduction}\label{sec-introduction}
 
 Time series forecasting models use historical data to estimate future
 values \autocite{fildes2008forecasting} based on consistent patterns
@@ -447,10 +447,17 @@ paper, we consider a range of models that can be used to forecast time
 series influenced by disrupted events, and compare their performance on
 some real data sets.
 
+Although several approaches to the problem exist, the literature lacks
+recommendations and comparisons of alternative strategies for
+forecasting time series data influenced by interruptions such as the
+COVID-19 pandemic. This paper aims to close this gap by proposing
+several methodologies for forecasting time series influenced by such
+disruptions.
+
 It is important to note that in this study, we consider the problem of
 forecasting interrupted time series both during and after the event.
 This is a separate problem from change point detection
-\autocite{truong2020selective} and anomaly detection
+\autocite{aue2013structural,truong2020selective} and anomaly detection
 \autocite{talagala2020anomaly}. In the situations we investigate, we
 know that a change has occurred which has caused some unusual
 observations, and we want to forecast what will happen next. Change
@@ -491,112 +498,10 @@ research community.
 
 We introduce several strategies to handling interruptions when
 forecasting in Section~\ref{sec-methods}. We then apply these approaches
-to two real data sets in \textbf{?@sec-sec-examples}. Finally, in
-\textbf{?@sec-conclusions}, we discuss some of the advantages and
+to two real data sets in Section~\ref{sec-examples}. Finally, in
+Section~\ref{sec-conclusions}, we discuss some of the advantages and
 disadvantages of each approach, and provide some recommendations for
 practitioners.
-
-\section{Related works}\label{related-works}
-
-The presence of unusual observations in time series analysis is a
-significant concern that has received attention in numerous studies. In
-this section, we provide a brief overview of some of these relevant
-publications.
-
-One modelling approach that has gained popularity is the intervention
-model, also known as interrupted time series (ITS) modelling, introduced
-by \textcite{box1975intervention}. This approach focuses on
-understanding how and whether outcomes change following the
-implementation of an intervention, policy, or programme at a specific
-time point. ITS models provide a robust tool for analysing policy and
-programme evaluation across diverse domains
-\autocite{bernal2017interrupted,mcdowall2019interrupted}. These models
-can forecast future values by developing models that incorporate a range
-of components, such as pre-intervention levels, trends, seasonality,
-covariates related to the intervention time, and other external factors
-that might affect the outcome variable. A related approach is the
-multiple regimes model, which is particularly useful in forecasting due
-to its ability to capture structural changes and transitions observed in
-interrupted time series data \autocite{Koopg2007}.
-
-There are also statistical models that are used to detect changes in the
-time series data and that can model unusual observation and have proven
-effective in similar situations. A range of methods such as simple
-location shift and scale shift models \autocite{aue2013structural},
-Bayesian \autocite{barry1993bayesian}, and supervised and supervised
-machine learning \autocite{aminikhanghahi2017survey}. Facebook's Prophet
-\autocite{taylor2018forecasting} is an example of a time series
-forecasting method that can incorporate changepoint detection
-(automatically or manually), and adjust model parameters to capture the
-newest trends in a time series. Anomaly detection is another related
-area in time series analysis. In the context of anomaly detection, time
-series anomalies are defined as points or subsequences with unexpected
-or abnormal values, and the detection goal is to identify such anomalies
-\autocite{blazquez2021review}.
-
-In the context of forecasting disruptions such as the COVID-19 pandemic,
-Bayesian approaches have been proposed for detecting changing points in
-outbreaks and forecasting case numbers under counterfactual scenarios
-\autocite{dehning2020inferring}. Counterfactual analysis examines what
-would have happened to the forecast variable of interest if the
-disruptive event had not occurred.
-\textcite{athanasopoulos2023probabilistic} proposed a variant of this
-approach for forecasting tourism recovery from COVID-19, combining
-forecast reconciliation and forecast combinations applied to historical
-data, to generate COVID-free counterfactual forecasts of what might have
-been if the pandemic never occurred. Then scenario-based judgemental
-probabilistic forecasts were compared with the counterfactual forecasts,
-to better understand the future recovery of the tourism sector from the
-pandemic.
-
-Inventory stockouts are a common cause of data interruption in the
-supply chain. To deal with these interruptions, a popular technique is
-to provide an estimate for the observation corresponding to the
-stock-out period as if there were no stock-outs, and then generate
-projections appropriately. \textcite{Bell2000} presented an adjustment
-strategy for stock-out periods that involves smoothing demand volatility
-and correcting for stockouts using predicted variance conditioned on the
-observed stockout. \textcite{trapero2023demand} also used the Tobit
-Kalman filter (TKF) for models presented in a state space framework for
-forecasting purposes. This method can efficiently deal with trends,
-seasonality, and exogenous influences in censored data, as long as the
-forecasting model functions within a state space framework.
-
-Certain models offer flexibility in adjusting to changes in time series
-characteristics over time. Exponential Smoothing State Space models
-(ETS) represent an adaptive method that has demonstrated competitiveness
-in time series forecasting \autocite{gardner2006exponential}. These
-approaches allow for the adaptation of model parameters over time to
-accommodate shifts in time series characteristics
-\autocite{hyndman2002state}. Similarly, time-varying parameter models
-exhibit high adaptability \autocite{harvey2006forecasting}, enabling
-forecasting models to better accommodate interruptions in data over
-time. Time-varying parameters are frequently utilized in dynamic
-forecasting models, such as state-space models or Bayesian structural
-time series models \autocite{talih2005structural}. Some models employ
-approaches to reduce the influence of affected observations during model
-training by assigning different weights. The utilization of weights
-extends beyond merely including or excluding observations and can also
-balance the degree of influence each observation has on the forecasting
-model \autocite{khoshgoftaar2007empirical}.
-
-Disruptive events may potentially alter time series by causing gaps, or
-sometimes observations can be converted into missing data. While many
-time series forecasting models struggle with missing data, several
-approaches can internally handle missing data \autocite{twala2008good}.
-\textcite{7157837} suggested a forecasting approach based on the Least
-Squares Support Vector Machine (LSSVM) that was particularly designed to
-handle time series forecasting with missing data. A different study by
-\textcite{tang2020joint} focused on local and global temporal dynamics
-for multivariate time series forecasting with missing data. Their
-proposed framework uses a memory network to capture global temporal
-patterns with local data as key components.
-
-Although several approaches exist, the literature lacks recommendations
-and comparisons of alternative strategies for forecasting time series
-data influenced by interruptions such as the COVID-19 pandemic. This
-paper aims to close this gap by proposing several methodologies for
-forecasting time series influenced by such disruptions.
 
 \section{Handling interruptions when forecasting}\label{sec-methods}
 
@@ -606,31 +511,70 @@ interruptions when forecasting time series data.
 \subsection{Use a highly adaptive
 model}\label{use-a-highly-adaptive-model}
 
-Highly adaptive models can adjust to the interruption as it is happening
-and will therefore be able to approximate the data generating process
-relatively well. For example, an ETS model with large smoothing
-parameters will be able to adjust to the interruption relatively
-quickly. This has the advantage of being a very simple solution that is
-easy to implement and fast to compute. There is no need to explicitly
-model the interruption, and so the model can be used for forecasting
-even if the timing or effect of the interruption is unknown.
+Highly adaptive models offer flexibility in adjusting to changes in time
+series characteristics over time. These models can adjust to the
+interruption as it is happening and will therefore be able to
+approximate the data generating process relatively well.
 
-However, the prediction intervals will be large because the model will
-have heavily discounted past data. In fact, the model will largely
-forget the past data other than the most recent observations, so there
-is no memory of the seasonal patterns and other dynamics that were
-present before the interruption. Consequently, the approach works best
-if there is no assumption that the post-interruption period will be
-similar to the pre-interruption period.
+Exponential Smoothing State Space models (ETS) represent an adaptive
+method that has demonstrated competitiveness in time series forecasting
+\autocite{gardner2006exponential}. These models allow for the adaptation
+of model parameters over time to accommodate shifts in time series
+characteristics \autocite{hyndman2002state}. For example, an ETS model
+with large smoothing parameters will be able to adjust to the
+interruption relatively quickly. This has the advantage of being a very
+simple solution that is easy to implement and fast to compute. There is
+no need to explicitly model the interruption, and so the model can be
+used for forecasting even if the timing or effect of the interruption is
+unknown.
+
+Similarly, time-varying parameter models exhibit high adaptability
+\autocite{harvey2006forecasting}, enabling forecasting models to better
+accommodate interruptions in data over time. Time-varying parameters are
+frequently utilized in dynamic forecasting models, such as state-space
+models or Bayesian structural time series models
+\autocite{talih2005structural}. Some models employ approaches to reduce
+the influence of affected observations during model training by
+assigning different weights. The utilization of weights extends beyond
+merely including or excluding observations and can also balance the
+degree of influence each observation has on the forecasting model
+\autocite{khoshgoftaar2007empirical}.
+
+The prediction intervals from highly adaptive models tend to be wide
+because the model will have heavily discounted past data. In fact, the
+model will largely forget the past data other than the most recent
+observations, so there is no memory of the seasonal patterns and other
+dynamics that were present before the interruption. Consequently, the
+approach works best if there is no assumption that the post-interruption
+period will be similar to the pre-interruption period.
 
 \subsection{Use an intervention model}\label{use-an-intervention-model}
 
-A dynamic regression model with intervention covariates can be used to
-model the interruption explicitly. For example, if the intervention
-involves a simple level shift with a reverse level shift at the end of
-the intervention, we can use a dummy variable to indicate the
-interruption period and allow the model to adjust to the interruption.
-More complicated interventions can be handled by using more covariates.
+One modelling approach that has gained popularity in handling
+disruptions is the intervention model, also known as interrupted time
+series (ITS) modelling, introduced by \textcite{box1975intervention}.
+This approach focuses on understanding how and whether outcomes change
+following the implementation of an intervention, policy, or programme at
+a specific time point. ITS models provide a robust tool for analysing
+policy and programme evaluation across diverse domains
+\autocite{bernal2017interrupted,mcdowall2019interrupted}. These models
+can forecast future values by developing models that incorporate a range
+of components, such as pre-intervention levels, trends, seasonality,
+covariates related to the intervention time, and other external factors
+that might affect the outcome variable. A related approach is the
+multiple regimes model, which is particularly useful in forecasting due
+to its ability to capture structural changes and transitions observed in
+interrupted time series data \autocite{Koopg2007}.
+
+A special case of the intervention models proposed by
+\textcite{box1975intervention} is a dynamic regression (or regression
+with ARIMA errors) model. This model includes covariates describing the
+interruption explicitly, with an ARIMA process describing the remaaining
+time series dynamics. For example, if the intervention involves a simple
+level shift with a reverse level shift at the end of the intervention,
+we can use a dummy variable to indicate the interruption period and
+allow the model to adjust to the interruption. More complicated
+interventions can be handled by using more covariates.
 
 This has the advantage of retaining the memory of the past, and so the
 seasonal patterns and other dynamics will be retained. This allows the
@@ -642,18 +586,29 @@ is a lasting effect beyond the end of the interruption.
 
 \subsection{Set to missing}\label{set-to-missing}
 
-Many time series models will handle periods of missing values. So the
-problematic observations that occur during the period of disruption can
-be set to missing, and the model should continue to produce forecasts as
-if the interruption had not occurred. Of course, the forecasts will not
-be accurate for the period of disruption, but they can be interpreted as
-``what might have been''. This solution requires a judgement to be made
-about when the disruption has begun, and when normality resumes.
+Disruptive events may potentially alter time series by causing gaps.
+Alternatively, problematic observations that occur during the period of
+disruption can be set to missing, and a model fitted to the remaining
+observations should continue to produce forecasts as if the interruption
+had not occurred. Of course, the forecasts will not be accurate for the
+period of disruption, but they can be interpreted as ``what might have
+been''. This solution requires a judgement to be made about when the
+disruption has begun, and when normality resumes.
 
-Because no information is retained during the disruption, the prediction
-intervals will become large during the disruption, and after the
-disruption, they will remain large until the model has enough data to
-estimate the forecast distribution more accurately.
+While many time series forecasting models struggle with missing data,
+several approaches can internally handle missing data
+\autocite{twala2008good}. \textcite{7157837} suggested a forecasting
+approach based on a Least Squares Support Vector Machine (LSSVM) that
+was particularly designed to handle time series forecasting with missing
+data. A different study by \textcite{tang2020joint} focused on local and
+global temporal dynamics for multivariate time series forecasting with
+missing data. Their proposed framework uses a memory network to capture
+global temporal patterns with local data as key components.
+
+In this approach, no information is retained during the disruption, so
+the prediction intervals will become large during the disruption, and
+after the disruption, they will remain large until the model has enough
+data to estimate the forecast distribution more accurately.
 
 \subsection{Estimate what might have
 been}\label{estimate-what-might-have-been}
@@ -677,6 +632,36 @@ forecasts because they will have used data from the future in computing
 the adjusted data during the disruption. But post-disruption forecasts
 will be true forecasts and should be almost the same as those obtained
 using the previous solution.
+
+These approaches are sometimes called ``counterfactual'' methods, as
+they examine what would have happened to the forecast variable of
+interest if the disruptive event had not occurred.
+\textcite{athanasopoulos2023probabilistic} proposed a variant of this
+approach for forecasting tourism recovery from COVID-19, combining
+forecast reconciliation and forecast combinations applied to historical
+data, to generate COVID-free counterfactual forecasts of what might have
+been if the pandemic never occurred. Then scenario-based judgemental
+probabilistic forecasts were compared with the counterfactual forecasts,
+to better understand the future recovery of the tourism sector from the
+pandemic.
+
+Inventory stockouts are a common cause of data interruption in the
+supply chain. To deal with these interruptions, a counterfactual
+approach is popular, whereby the demand corresponding to the stock-out
+period is estimated as if there were no stock-outs, and then forecasts
+are obtained. \textcite{Bell2000} presented an adjustment strategy for
+stock-out periods that involves smoothing demand volatility and
+correcting for stockouts using predicted variance conditioned on the
+observed stockout. \textcite{trapero2023demand} also used the Tobit
+Kalman filter (TKF) for models presented in a state space framework for
+forecasting purposes. This method can efficiently deal with trends,
+seasonality, and exogenous influences in censored data, as long as the
+forecasting model functions within a state space framework.
+
+In the context of forecasting disruptions such as the COVID-19 pandemic,
+Bayesian approaches have also been proposed for detecting changing
+points in outbreaks and forecasting case numbers under counterfactual
+scenarios \autocite{dehning2020inferring}.
 
 \subsection{Downweight the interruption
 period}\label{downweight-the-interruption-period}
@@ -1066,7 +1051,7 @@ forecasts obtained by averaging the forecasts from the first two
 solutions discussed above. The results are relatively good, other than
 having some difficulty around the period of the first lockdown.
 
-\section{Discussion}\label{discussion}
+\section{Discussion and conclusions}\label{sec-conclusions}
 
 We have presented several approaches to forecasting in the presence of
 an interruption. Each has its advantages and disadvantages, and the
@@ -1103,8 +1088,6 @@ observations during the disruption period. Prediction intervals for
 ensemble forecasts can be obtained by averaging the end points of the
 component prediction intervals \autocite{lichtendahl2013better}, for
 those models where the prediction intervals seem reasonable.
-
-\section{Conclusion}\label{conclusion}
 
 It is not uncommon for modellers to experience interruptions in time
 series data. Both those in charge of developing forecasting models, and
