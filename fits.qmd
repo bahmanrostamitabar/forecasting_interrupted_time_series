@@ -26,7 +26,7 @@ keywords:
 bibliography: references.bib
 wpnumber: no/yr
 jelcodes: C10,C14,C22
-blind: false
+blind: true
 cover: false
 linestretch: 1.5
 format:
