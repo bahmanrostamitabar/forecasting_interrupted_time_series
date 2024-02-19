@@ -31,7 +31,6 @@ contributes:
           warning: false
           message: false
       header-includes: |
-        \usepackage{orcidlink}
         \definecolor{mypink}{RGB}{219, 48, 122}
       template-partials:
         - "before-title.tex"
