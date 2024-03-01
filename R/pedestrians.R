@@ -1,7 +1,13 @@
 # Read data from API
 fetch_walkers <- function(start = "2019-01-01", end = "2023-12-31") {
   # Download hourly data from start to end
-  walkers <- rwalkr::melb_walk(from = as.Date(start), to = as.Date(end))
+  if(fs::file_exists(here::here("data/raw_walkers.rds"))) {
+    walkers <- readRDS(here::here("data/raw_walkers.rds"))
+  } else {
+    walkers <- rwalkr::melb_walk(from = as.Date(start), to = as.Date(end))
+    saveRDS(walkers, here::here("data/raw_walkers.rds"))
+  }
+  return(walkers)
 }
 
 clean_walkers <- function(walkers) {
