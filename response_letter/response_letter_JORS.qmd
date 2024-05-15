@@ -1,0 +1,111 @@
+---
+title: "Response letter - Manuscript ID JSR-22-468"
+bibliography: bibliography.bib
+format:
+  pdf:
+    pdf-engine: pdflatex
+    papersize: a4
+    geometry: "margin = 2.5cm"
+    include-in-header: header.tex
+---
+
+Dear Professor 
+
+Please find enclosed a revised version of our paper submitted for peer review for the *Journal of Operational Research Society*. Your comments have been very much appreciated and we have tried to suitably modify/amend our paper for those comments to be reflected in the revised version.
+
+We quote below the detailed referees’ comments that are followed by our response. In all cases, we point out, where necessary, the corresponding amendments in the new version of the paper and highlighted them in teal (greenish-blue color).
+
+
+# Editor comment
+
+_Your manuscript entitled "Forecasting interrupted time series", which you submitted to Journal of the Operational Research Society, has been reviewed. The referee comments are included at the bottom of this letter. The referee(s) would like to see some revisions made to your manuscript before publication. Therefore, I invite you to respond to the referee(s)' comments and revise your manuscript. When you revise your manuscript please highlight the changes you make in the manuscript by using the track changes mode in MS Word or by using bold or coloured text._
+
+Response:
+
+# Reviewer 1
+
+_**General comment:**The paper deals with the prediction of time series when a disruption happens in the data. Different prediction strategies are proposed, simulated and performances are compared. The methodology is well explained, all data sources and codes are available for replication and improvements. Results are clearly exposed, criticized and recommandations are provided. In my opinion, the paper is very good n its present form and I recommend publication._
+
+
+_Minor comments_
+
+_Comment1. one typo, line 49, page 4 : "remaining"_
+
+Response:
+
+_Comment2. ref Trapejo (2023) is incomplete_
+
+Response:
+
+
+# Reviewer 2
+
+_Comment 1:The topic is very interesting and very timely, in the wake of the Covid -19 related disruptions in supply chains, changes in consumer preferences, and inflationary environment. The time series patterns and causal relationships that were seen before the pandemic did not apply and whether the patterns observed before the pandemic will continue to be relevant remains to be evaluated on a case by case basis._
+
+Response:
+
+_Comment 2: I like that the authors contrast the topic with others that it may be confused with. But need to check the claim that it is indeed the first to address this problem._
+
+Response:
+
+_Comment 3:The paper is well written, but in terms of contributions, it falls short of the expectations for an original research paper. Improvement avenues are proposing a viable new method that has advantages over these existing methods, or a large-scale empirical research with carefully curated set of actual data representing different interruption patterns from different domains._
+
+Response:
+
+# Reviewer 3
+
+_General comment: I would appreciate the editor for providing me an opportunity to review the article “Forecasting interrupted time series”. In this paper, the authors investigate several strategies for dealing with interruptions in time series forecasting and make some comparisons among these methods. Though the paper is overall interesting, but the empirical design seems to be too simple. I hope these comments may be helpful for the authors._
+
+Response:
+
+_Comment 1. The authors regard the description and comparison of general strategies for forecasting interrupted time series as a major contribution, which in my opinion is quite limited._
+
+Response:
+
+_Comment 2. The patterns of interrupted events may be very different, which makes the suitable approach varies. In this case, it may be better to focus on a certain event (e.g., COVID-19 pandemic) and make comprehensive comparisons._
+
+Response:
+
+_Comment 3. The authors provide some visualizations on the forecasting. This should be appreciated since it is quite straightforward. However, the authors may not expect the readers to judge the optimal strategy from these figures. Instead, the authors should consider some out-of-sample validation and may introduce some metrics or measures to evaluate the performance different strategies._
+
+Response:
+
+_Comment 4. If the authors focus on the interrupted time series for a certain event, some exogeneous variables are encouraged for potential better performance._
+
+Response:
+
+# Reviewer 4
+
+_General comment: The manuscript deals with forecasting interrupted time series for forecasting teams, especially in light of emergency events like COVID-19. The manuscript investigates several strategies for dealing with interruptions in time series forecasting, and their advantages and disadvantages. The authors evaluated two datasets to understand the effectiveness of these strategies. The manuscripts deal with important areas and insight into the strategies._
+
+A few suggestions need to be included such as:
+_Comment 1: Different strategies are discussed in section 2 in a few words without giving a proper introduction of the strategies. It makes the reading of the manuscript difficult. The authors are required to give practical examples of the strategies to make it understandable to read._
+
+
+_Comment 2. No mathematical support is provided as to how the strategies work. And what are the practical implementation of the strategies? Authors are required to provide detailed insight into the strategies i.e. which datasets these strategies are applied?_
+
+_Comment 3. The figures presented in the manuscripts require detailed explanation. Authors are required to explain the given figures in detail one by one._
+
+_Comment 4. Two datasets are used and the strategies are applied to them. However, the descriptive statistics of these data sets missing.. The authors are required to explain the datasets._
+
+_Comment 5. Literature must reflect the relevant studies i.e.
+a) OntoCOVID: Ontology for Semantic Modeling of COVID19 Statistical Data
+Authors
+Shaukat Ali, Shah Khusro, Sajid Anwar, Abrar Ullah
+Publication date
+2022
+Book
+Proceedings of International Conference on Information Technology and Applications
+Pages
+183-194
+Publisher
+Springer, Singapore
+b) COVID-19 patient count prediction using LSTM
+M Iqbal, F Al-Obeidat, F Maqbool, S Razzaq, S Anwar, A Tubaishat, ...
+IEEE Transactions on Computational Social Systems 8 (4), 974-981
+c)Countering malicious URLs in internet of things using a knowledge-based approach and a simulated expert
+S Anwar, F Al-Obeidat, A Tubaishat, S Din, A Ahmad, FA Khan, G Jeon, ...
+IEEE Internet of Things Journal 7 (5), 4497-4504
+
+
+# References {#references .unnumbered}
