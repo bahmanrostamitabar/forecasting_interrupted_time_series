@@ -20,73 +20,87 @@ We quote below the detailed referees’ comments that are followed by our respon
 
 _Your manuscript entitled "Forecasting interrupted time series", which you submitted to Journal of the Operational Research Society, has been reviewed. The referee comments are included at the bottom of this letter. The referee(s) would like to see some revisions made to your manuscript before publication. Therefore, I invite you to respond to the referee(s)' comments and revise your manuscript. When you revise your manuscript please highlight the changes you make in the manuscript by using the track changes mode in MS Word or by using bold or coloured text._
 
-Response:
+**Response:** Thank you very much for giving us an opportunity to revise the manuscript. The valuable feedback provided by the referees. We have thoroughly reviewed their comments and made any required changes. We have highlighted all changes with coloured text in both the response letter and the manuscript. 
 
 # Reviewer 1
 
 _**General comment:**The paper deals with the prediction of time series when a disruption happens in the data. Different prediction strategies are proposed, simulated and performances are compared. The methodology is well explained, all data sources and codes are available for replication and improvements. Results are clearly exposed, criticized and recommandations are provided. In my opinion, the paper is very good n its present form and I recommend publication._
 
+**Response:** Thank you for your positive feedback on our paper. We are pleased to hear that you found the methodology well-explained and the results clearly presented. We appreciate your recommendation for publication.
 
 _Minor comments_
 
 _Comment1. one typo, line 49, page 4 : "remaining"_
 
-Response:
+**Response:** This has been corrected
 
 _Comment2. ref Trapejo (2023) is incomplete_
 
-Response:
+**Response:** This paper is currently available online. We have included the designation 'In Press' in the reference to reflect its status.
 
 
 # Reviewer 2
 
 _Comment 1:The topic is very interesting and very timely, in the wake of the Covid -19 related disruptions in supply chains, changes in consumer preferences, and inflationary environment. The time series patterns and causal relationships that were seen before the pandemic did not apply and whether the patterns observed before the pandemic will continue to be relevant remains to be evaluated on a case by case basis._
 
-Response:
+**Response:** Thank you for your insightful feedback. We are delighted to hear that you appreciate the timeliness and importance of the paper. We agree that the topic is particularly relevant given the COVID-19-related disruptions in supply chains and various other areas. We also agree that evaluating whether pre-pandemic time series patterns and causal relationships remain applicable is a critical challenge that requires careful case-by-case analysis. That is why, in this paper, we propose various strategies rather than a single approach to address different situations and cases effectively.
+
+We have added the following paragraph in the revised manuscript to address this comment:
+
+\textcolor{teal}{The assessment of whether pre-pandemic time series patterns and underlying relationships remain applicable is a critical issue that requires careful case-by-case analysis. Therefore, in this paper, we propose multiple strategies rather than a single approach to effectively address different situations and cases.}
 
 _Comment 2: I like that the authors contrast the topic with others that it may be confused with. But need to check the claim that it is indeed the first to address this problem._
 
-Response:
+**Response:** Thank you for your comment. The idea for this paper emerged from our close contact with practitioners, who highlighted the challenges they face in forecasting time series data affected by COVID-19, particularly in handling observations impacted by the disruption. Following these discussions, we carried out a search to find out if any existing papers addressed this issue. As world-leading experts in the field of forecasting and well-connected to the research community, we could not find any published research in this area. To our knowledge, this is the first study to describe and compare general strategies for forecasting interrupted time series, such as COVID-19-affected data.
 
 _Comment 3:The paper is well written, but in terms of contributions, it falls short of the expectations for an original research paper. Improvement avenues are proposing a viable new method that has advantages over these existing methods, or a large-scale empirical research with carefully curated set of actual data representing different interruption patterns from different domains._
 
-Response:
+Response: Thank you for your feedback. We appreciate your comments on the writing quality and your recommendations for improving the paper's contributions. We believe that the originality of our research comes from addressing the actual challenges that many forecasters and modellers experience when their time series data is disturbed by recommending multiple viable and reliable strategies suitable for different cases. However, we recognise that presenting a new technique may be an exciting direction, and we have included it as a potential topic for future research in this area. Also, we included two empirical datasets from two different application areas in the paper. Moreover, the whole paper is reproducible, and the datasets and R codes are accessible on GitHub, allowing strategies to be tailored to any dataset in any application.
+
+\textcolor{teal}{This study proposes multiple viable and reliable strategies for forecasting time series data interrupted by different type of events. Future research could focus on developing a new strategy specifically for such disrupted time series, using large-scale data from various applications that are interrupted by different events, and analysing which strategy may work best in which scenarios.}
 
 # Reviewer 3
 
 _General comment: I would appreciate the editor for providing me an opportunity to review the article “Forecasting interrupted time series”. In this paper, the authors investigate several strategies for dealing with interruptions in time series forecasting and make some comparisons among these methods. Though the paper is overall interesting, but the empirical design seems to be too simple. I hope these comments may be helpful for the authors._
 
-Response:
+**Response:** Thank you for taking the time to review our article. We appreciate your feedback and your acknowledgment of the interesting aspects of our work. Your comments are valuable to us and will help improve the quality of our work. We understand your concern about the empirical design, and we will discuss this in our response to your specific comments below.
 
 _Comment 1. The authors regard the description and comparison of general strategies for forecasting interrupted time series as a major contribution, which in my opinion is quite limited._
 
-Response:
+**Response:** Thank you for your feedback. We have not claimed that our paper represents a major or groundbreaking discovery. However, we believe that our research tackles fundamental challenges that many forecasters and modellers face when working with time series data that has been disrupted by events such as COVID-19, strikes, etc. This challenge was highlighted throughout our conversations with academics and practitioners in the field, who emphasised the issues they face when forecasting such time series data. Therefore, we think addressing this practical challenge is where our work stands out. Additionally, our work may open avenues for further research and reflection in this area. Also, we made sure that the entire work was reproducible, with datasets and R codes available on GitHub, allowing other academics and practitioners to tailor the strategies to their own needs.
+
+
 
 _Comment 2. The patterns of interrupted events may be very different, which makes the suitable approach varies. In this case, it may be better to focus on a certain event (e.g., COVID-19 pandemic) and make comprehensive comparisons._
 
-Response:
+**Response:** Thank you for your helpful comment. We agree that the patterns of interrupted events may vary, which would affect the suitability of proposed approaches. That is why we have proposed different strategies to consider that might be appropriate in different cases, each with its own pros and cons.  In future work, a large scale empirical study covering several types of disruption could be conducted to provide deeper insights and any possible link between strategies and types of disruption events. We have included the following paragraph in the conclusion section of the revised manuscript:
 
-_Comment 3. The authors provide some visualizations on the forecasting. This should be appreciated since it is quite straightforward. However, the authors may not expect the readers to judge the optimal strategy from these figures. Instead, the authors should consider some out-of-sample validation and may introduce some metrics or measures to evaluate the performance different strategies._
+\textcolor{teal}{This study proposes multiple viable and reliable strategies for forecasting time series data interrupted by different type of events. Future research could focus on developing a new strategy specifically for such disrupted time series, using large-scale data from various applications that are interrupted by different events, and analysing which strategy may work best in which scenarios.}
+
+_Comment 3. The authors provide some visualizations on the forecasting. This should be appreciated since it is quite straightforward. However, the authors may not expect the readers to judge the optimal strategy from these figures. Instead, the authors should consider some out-of-sample validation and may introduce some metrics or measures to evaluate the performance different strategies._ Rob
 
 Response:
 
 _Comment 4. If the authors focus on the interrupted time series for a certain event, some exogeneous variables are encouraged for potential better performance._
 
-Response:
+**Response:** Thank you for your suggestion. We completely agree that incorporating exogenous variables related to specific events could enhance the performance of forecasting models for interrupted time series. We have acknowledged this by adding the following paragraph to the revised manuscript:
+
+\textcolor{teal}{When forecasting interrupted time series data, exogenous variables associated with specific events should be identified and incorporated, since they may improve forecasting model performance.}
 
 # Reviewer 4
 
 _General comment: The manuscript deals with forecasting interrupted time series for forecasting teams, especially in light of emergency events like COVID-19. The manuscript investigates several strategies for dealing with interruptions in time series forecasting, and their advantages and disadvantages. The authors evaluated two datasets to understand the effectiveness of these strategies. The manuscripts deal with important areas and insight into the strategies._
 
 A few suggestions need to be included such as:
-_Comment 1: Different strategies are discussed in section 2 in a few words without giving a proper introduction of the strategies. It makes the reading of the manuscript difficult. The authors are required to give practical examples of the strategies to make it understandable to read._
+
+_Comment 1: Different strategies are discussed in section 2 in a few words without giving a proper introduction of the strategies. It makes the reading of the manuscript difficult. The authors are required to give practical examples of the strategies to make it understandable to read._ Rob
 
 
-_Comment 2. No mathematical support is provided as to how the strategies work. And what are the practical implementation of the strategies? Authors are required to provide detailed insight into the strategies i.e. which datasets these strategies are applied?_
+_Comment 2. No mathematical support is provided as to how the strategies work. And what are the practical implementation of the strategies? Authors are required to provide detailed insight into the strategies i.e. which datasets these strategies are applied?_ Rob
 
 _Comment 3. The figures presented in the manuscripts require detailed explanation. Authors are required to explain the given figures in detail one by one._
 
-_Comment 4. Two datasets are used and the strategies are applied to them. However, the descriptive statistics of these data sets missing.. The authors are required to explain the datasets._
+_Comment 4. Two datasets are used and the strategies are applied to them. However, the descriptive statistics of these data sets missing.. The authors are required to explain the datasets._ Rob
 
 _Comment 5. Literature must reflect the relevant studies i.e.
 a) OntoCOVID: Ontology for Semantic Modeling of COVID19 Statistical Data
