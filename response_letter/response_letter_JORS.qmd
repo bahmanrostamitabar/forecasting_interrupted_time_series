@@ -98,28 +98,21 @@ _Comment 1: Different strategies are discussed in section 2 in a few words witho
 
 _Comment 2. No mathematical support is provided as to how the strategies work. And what are the practical implementation of the strategies? Authors are required to provide detailed insight into the strategies i.e. which datasets these strategies are applied?_ Rob
 
-_Comment 3. The figures presented in the manuscripts require detailed explanation. Authors are required to explain the given figures in detail one by one._
+_Comment 3. The figures presented in the manuscripts require detailed explanation. Authors are required to explain the given figures in detail one by one._ Bahman & Rob
 
 _Comment 4. Two datasets are used and the strategies are applied to them. However, the descriptive statistics of these data sets missing.. The authors are required to explain the datasets._ Rob
 
-_Comment 5. Literature must reflect the relevant studies i.e.
-a) OntoCOVID: Ontology for Semantic Modeling of COVID19 Statistical Data
-Authors
-Shaukat Ali, Shah Khusro, Sajid Anwar, Abrar Ullah
-Publication date
-2022
-Book
-Proceedings of International Conference on Information Technology and Applications
-Pages
-183-194
-Publisher
-Springer, Singapore
-b) COVID-19 patient count prediction using LSTM
-M Iqbal, F Al-Obeidat, F Maqbool, S Razzaq, S Anwar, A Tubaishat, ...
-IEEE Transactions on Computational Social Systems 8 (4), 974-981
-c)Countering malicious URLs in internet of things using a knowledge-based approach and a simulated expert
-S Anwar, F Al-Obeidat, A Tubaishat, S Din, A Ahmad, FA Khan, G Jeon, ...
-IEEE Internet of Things Journal 7 (5), 4497-4504
+_Comment 5. Literature must reflect the relevant studies i.e._
+
+_a) OntoCOVID: Ontology for Semantic Modeling of COVID19 Statistical Data Authors Shaukat Ali, Shah Khusro, Sajid Anwar, Abrar Ullah Publication date 2022 Book Proceedings of International Conference on Information Technology and Applications Pages 83-194 Publisher Springer, Singapore_
+
+_b) COVID-19 patient count prediction using LSTM M Iqbal, F Al-Obeidat, F Maqbool, S Razzaq, S Anwar, A Tubaishat, ... IEEE Transactions on Computational Social Systems 8 (4), 974-981_
+
+_c) Countering malicious URLs in internet of things using a knowledge-based approach and a simulated expert S Anwar, F Al-Obeidat, A Tubaishat, S Din, A Ahmad, FA Khan, G Jeon, ... IEEE Internet of Things Journal 7 (5), 4497-4504_
+
+**Response:** Thank you for your comment. We have made sure to include relevant literature in our paper. We would like to clarify that our study does not focus on forecasting COVID-19-related data and variables, such as COVID19 patient count, or statistical data, as suggested. Instead, our paper addresses interrupted time series data caused by events like pandemics, strikes, and other disruptions. We have included literature relevant to this topic. Your feedback is appreciated, and we hope this clarifies the scope and focus of our research.
+
+
 
 
 # References {#references .unnumbered}
