@@ -57,7 +57,7 @@ list(
   ),
   tar_target(
     tensemble_plot,
-    autoplot(tensemble, level = NULL) + tourism_history + tourism_labels
+    autoplot(tensemble, level = 90) + tourism_history + tourism_labels
   ),
   
   # Pedestrians

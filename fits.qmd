@@ -146,7 +146,7 @@ The Australian tourism data set is a monthly time series showing the number of s
 tar_read(tourism_plot1)
 ```
 
-We apply the first four solutions discussed in the previous section to these data, making 12 month forecasts at the end of each year from 2019 to 2022. We fit ETS, ARIMA, and dynamic ARIMA models to the data [@fpp3], first applying a log transformation to ensure the resulting forecasts are positive. This is possible because the observations never reach exactly zero, with the smallest number of visitors per month equal to `r min(austa$Visitors)*1000` in `r austa |> filter(Visitors == min(Visitors)) |> pull(Month) |> format("%B %Y")`. For all forecasts, we also show 90% prediction intervals.
+We apply the first four solutions discussed in the previous section to these data, making 12 month forecasts at the end of each year from 2019 to 2022. We fit ETS, ARIMA, and dynamic ARIMA models to the data [@fpp3], first applying a log transformation to ensure the resulting forecasts are positive. (A bias correction is also applied to ensure the back-transformed forecasts are the means of the forecast distributions.) A log transformation is possible because the observations never reach exactly zero, with the smallest number of visitors per month equal to `r min(austa$Visitors)*1000` in `r austa |> filter(Visitors == min(Visitors)) |> pull(Month) |> format("%B %Y")`. For all forecasts, we also show 90% prediction intervals.
 
 ```{r}
 #| label: fig-tsol1-plot
@@ -188,13 +188,13 @@ tar_read(tsol4_plot)
 
 We show in @fig-tsol4-plot the forecasts obtained using solution 4. Here we have replaced observations between March 2020 and October 2022 with estimates based on the average of the same month in the three years prior to March 2020. The resulting forecasts are similar to those from solution 3, but with narrower prediction intervals because the model is (falsely) assuming that the "observations" during the disruption are real.
 
-Finally, in @fig-tensemble-plot, we show the ensemble forecasts obtained by averaging the forecasts from the four solutions discussed above. The first and fourth solutions carry double weight, because both the ETS and ARIMA forecasts were included in the ensemble. This time, no prediction intervals have been computed. The first set of forecasts has not taken any account of the disruption, and so they are almost identical to those obtained in the previous plots. The last set of forecasts is reasonably good, showing what is obtained by combining the forecasting methods used to handle the disruption period. However, the forecasts for 2021 and 2022 are particularly poor, because they are averaging forecasts that aim to achieve different objectives, and are affected by the poor forecasts obtained using the dynamic regression model.
+Finally, in @fig-tensemble-plot, we show the ensemble forecasts obtained by averaging the forecasts from the four solutions discussed above. The first and fourth solutions carry double weight, because both the ETS and ARIMA forecasts were included in the ensemble. The prediction intervals are formed from the mixture distributions obtained by combining the four forecast distributions for each time horizon. The first set of forecasts has not taken any account of the disruption, and so they are almost identical to those obtained in the previous plots. The last set of forecasts is reasonably good, showing what is obtained by combining the forecasting methods used to handle the disruption period. However, the forecasts for 2021 and 2022 are particularly poor, because they are averaging forecasts that aim to achieve different objectives, and are affected by the poor forecasts obtained using the dynamic regression model.
 
 ```{r}
 #| label: fig-tensemble-plot
 #| fig-height: 8
 #| fig-pos: "!t"
-#| fig-cap: "**Ensemble approach**, combining the previous four approaches shown in Figures [-@fig-tsol1-plot]--[-@fig-tsol4-plot]."
+#| fig-cap: "**Ensemble approach**, combining the previous four approaches shown in Figures [-@fig-tsol1-plot]--[-@fig-tsol4-plot]. The point forecasts are the average of the four approaches, while the prediction intervals are formed by combining the four forecast distributions at each horizon to form a mixture distribution."
 tar_read(tensemble_plot)
 ```
 
@@ -227,7 +227,7 @@ We evaluate the solutions discussed in @sec-methods by using time series cross-v
 ```{r}
 #| label: fig-walkers-plot1
 #| fig-height: 3
-#| fig-cap: "**Highly adaptive model**: the forecasts do not take into account the lockdown periods, but the ARIMA model is largely able to adjust to the changing level of the series."
+#| fig-cap: "**Highly adaptive model**: the forecasts do not take into account the lockdown periods, but the ARIMA model is largely able to adjust to the changing level of the series. Forecasts are produced on a rolling basis each week, with a 7-day forecast horizon in each case."
 tar_read(walkers_plot1)
 ```
 

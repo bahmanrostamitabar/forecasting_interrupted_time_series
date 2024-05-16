@@ -124,7 +124,7 @@ tourism_sol4 <- function(austa) {
     mutate(month = month(Month)) |>
     left_join(ave_3y, by = "month") |>
     mutate(
-      Visitors_adj = if_else(Month < yearmonth("2022 Nov") &
+      Visitors = if_else(Month < yearmonth("2022 Nov") &
         Month > yearmonth("2020 Feb"),
       ave, Visitors
       ),
@@ -132,8 +132,8 @@ tourism_sol4 <- function(austa) {
   austa |>
     stretch_tsibble(.step = 12, .init = 240) |>
     model(
-      ets = ETS(log(Visitors_adj)),
-      arima = ARIMA(log(Visitors_adj))
+      ets = ETS(log(Visitors)),
+      arima = ARIMA(log(Visitors))
     ) |>
     forecast(h = 12) |>
     mutate(.id = paste("Forecasts of", .id + 2019))
@@ -146,13 +146,13 @@ tourism_ensemble <- function(object) {
       x |> as_tibble() |> mutate(.model = NULL)
     }) |> 
     bind_rows() |> 
-    group_by(Month) |> 
-    summarise(
-      .id = unique(.id),
-      .mean = mean(.mean)
-    ) |> 
-    mutate(Visitors = distributional::dist_degenerate(.mean)) |> 
-    as_fable(index = Month, key = .id, response = "Visitors", distribution = Visitors)
+    mutate(Visitors = generate(Visitors, 2000)) |> 
+    group_by(.id, Month) |> 
+    summarise(Visitors = distributional::dist_sample(list(c(unlist(Visitors))))) |> 
+    ungroup() |> 
+    as_fable(index = Month, key = .id,
+        response = "Visitors", distribution = Visitors) |> 
+    suppressWarnings()
 }
 
 
