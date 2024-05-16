@@ -1,5 +1,5 @@
 ---
-title: "Response letter - Manuscript ID JSR-22-468"
+title: "Response letter - Manuscript ID 249381018"
 bibliography: bibliography.bib
 format:
   pdf:
@@ -21,6 +21,14 @@ We quote below the detailed referees’ comments that are followed by our respon
 _Your manuscript entitled "Forecasting interrupted time series", which you submitted to Journal of the Operational Research Society, has been reviewed. The referee comments are included at the bottom of this letter. The referee(s) would like to see some revisions made to your manuscript before publication. Therefore, I invite you to respond to the referee(s)' comments and revise your manuscript. When you revise your manuscript please highlight the changes you make in the manuscript by using the track changes mode in MS Word or by using bold or coloured text._
 
 **Response:** Thank you for giving us an opportunity to revise the manuscript. We have thoroughly reviewed the feedback provided by the referees, and made some changes as a result. We have highlighted all changes with coloured text in both the response letter and the manuscript. 
+
+We also wanted to provide further clarification to the editor regarding the comment provided by Reviewer 4.
+
+- Reviewer 4 (comment 2) suggested including mathematical equations for each strategy. While we could add these equations in Section 2, we believe it would not improve the readability or accessibility of the paper. However, if the editor prefers a more mathematical description of each strategy, we are willing to include the equations. Since we are not conducting a mathematical analysis of the strategies, we have opted for a verbal description supported by code implementations.
+
+- Reviewer 4 (comment 4) asked to add descriptive statistics. We do not believe the addition of descriptive statistics will add anything useful to the manuscript. We argue that the usefulness of descriptive statistics for time series analysis is limited.  We have provided the raw data, and we have provided time plots to help visualize the data. Each data set is described in Section 3.
+
+- Reviewer 4 (comment 5) recommended including three papers from the literature. However, these papers are not relevant to our current study. The suggested papers focus on forecasting COVID-19 variables, which is not the focus of our paper.
 
 # Reviewer 1
 
@@ -47,7 +55,7 @@ _Comment 1: The topic is very interesting and very timely, in the wake of the Co
 
 We have added the following paragraph in the revised manuscript to address this comment:
 
-\textcolor{teal}{The assessment of whether pre-pandemic time series patterns and underlying relationships remain applicable is a critical issue that requires careful case-by-case analysis. Therefore, in this paper, we propose multiple strategies rather than a single approach to effectively address different situations and cases.}
+\textcolor{teal}{We note that the assessment of whether pre-pandemic time series patterns and underlying relationships remain applicable is a critical issue that requires careful case-by-case analysis. Therefore, in this paper, we propose multiple strategies rather than a single approach to effectively address different situations and cases.}
 
 _Comment 2: I like that the authors contrast the topic with others that it may be confused with. But need to check the claim that it is indeed the first to address this problem._
 
@@ -57,7 +65,8 @@ _Comment 3: The paper is well written, but in terms of contributions, it falls s
 
 Response: Thank you for your feedback. We appreciate your comments on the writing quality and your recommendations for improving the paper's contributions. We believe that the originality of our research comes from addressing the actual challenges that many forecasters and modellers experience when their time series data is disturbed by recommending multiple viable and reliable strategies suitable for different cases. We recognise that presenting a new technique may be an exciting direction, but it is not the aim of this paper. So we have included it as a potential topic for future research in this area. Also, we included two empirical datasets from two different application areas in the paper. Moreover, the whole paper is reproducible, and the datasets and R codes are accessible on GitHub, allowing strategies to be tailored to any dataset in any application.
 
-\textcolor{teal}{This study proposes multiple viable strategies for forecasting time series data interrupted by different type of events. Future research could focus on exploring new strategies for handling such disrupted time series, or on further exploring which strategy may work best in different scenarios.}
+
+\textcolor{teal}{This study proposes multiple viable strategies for forecasting time series data interrupted by different type of events. Future research could focus on exploring new strategies for handling such disrupted time series, or enhancing probabilistic forecasting methods that are designed specifically for such data. Large-scale empirical research on further exploring which strategy may work best in different scenarios also provide useful insights.}
 
 # Reviewer 3
 
@@ -73,24 +82,23 @@ Additionally, our work may open avenues for further research and reflection in t
 
 _Comment 2. The patterns of interrupted events may be very different, which makes the suitable approach varies. In this case, it may be better to focus on a certain event (e.g., COVID-19 pandemic) and make comprehensive comparisons._
 
-**Response:** We agree that the patterns of interrupted events may vary, which would affect the suitability of proposed approaches. That is why we have proposed different strategies to consider that might be appropriate in different cases, each with its own pros and cons. Focussing on one event would greatly limit the scope of the paper, making it far less useful.
+**Response:** We agree that the patterns of interrupted events may vary, which would affect the suitability of proposed approaches. That is why we have proposed different strategies to consider that might be appropriate in different cases, each with its own pros and cons. Focusing on one event would greatly limit the scope of the paper, making it far less useful.
 
 In future work, a large scale empirical study covering several types of disruption could be conducted to provide deeper insights and any possible link between strategies and types of disruption events. We have included the following paragraph in the conclusion section of the revised manuscript:
 
-\textcolor{teal}{This study proposes multiple viable strategies for forecasting time series data interrupted by different type of events. Future research could focus on exploring new strategies for handling such disrupted time series, or on further exploring which strategy may work best in different scenarios.}
+\textcolor{teal}Large-scale empirical research on further exploring which strategy may work best in different scenarios also provide useful insights.}
 
 _Comment 3. The authors provide some visualizations on the forecasting. This should be appreciated since it is quite straightforward. However, the authors may not expect the readers to judge the optimal strategy from these figures. Instead, the authors should consider some out-of-sample validation and may introduce some metrics or measures to evaluate the performance different strategies._ 
 
 Response: The visualizations are intended to help the reader understand the effect and intent of different strategies. In determining which strategy to apply in each case, it is important to think through what is being assumed, and what data are being used. We think the visualizations help the reader do that. Also, it does not always make sense to do a quantitative comparison of forecast accuracy. We have attempted to address this issue by adding the following paragraph in the discussion section.
 
-\textcolor{teal}{In determining which strategy to apply in each case, it is important to think through what is being assumed, and what data are being used. This is a qualitative and subjective process, and cannot simply be tackled with a quantitative comparison of forecast accuracy. The strategies we discuss have different ways of handling the disrupted period, and many of them do not seek to provide accurate forecasts during the disruption. For example, the "set to missing" strategy ignores the disrupted period, while the "estimate what might have been" strategy replaces the observations during the disruption with interpolations. In both cases, it does not make sense to evaluate the performance of the method during the disruption. Instead, the analyst needs to decide what approach makes the most sense for the application at hand. 
-}
+\textcolor{teal}{Moreover, in determining which strategy to apply in each case, it is important to think through what is being assumed, and what data are being used. This is a qualitative and subjective process, and cannot simply be tackled with a quantitative comparison of forecast accuracy. The strategies we discuss have different ways of handling the disrupted period, and many of them do not seek to provide accurate forecasts during the disruption. For example, the "set to missing" strategy ignores the disrupted period, while the "estimate what might have been" strategy replaces the observations during the disruption with interpolations. In both cases, it does not make sense to evaluate the performance of the method during the disruption. Instead, the analyst needs to decide what approach makes the most sense for the application at hand.}
 
 _Comment 4. If the authors focus on the interrupted time series for a certain event, some exogeneous variables are encouraged for potential better performance._
 
 **Response:** Thank you for your suggestion. We agree that incorporating exogenous variables related to specific events could enhance the performance of forecasting models for interrupted time series. We have acknowledged this by adding the following paragraph to the revised manuscript:
 
-\textcolor{teal}{When forecasting interrupted time series data, exogenous variables associated with specific events should be identified and incorporated, since they may improve forecasting model performance.}
+\textcolor{teal}{We should also note that when forecasting interrupted time series data, exogenous variables associated with specific events should be identified and incorporated, since they may improve forecasting model performance.}
 
 # Reviewer 4
 
@@ -100,24 +108,28 @@ A few suggestions need to be included such as:
 
 _Comment 1: Different strategies are discussed in section 2 in a few words without giving a proper introduction of the strategies. It makes the reading of the manuscript difficult. The authors are required to give practical examples of the strategies to make it understandable to read._ 
 
-We are not clear what is being requested here. We describe the strategies in Section 2, and we provide fully reproducible code showing how they are implemented. We also give practical examples of the strategies in Section 3. Please explain what more is required.
+**Response:** Thank you. We are not clear what is being requested here. We describe the strategies in Section 2, and we provide fully reproducible code showing how they are implemented. We also give practical examples of the strategies in Section 3. Please explain what more is required to be included, and we are willing to do that.
 
 _Comment 2. No mathematical support is provided as to how the strategies work. And what are the practical implementation of the strategies? Authors are required to provide detailed insight into the strategies i.e. which datasets these strategies are applied?_ 
 
-While we could add equations in Section 2 for each strategy, we do not think it would add to the readability or accessibility of the paper. We are not undertaking a mathematical analysis of the strategies, so we have opted for a verbal description accompanied by code that implements each strategy. However, if the editor would prefer us to add equations providing a more mathematical description of each strategy, we can do so.
+**Response:** Thank you for the comment. We have carefully thought through this request. While we could add equations in Section 2 for each strategy, we do not think it would add to the readability or accessibility of the paper. We are not undertaking a mathematical analysis of the strategies, so we have opted for a verbal description accompanied by code that implements each strategy. However, if the editor would prefer us to add equations providing a more mathematical description of each strategy, we can do so. To respond to other remarks:
 
-The practical implementation of the strategies is provided in Section 3 and in the supplementary code.
+- The practical implementation of the strategies is provided in Section 3 and in the supplementary code.
 
-The data sets are described in Section 3. 
+- The data sets are described in Section 3. 
 
-Insights are provided in Sections 3 and 4.
+- Insights are provided in Sections 3 and 4.
 
 
-_Comment 3. The figures presented in the manuscripts require detailed explanation. Authors are required to explain the given figures in detail one by one._ Bahman & Rob
+_Comment 3. The figures presented in the manuscripts require detailed explanation. Authors are required to explain the given figures in detail one by one._ 
+
+**Response:** Thank you for your feedback. We have provide a detailed explanation of each figure in the manuscript, as well as in the captions of each figure, discussing them one by one to ensure clarity.
 
 _Comment 4. Two datasets are used and the strategies are applied to them. However, the descriptive statistics of these data sets missing.. The authors are required to explain the datasets._ 
 
-We do not believe the addition of descriptive statistics will add anything useful to the manuscript. We have provided the raw data, and we have provided time plots to help visualize the data. Each data set is described in Section 3.
+**Response:** Thank you for this comment. We do not believe the addition of descriptive statistics will add anything useful to the manuscript. We argue that the usefulness of descriptive statistics for time series analysis is limited. First, they cannot highlight patterns in the data, identify unusual observations, describe changes over time, or help to understand relationships between variables. Second, they could be misleading, since similar statistics can stem from very different datasets (please see Anscombe’s Quartet).
+
+We have provided the raw data, and we have provided time plots to help visualize the data. Each data set is described in Section 3.
 
 _Comment 5. Literature must reflect the relevant studies i.e._
 
