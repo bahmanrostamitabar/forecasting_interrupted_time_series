@@ -9,13 +9,13 @@ author:
     - country: Australia
     - postal-code: 3800
   email: Rob.Hyndman@monash.edu
-  corresponding: true
 - name: Bahman Rostami-Tabar
   affiliations:
     - name: Cardiff Business School
     - postal-code: Wales CF10 3EU
     - country: United Kingdom
   email: rostami-tabarb@cardiff.ac.uk
+  corresponding: true
 abstract: "Forecasting interrupted time series data is a major challenge for forecasting teams, especially in light of events such as the COVID-19 pandemic. This paper investigates several strategies for dealing with interruptions in time series forecasting, including highly adaptable models, intervention models, marking interrupted periods as missing, forecasting what may have been, downweighting the interruption period, and ensemble models.  Each approach offers specific advantages and disadvantages, such as adaptability, memory retention, data integrity, flexibility, and accuracy. We evaluate the effectiveness of these strategies using two actual datasets that were interrupted by COVID-19, and we provide recommendations for how to handle these interruptions. This work contributes to the literature on time series forecasting, offering insights for academics and practitioners dealing with interrupted data in numerous domains."
 keywords:
   - counterfactual forecasting
@@ -25,8 +25,8 @@ keywords:
   - structural breaks
 bibliography: references.bib
 wpnumber: no/yr
-jelcodes: C10,C14,C22
-blind: true
+jelcodes: ""
+blind: false
 cover: false
 linestretch: 1.5
 format:
