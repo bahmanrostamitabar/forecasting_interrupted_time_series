@@ -30,7 +30,7 @@ list(
   tar_target(tsol3, tourism_sol3(austa)),
   tar_target(tsol4, tourism_sol4(austa)),
   tar_target(tensemble, tourism_ensemble(list(tsol1,tsol2,tsol3,tsol4))),
-  
+
   # Forecast plots
   tar_target(
     tourism_history,
@@ -59,7 +59,7 @@ list(
     tensemble_plot,
     autoplot(tensemble, level = 90) + tourism_history + tourism_labels
   ),
-  
+
   # Pedestrians
   tar_target(raw_walkers, fetch_walkers(start = "2019-01-01", end = "2021-12-31")),
   tar_target(lockdowns, lockdown_table()),
@@ -80,7 +80,7 @@ list(
   tar_target(walkers_plot3, pedestrian_fc_plot(walkers_sol3, walkers)),
   tar_target(walkers_plot4, pedestrian_fc_plot(walkers_sol4, walkers)),
   tar_target(walkers_ensemble_plot, pedestrian_fc_plot(wensemble, walkers)),
-  
+
   # Attended incidents example
   tar_target(attendant_csv, here::here("data/attendent_incident.csv"), format = "file"),
   tar_target(verified_csv, here::here("data/verified_incident.csv"), format = "file"),
@@ -121,6 +121,6 @@ list(
   tar_target(fc, forecast(fit, h = 365)),
   tar_quarto(paper,
     "fits.qmd",
-    extra_files = "references.bib"
+    extra_files = c("references.bib", "header.tex")
   )
 )
