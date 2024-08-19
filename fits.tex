@@ -233,7 +233,7 @@ events, intervention analysis, structural breaks},
 % Title and date
 
 \title{Forecasting interrupted time series}
-\date{17 May 2024}
+\date{19 August 2024}
 
 \def\Date{\number\day}
 \def\Month{\ifcase\month\or
@@ -251,7 +251,7 @@ events, intervention analysis, structural breaks},
 \makeatother
 
 \wp{no/yr}
-\jel{C10,C14,C22}
+\nojel
 
 % Title page
 
@@ -309,8 +309,61 @@ events, intervention analysis, structural breaks},
 % Authors
 
 \nocover
-  \blind
-  \lfoot{\sf17 May 2024}
+  \author{Rob J Hyndman, Bahman Rostami-Tabar}
+  \addresses{%
+    %
+      \textbf{Rob J Hyndman}\\%
+      %
+        Department of Econometrics \& Business Statistics\\%
+        %
+        %
+        %
+      %
+        %
+        Monash University\\%
+        %
+        %
+      %
+        %
+        %
+        Clayton VIC \\%
+        %
+      %
+        %
+        %
+        %
+        Australia\\%
+      %
+        %
+        %
+        %
+        %
+      %
+      {Email: Rob.Hyndman@monash.edu}\\%
+      \\[0.5cm]%
+   %
+      \textbf{Bahman Rostami-Tabar}\\%
+      %
+        %
+        Cardiff Business School\\%
+        %
+        %
+      %
+        %
+        %
+        %
+        %
+      %
+        %
+        %
+        %
+        United Kingdom\\%
+      %
+      {Email: rostami-tabarb@cardiff.ac.uk}\\%
+      \textit{Corresponding author}\\[0.5cm]%
+   %
+   }%
+   \lfoot{\sf Hyndman, Rostami-Tabar: 19 August 2024}
 
 % Keywords
 
@@ -368,8 +421,17 @@ readings in datasets relating to financial transactions, network
 traffic, and user activity, complicating time series analysis. Supply
 chain disruptions induced by factors such as strikes or shortages cause
 irregularities in sales, inventory levels, production, and delivery,
-often resulting in data gaps.
-\textcolor{teal}{For example, the war in Ukraine caused disruptions in sunflower oil and wheat supply chains, which were most likely driven by social media and people's recent memories of the COVID-19 toilet paper shortage. A power outage in Eastern Germany halted production at a Tesla facility and cut off electricity to a large retailer distribution centre, disrupting supplies to around 500 stores in and around Berlin for several weeks. Recent strikes in various forms of transport, including air and rail in Germany, France, and the United Kingdom, have had an impact on passenger flow and retail sales at airports and train stations. These issues highlight the significance of robust forecasting systems in addressing such disruptions effectively.}
+often resulting in data gaps. For example, the war in Ukraine caused
+disruptions in sunflower oil and wheat supply chains, which were most
+likely driven by social media and people's recent memories of the
+COVID-19 toilet paper shortage. A power outage in Eastern Germany halted
+production at a Tesla facility and cut off electricity to a large
+retailer distribution centre, disrupting supplies to around 500 stores
+in and around Berlin for several weeks. Recent strikes in various forms
+of transport, including air and rail in Germany, France, and the United
+Kingdom, have had an impact on passenger flow and retail sales at
+airports and train stations. These issues highlight the significance of
+robust forecasting systems in addressing such disruptions effectively.
 
 The disruptions may result in relatively simple changes in the series;
 for example a level shift at the start of the disruption, and another at
@@ -455,8 +517,12 @@ practitioners.
 \section{Handling interruptions when forecasting}\label{sec-methods}
 
 In this section, we describe several possible strategies to handle
-interruptions when forecasting time series data.
-\textcolor{teal}{The handling of time series interruptions is a complex and multifaceted issue, and the choice of the most appropriate strategy depends on the specific characteristics of the data and the nature of the interruption. Therefore, in this paper, we propose multiple strategies rather than a single approach to effectively address different situations and cases.}
+interruptions when forecasting time series data. The handling of time
+series interruptions is a complex and multifaceted issue, and the choice
+of the most appropriate strategy depends on the specific characteristics
+of the data and the nature of the interruption. Therefore, in this
+paper, we propose multiple strategies rather than a single approach to
+effectively address different situations and cases.
 
 \subsection{Use a highly adaptive
 model}\label{use-a-highly-adaptive-model}
@@ -498,7 +564,11 @@ dynamics that were present before the interruption. Consequently, the
 approach works best if there is no assumption that the post-interruption
 period will be similar to the pre-interruption period.
 
-\textcolor{teal}{The disadvantage of smoothing and other highly adaptive techniques is that they need time to adapt after a disturbance and can eventually end up chasing noise. The latter is an intriguing issue since individuals often prefer adaptability while failing to recognise that it does not necessarily improve forecasting.}
+The disadvantage of smoothing and other highly adaptive techniques is
+that they need time to adapt after a disturbance and can eventually end
+up chasing noise. The latter is an intriguing issue since individuals
+often prefer adaptability while failing to recognise that it does not
+necessarily improve forecasting.
 
 \subsection{Use an intervention model}\label{use-an-intervention-model}
 
@@ -521,7 +591,7 @@ interrupted time series data \autocite{Koopg2007}.
 A special case of the intervention models proposed by
 \textcite{box1975intervention} is a dynamic regression (or regression
 with ARIMA errors) model. This model includes covariates describing the
-interruption explicitly, with an ARIMA process describing the remaaining
+interruption explicitly, with an ARIMA process describing the remaining
 time series dynamics. For example, if the intervention involves a simple
 level shift with a reverse level shift at the end of the intervention,
 we can use a dummy variable to indicate the interruption period and
@@ -531,12 +601,14 @@ interventions can be handled by using more covariates.
 This has the advantage of retaining the memory of the past, and so the
 seasonal patterns and other dynamics will be retained. This allows the
 change period to be effectively modelled, provided the intervention
-variables are chosen well.
-\textcolor{teal}{Intervention models are useful because they enable the forecasting of similar future disruptions, but distinguishing between a disruption and a general driving factor, such as a promotion or a seasonal storm, may become subjective.}
-However, the model will assume that the post-interruption period will be
-similar to the pre-interruption period, and so the prediction intervals
-may be too narrow, especially if there is a lasting effect beyond the
-end of the interruption.
+variables are chosen well. Intervention models are useful because they
+enable the forecasting of similar future disruptions, but distinguishing
+between a disruption and a general driving factor, such as a promotion
+or a seasonal storm, may become subjective. However, the model will
+assume that the post-interruption period will be similar to the
+pre-interruption period, and so the prediction intervals may be too
+narrow, especially if there is a lasting effect beyond the end of the
+interruption.
 
 \subsection{Set to missing}\label{set-to-missing}
 
@@ -1048,7 +1120,10 @@ Finally, the ensemble approach is useful when there is uncertainty about
 which approach to use, and will often result in greater accuracy due to
 the power of averaging.
 
-\textcolor{teal}{When forecasting interrupted time series data, exogenous variables associated with specific events should be identified and incorporated where possible, regardless of which approach is employed, since they may improve forecasting model performance.}
+When forecasting interrupted time series data, exogenous variables
+associated with specific events should be identified and incorporated
+where possible, regardless of which approach is employed, since they may
+improve forecasting model performance.
 
 We have not discussed probabilistic forecasting in any detail in this
 paper, other than producing some prediction intervals for some of the
@@ -1116,13 +1191,30 @@ forecast uncertainty, particularly during and after interruptions.
 Finally, for greater robustness and accuracy, investigating ensemble
 models that integrate various forecasting methods might be beneficial.
 
-\textcolor{teal}{Moreover, in determining which strategy to apply in each case, it is important to think through what is being assumed, and what data are being used. This is a qualitative and subjective process, and cannot simply be tackled with a quantitative comparison of forecast accuracy. The strategies we discuss have different ways of handling the disrupted period, and many of them do not seek to provide accurate forecasts during the disruption. For example, the "set to missing" strategy ignores the disrupted period, while the "estimate what might have been" strategy replaces the observations during the disruption with interpolations. In both cases, it does not make sense to evaluate the performance of the method during the disruption. Instead, the analyst needs to decide what approach makes the most sense for the application at hand.}
+Moreover, in determining which strategy to apply in each case, it is
+important to think through what is being assumed, and what data are
+being used. This is a qualitative and subjective process, and cannot
+simply be tackled with a quantitative comparison of forecast accuracy.
+The strategies we discuss have different ways of handling the disrupted
+period, and many of them do not seek to provide accurate forecasts
+during the disruption. For example, the ``set to missing'' strategy
+ignores the disrupted period, while the ``estimate what might have
+been'' strategy replaces the observations during the disruption with
+interpolations. In both cases, it does not make sense to evaluate the
+performance of the method during the disruption. Instead, the analyst
+needs to decide what approach makes the most sense for the application
+at hand.
 
-\textcolor{teal}{This study proposes multiple viable strategies for forecasting time series data interrupted by different type of events. Future research could focus on exploring new strategies for handling such disrupted time series, or enhancing probabilistic forecasting methods that are designed specifically for such data. Large-scale empirical research on further exploring which strategy may work best in different scenarios also provide useful insights.}
-Comparative studies that assess the accuracy, robustness, and computing
-efficiency of different techniques across several datasets and
-disruption situations can help discover the most effective approaches
-for a range of practical applications.
+This study proposes multiple viable strategies for forecasting time
+series data interrupted by different type of events. Future research
+could focus on exploring new strategies for handling such disrupted time
+series, or enhancing probabilistic forecasting methods that are designed
+specifically for such data. Large-scale empirical research on further
+exploring which strategy may work best in different scenarios also
+provide useful insights. Comparative studies that assess the accuracy,
+robustness, and computing efficiency of different techniques across
+several datasets and disruption situations can help discover the most
+effective approaches for a range of practical applications.
 
 \section*{Reproducibility}\label{reproducibility}
 \addcontentsline{toc}{section}{Reproducibility}
@@ -1131,13 +1223,14 @@ To enhance reproducibility and facilitate the adoption of proposed
 strategies, we provide the data and R code, as well as the entire paper
 written in R using \href{https://quarto.org/}{Quarto} and the targets
 package for R \autocite{targetsr2021}. All materials required to
-reproduce this paper will be accessible via a public GitHub repository
-once the paper is accepted for publication.
+reproduce this paper is accessible via the
+\href{https://github.com/bahmanrostamitabar/forecasting_interrupted_time_series}{GitHub
+repository} .
 
 \section*{Acknowledgment}\label{acknowledgment}
 \addcontentsline{toc}{section}{Acknowledgment}
 
-We thank Dr Stephan Kolassa and several referees for their thoughts and
+We thank Dr.~Stephan Kolassa and several referees for their thoughts and
 feedback on the first version of our paper. These comments have helped
 us to refine and improve our work.
 
