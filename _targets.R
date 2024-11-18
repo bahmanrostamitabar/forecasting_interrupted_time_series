@@ -3,14 +3,10 @@ library(targets)
 library(tarchetypes)
 
 # Set target options:
-tar_option_set(
-  packages = c("fpp3")
-  # Set other options as needed.
-)
+tar_option_set(packages = c("fpp3"))
 
-# Run the R scripts in the R/ folder with your custom functions:
+# Run the R scripts in the R/ folder
 tar_source()
-# source("other_functions.R") # Source other scripts as needed.
 
 # List of targets
 list(
@@ -81,44 +77,6 @@ list(
   tar_target(walkers_plot4, pedestrian_fc_plot(walkers_sol4, walkers)),
   tar_target(walkers_ensemble_plot, pedestrian_fc_plot(wensemble, walkers)),
 
-  # Attended incidents example
-  tar_target(attendant_csv, here::here("data/attendent_incident.csv"), format = "file"),
-  tar_target(verified_csv, here::here("data/verified_incident.csv"), format = "file"),
-  tar_target(attendant, readr::read_csv(attendant_csv)),
-  tar_target(verified, readr::read_csv(verified_csv)),
-  tar_target(df, create_tsibble(attendant, verified)),
-  tar_target(attended_plot, autoplot(df, Attended)),
-  tar_target(
-    stl, # STL Decomposition
-    df |>
-      filter(Area == "BC") |>
-      model(
-        stl = STL(Attended ~ trend(window = 81) + season(period = 7, window = Inf)),
-      )
-  ),
-  tar_target(
-    stl_plot,
-    stl |>
-      components() |>
-      autoplot()
-  ),
-  tar_target(
-    stl_model,
-    decomposition_model(
-      STL(Attended ~ trend(window = 81) + season(period = 7, window = Inf)),
-      ETS(season_adjust ~ season("N"))
-    )
-  ),
-  tar_target(
-    fit,
-    df |>
-      model(
-        ets = ETS(Attended),
-        arima = ARIMA(Attended),
-        stl_ets = stl_model
-      )
-  ),
-  tar_target(fc, forecast(fit, h = 365)),
   tar_quarto(paper,
     "fits.qmd",
     extra_files = c("references.bib", "header.tex")
