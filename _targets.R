@@ -4,6 +4,7 @@ library(tarchetypes)
 
 # Set target options:
 tar_option_set(packages = c("fpp3"))
+tar_option_set(seed = 3)
 
 # Run the R scripts in the R/ folder
 tar_source()
