@@ -4,9 +4,12 @@
 \PassOptionsToPackage{dvipsnames,svgnames,x11names}{xcolor}
 %
 \documentclass[
-]{interact}
+  11pt,
+  a4paper,
+]{article}
 
 \usepackage{amsmath,amssymb}
+\usepackage{setspace}
 \usepackage{iftex}
 \ifPDFTeX
   \usepackage[T1]{fontenc}
@@ -38,31 +41,9 @@
   \KOMAoptions{parskip=half}}
 \makeatother
 \usepackage{xcolor}
+\usepackage[top=2.5cm,bottom=2.5cm,left=2.5cm,right=2.5cm]{geometry}
 \setlength{\emergencystretch}{3em} % prevent overfull lines
-\setcounter{secnumdepth}{5}
-% Make \paragraph and \subparagraph free-standing
-\makeatletter
-\ifx\paragraph\undefined\else
-  \let\oldparagraph\paragraph
-  \renewcommand{\paragraph}{
-    \@ifstar
-      \xxxParagraphStar
-      \xxxParagraphNoStar
-  }
-  \newcommand{\xxxParagraphStar}[1]{\oldparagraph*{#1}\mbox{}}
-  \newcommand{\xxxParagraphNoStar}[1]{\oldparagraph{#1}\mbox{}}
-\fi
-\ifx\subparagraph\undefined\else
-  \let\oldsubparagraph\subparagraph
-  \renewcommand{\subparagraph}{
-    \@ifstar
-      \xxxSubParagraphStar
-      \xxxSubParagraphNoStar
-  }
-  \newcommand{\xxxSubParagraphStar}[1]{\oldsubparagraph*{#1}\mbox{}}
-  \newcommand{\xxxSubParagraphNoStar}[1]{\oldsubparagraph{#1}\mbox{}}
-\fi
-\makeatother
+\setcounter{secnumdepth}{2}
 
 
 \providecommand{\tightlist}{%
@@ -91,44 +72,11 @@
 % Set default figure placement to htbp
 \def\fps@figure{htbp}
 \makeatother
-% definitions for citeproc citations
-\NewDocumentCommand\citeproctext{}{}
-\NewDocumentCommand\citeproc{mm}{%
-  \begingroup\def\citeproctext{#2}\cite{#1}\endgroup}
-\makeatletter
- % allow citations to break across lines
- \let\@cite@ofmt\@firstofone
- % avoid brackets around text for \cite:
- \def\@biblabel#1{}
- \def\@cite#1#2{{#1\if@tempswa , #2\fi}}
-\makeatother
-\newlength{\cslhangindent}
-\setlength{\cslhangindent}{1.5em}
-\newlength{\csllabelwidth}
-\setlength{\csllabelwidth}{3em}
-\newenvironment{CSLReferences}[2] % #1 hanging-indent, #2 entry-spacing
- {\begin{list}{}{%
-  \setlength{\itemindent}{0pt}
-  \setlength{\leftmargin}{0pt}
-  \setlength{\parsep}{0pt}
-  % turn on hanging indent if param 1 is 1
-  \ifodd #1
-   \setlength{\leftmargin}{\cslhangindent}
-   \setlength{\itemindent}{-1\cslhangindent}
-  \fi
-  % set entry spacing
-  \setlength{\itemsep}{#2\baselineskip}}}
- {\end{list}}
-\usepackage{calc}
-\newcommand{\CSLBlock}[1]{\hfill\break\parbox[t]{\linewidth}{\strut\ignorespaces#1\strut}}
-\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{\strut#1\strut}}
-\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{\strut#1\strut}}
-\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
 \usepackage[section]{placeins}
 \widowpenalty=10000
 \clubpenalty=10000
-\usepackage{orcidlink}
+\definecolor{mypink}{RGB}{219, 48, 122}
 \makeatletter
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \AtBeginDocument{%
@@ -171,6 +119,8 @@
 \@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
 \makeatother
 
+\usepackage[style=authoryear-comp,]{biblatex}
+\addbibresource{references.bib}
 \usepackage{bookmark}
 
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
@@ -187,22 +137,216 @@ events, intervention analysis, structural breaks},
   urlcolor={Blue},
   pdfcreator={LaTeX via pandoc}}
 
+%% CAPTIONS
+\usepackage{caption}
+\DeclareCaptionStyle{italic}[justification=centering]
+ {labelfont={bf},textfont={it},labelsep=colon}
+\captionsetup[figure]{style=italic,format=hang,singlelinecheck=true}
+\captionsetup[table]{style=italic,format=hang,singlelinecheck=true}
+
+%% FONT
+\usepackage{bera}
+\usepackage[charter]{mathdesign}
+\usepackage[scale=0.9]{sourcecodepro}
+\usepackage[lf,t]{FiraSans}
+
+%% HEADERS AND FOOTERS
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\rfoot{\Large\sffamily\raisebox{-0.1cm}{\textbf{\thepage}}}
+\makeatletter
+\lhead{\textsf{\expandafter{\@title}}}
+\makeatother
+\rhead{}
+\cfoot{}
+\setlength{\headheight}{15pt}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+\fancypagestyle{plain}{%
+\fancyhf{} % clear all header and footer fields
+\fancyfoot[C]{\sffamily\thepage} % except the center
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}}
+
+%% MATHS
+\usepackage{bm,amsmath}
+\allowdisplaybreaks
+
+%% GRAPHICS
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setcounter{topnumber}{2}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\bottomfraction}{0.85}
+\renewcommand{\textfraction}{0.15}
+\renewcommand{\floatpagefraction}{0.8}
+
+%% SECTION TITLES
+\usepackage[compact,sf,bf]{titlesec}
+\titleformat{\section}[block]
+  {\fontsize{15}{17}\bfseries\sffamily}
+  {\thesection}
+  {0.4em}{}
+\titleformat{\subsection}[block]
+  {\fontsize{12}{14}\bfseries\sffamily}
+  {\thesubsection}
+  {0.4em}{}
+\titlespacing{\section}{0pt}{*5}{*1}
+\titlespacing{\subsection}{0pt}{*2}{*0.2}
+
+%% BIBLIOGRAPHY.
+
+\makeatletter
+\@ifpackageloaded{biblatex}{
+\ExecuteBibliographyOptions{bibencoding=utf8,minnames=1,maxnames=3, maxbibnames=99,dashed=false,terseinits=true,giveninits=true,uniquename=false,uniquelist=false,doi=false, isbn=false,url=true,sortcites=false}
+\DeclareFieldFormat{url}{\texttt{\url{#1}}}
+\DeclareFieldFormat[article]{pages}{#1}
+\DeclareFieldFormat[inproceedings]{pages}{\lowercase{pp.}#1}
+\DeclareFieldFormat[incollection]{pages}{\lowercase{pp.}#1}
+\DeclareFieldFormat[article]{volume}{\mkbibbold{#1}}
+\DeclareFieldFormat[article]{number}{\mkbibparens{#1}}
+\DeclareFieldFormat[article]{title}{\MakeCapital{#1}}
+\DeclareFieldFormat[article]{url}{}
+\DeclareFieldFormat[inproceedings]{title}{#1}
+\DeclareFieldFormat{shorthandwidth}{#1}
+\usepackage{xpatch}
+\xpatchbibmacro{volume+number+eid}{\setunit*{\adddot}}{}{}{}
+% Remove In: for an article.
+\renewbibmacro{in:}{%
+  \ifentrytype{article}{}{%
+  \printtext{\bibstring{in}\intitlepunct}}}
+\AtEveryBibitem{\clearfield{month}}
+\AtEveryCitekey{\clearfield{month}}
+\DeclareDelimFormat[cbx@textcite]{nameyeardelim}{\addspace}
+\renewcommand*{\finalnamedelim}{\addspace\&\space}
+}{}
+\makeatother
+% Placement of logos
+
+\RequirePackage[absolute,overlay]{textpos}
+\setlength{\TPHorizModule}{1cm}
+\setlength{\TPVertModule}{1cm}
+\def\placefig#1#2#3#4{\begin{textblock}{.1}(#1,#2)\rlap{\includegraphics[#3]{#4}}\end{textblock}}
+
+% Title and date
 
 \title{Forecasting interrupted time series}
-\author{Rob J
-Hyndman$\textsuperscript{1}$~\orcidlink{0000-0002-2140-5352}, Bahman
-Rostami-Tabar$\textsuperscript{2}$~\orcidlink{0000-0002-3730-0045}}
+\date{19 November 2024}
 
-\thanks{CONTACT: Rob J
-Hyndman. Email: \href{mailto:Rob.Hyndman@monash.edu}{\nolinkurl{Rob.Hyndman@monash.edu}}. Bahman
-Rostami-Tabar. Email: \href{mailto:rostami-tabarb@cardiff.ac.uk}{\nolinkurl{rostami-tabarb@cardiff.ac.uk}}. }
+\def\Date{\number\day}
+\def\Month{\ifcase\month\or
+ January\or February\or March\or April\or May\or June\or
+ July\or August\or September\or October\or November\or December\fi}
+\def\Year{\number\year}
+
+% Working paper number and JEL codes
+
+\makeatletter
+\def\wp#1{\gdef\@wp{#1}}\def\@wp{??/??}
+\def\jel#1{\gdef\@jel{#1}}\def\@jel{??}
+\def\showjel{{\large\textsf{\textbf{JEL classification:}}~\@jel}}
+\def\nojel{\def\showjel{}}
+\makeatother
+
+\wp{no/24}
+\nojel
+
+% Title page
+
+\makeatletter
+\def\cover{{\sffamily\setcounter{page}{0}
+        \thispagestyle{empty}
+        \placefig{2}{1.5}{width=5cm}{monash2}
+        \placefig{16.9}{1.5}{width=2.1cm}{MBSportrait}
+        \begin{textblock}{4}(16.9,4)ISSN 1440-771X\end{textblock}
+        \begin{textblock}{7}(12.7,27.9)\hfill
+        \includegraphics[height=0.7cm]{AACSB}~~~
+        \includegraphics[height=0.7cm]{EQUIS}~~~
+        \includegraphics[height=0.7cm]{AMBA}
+        \end{textblock}
+        \vspace*{2.5cm}
+        \begin{center}\Large
+        Department of Econometrics and Business Statistics\\[.5cm]
+        \footnotesize http://monash.edu/business/ebs/research/publications
+        \end{center}\vspace{2cm}
+        \begin{center}
+        \fbox{\parbox{14cm}{\begin{onehalfspace}\centering\Huge\vspace*{0.3cm}
+                \textsf{\textbf{\expandafter{\@title}}}\vspace{1cm}\par
+                \LARGE
+                \expandafter{\@author}
+                \end{onehalfspace}
+        }}
+        \end{center}
+        \vfill
+                \begin{center}\Large
+                \Month~\Year\\[1cm]
+                Working Paper \@wp
+        \end{center}\vspace*{2cm}}}
+        \def\addresses#1{\gdef\@addresses{#1}}\def\@addresses{??}
+        \def\pageone{{\sffamily\setstretch{1}%
+        \thispagestyle{empty}%
+        \vbox to \textheight{%
+        \raggedright\baselineskip=1.2cm
+     {\fontsize{24.88}{30}\sffamily\textbf{\expandafter{\@title}}}
+        \vspace{2cm}\par
+        \hspace{1cm}\parbox{14cm}{\sffamily\large\@addresses}\vspace{1cm}\vfill
+        \hspace{1cm}{\large\Date~\Month~\Year}\\[1cm]
+        \hspace{1cm}\showjel\vss}}}
+\def\blindtitle{{\sffamily
+     \thispagestyle{plain}\raggedright\baselineskip=1.2cm
+     {\fontsize{24.88}{30}\sffamily\textbf{\expandafter{\@title}}}\vspace{1cm}\par
+        }}
+\def\titlepage{{\cover\newpage\pageone\newpage\blindtitle}}
+
+\def\blind{\def\titlepage{{\blindtitle}}\let\maketitle\blindtitle}
+\def\titlepageonly{\def\titlepage{{\pageone\end{document}}}}
+\def\nocover{\def\titlepage{{\pageone\newpage\blindtitle}}\let\maketitle\titlepage}
+\let\maketitle\titlepage
+\makeatother
+
+% Authors
+
+
+  \author{Rob J Hyndman, Bahman Rostami-Tabar}
+  \addresses{%
+    %
+      \textbf{Rob J Hyndman}\\%
+      %
+        Department of Econometrics \& Business Statistics\\%
+        Monash University\\%
+        Clayton VIC 3800\\%
+        Australia\\%
+      %
+      {Email: Rob.Hyndman@monash.edu}\\%
+      \\[0.5cm]%
+   %
+      \textbf{Bahman Rostami-Tabar}\\%
+      %
+        %
+        Cardiff Business School\\%
+        %
+        United Kingdom\\%
+      %
+      {Email: rostami-tabarb@cardiff.ac.uk}\\%
+      \textit{Corresponding author}\\[0.5cm]%
+   %
+   }%
+   \lfoot{\sf Hyndman, Rostami-Tabar: 19 November 2024}
+
+% Keywords
+
+\newenvironment{keywords}{\par\vspace{0.5cm}\noindent{\sffamily\textbf{Keywords:}}}{\vspace{0.25cm}\par\hrule\vspace{0.5cm}\par}
+
+% Abstract
+\renewenvironment{abstract}{\begin{minipage}{\textwidth}\parskip=1.4ex\noindent
+\hrule\vspace{0.1cm}\par{\sffamily\textbf{\abstractname}}\newline\setstretch{1.5}}
+  {\end{minipage}}
 \begin{document}
-\captionsetup{labelsep=space}
 \maketitle
-\textsuperscript{1} Department of Econometrics \& Business
-Statistics, Monash University, Clayton
-VIC, Australia\\ \textsuperscript{2}  Cardiff Business School,  United
-Kingdom
+
 \begin{abstract}
 Forecasting interrupted time series data is a major challenge for
 forecasting teams, especially in light of events such as the COVID-19
@@ -219,46 +363,47 @@ This work contributes to the literature on time series forecasting,
 offering insights for academics and practitioners dealing with
 interrupted data in numerous domains.
 \end{abstract}
+
 \begin{keywords}
-\def\sep{;\ }
-counterfactual forecasting\sep COVID-19\sep disruptive
-events\sep intervention analysis\sep 
-structural breaks
+  counterfactual forecasting; COVID-19; disruptive events; intervention
+analysis; 
+  structural breaks.
 \end{keywords}
 
 
+\setstretch{1.5}
 \section{Introduction}\label{sec-introduction}
 
 Time series forecasting models use historical data to estimate future
-values (Fildes et al. 2008) based on consistent patterns observed in the
-past. However, time series are sometimes disrupted by unusual events
-that jeopardise the regularity of the time series pattern. This can be
-defined as an \emph{interrupted time series}. Time series data may be
-disrupted by a variety of reasons, ranging from temporary policy changes
-to natural disasters. Outbreaks, epidemics, and pandemics, for example,
-may have a considerable impact on population behavior, causing
-discrepancies and interruptions of data in a variety of industries such
-as healthcare, pharmaceuticals, transportation, retail, tourism, and
-traffic management. Similarly, transportation-related data may be
-interrupted due to equipment failures, such as malfunctions or
-breakdowns in vehicles, aircraft, or rail systems, resulting in missing
-or inaccurate data points. Furthermore, cybersecurity breaches data
-quality by possibly skewing readings in datasets relating to financial
-transactions, network traffic, and user activity, complicating time
-series analysis. Supply chain disruptions induced by factors such as
-strikes or shortages cause irregularities in sales, inventory levels,
-production, and delivery, often resulting in data gaps. For example, the
-war in Ukraine caused disruptions in sunflower oil and wheat supply
-chains, which were most likely driven by social media and people's
-recent memories of the COVID-19 toilet paper shortage. A power outage in
-Eastern Germany halted production at a Tesla facility and cut off
-electricity to a large retailer distribution centre, disrupting supplies
-to around 500 stores in and around Berlin for several weeks. Recent
-strikes in various forms of transport, including air and rail in
-Germany, France, and the United Kingdom, have had an impact on passenger
-flow and retail sales at airports and train stations. These issues
-highlight the significance of robust forecasting systems in addressing
-such disruptions effectively.
+values \autocite{fildes2008forecasting} based on consistent patterns
+observed in the past. However, time series are sometimes disrupted by
+unusual events that jeopardise the regularity of the time series
+pattern. This can be defined as an \emph{interrupted time series}. Time
+series data may be disrupted by a variety of reasons, ranging from
+temporary policy changes to natural disasters. Outbreaks, epidemics, and
+pandemics, for example, may have a considerable impact on population
+behavior, causing discrepancies and interruptions of data in a variety
+of industries such as healthcare, pharmaceuticals, transportation,
+retail, tourism, and traffic management. Similarly,
+transportation-related data may be interrupted due to equipment
+failures, such as malfunctions or breakdowns in vehicles, aircraft, or
+rail systems, resulting in missing or inaccurate data points.
+Furthermore, cybersecurity breaches data quality by possibly skewing
+readings in datasets relating to financial transactions, network
+traffic, and user activity, complicating time series analysis. Supply
+chain disruptions induced by factors such as strikes or shortages cause
+irregularities in sales, inventory levels, production, and delivery,
+often resulting in data gaps. For example, the war in Ukraine caused
+disruptions in sunflower oil and wheat supply chains, which were most
+likely driven by social media and people's recent memories of the
+COVID-19 toilet paper shortage. A power outage in Eastern Germany halted
+production at a Tesla facility and cut off electricity to a large
+retailer distribution centre, disrupting supplies to around 500 stores
+in and around Berlin for several weeks. Recent strikes in various forms
+of transport, including air and rail in Germany, France, and the United
+Kingdom, have had an impact on passenger flow and retail sales at
+airports and train stations. These issues highlight the significance of
+robust forecasting systems in addressing such disruptions effectively.
 
 The disruptions may result in relatively simple changes in the series;
 for example a level shift at the start of the disruption, and another at
@@ -295,19 +440,19 @@ disruptions.
 
 We consider the problem of forecasting interrupted time series both
 during and after the event. This is a separate problem from change point
-detection (Aue and Horváth 2013; Truong, Oudre, and Vayatis 2020) and
-anomaly detection (Talagala et al. 2020). In the situations we
+detection \autocite{aue2013structural,truong2020selective} and anomaly
+detection \autocite{talagala2020anomaly}. In the situations we
 investigate, we know that a change has occurred which has caused some
 unusual observations, and we want to forecast what will happen next.
 Change point detection refers to determining \emph{when} a change
-occurred (Blázquez-Garcı́a et al. 2021), and anomaly detection aims to
+occurred \autocite{blazquez2021review}, and anomaly detection aims to
 identify unusual observations with the intention of either minimising
 their value, or paying particular attention to them, and doing a
 root-cause investigation. Our study focus also differs from
 \emph{intervention modeling}, sometimes referred to as \emph{interrupted
-time series analysis and modelling} (McDowall, McCleary, and Bartos
-2019), which is used when we have data about an outcome over time and
-the aim is to assess the impact of an intervention, policy, or program
+time series analysis and modelling} \autocite{mcdowall2019interrupted},
+which is used when we have data about an outcome over time and the aim
+is to assess the impact of an intervention, policy, or program
 implemented at a specific time point. We are not trying to measure the
 impact of the interruption; rather we are trying to produce sensible
 forecasts during and after the interruption.
@@ -361,26 +506,27 @@ approximate the data generating process relatively well.
 
 Exponential Smoothing State Space models (ETS) represent an adaptive
 method that has demonstrated competitiveness in time series forecasting
-(Gardner Jr 2006). These models allow for the adaptation of model
-parameters over time to accommodate shifts in time series
-characteristics (Hyndman et al. 2002). For example, an ETS model with
-large smoothing parameters will be able to adjust to the interruption
-relatively quickly. This has the advantage of being a very simple
-solution that is easy to implement and fast to compute. There is no need
-to explicitly model the interruption, and so the model can be used for
-forecasting even if the timing or effect of the interruption is unknown.
+\autocite{gardner2006exponential}. These models allow for the adaptation
+of model parameters over time to accommodate shifts in time series
+characteristics \autocite{hyndman2002state}. For example, an ETS model
+with large smoothing parameters will be able to adjust to the
+interruption relatively quickly. This has the advantage of being a very
+simple solution that is easy to implement and fast to compute. There is
+no need to explicitly model the interruption, and so the model can be
+used for forecasting even if the timing or effect of the interruption is
+unknown.
 
 Similarly, time-varying parameter models exhibit high adaptability
-(Harvey 2006), enabling forecasting models to better accommodate
-interruptions in data over time. Time-varying parameters are frequently
-utilized in dynamic forecasting models, such as state-space models or
-Bayesian structural time series models (Talih and Hengartner 2005). Some
-models employ approaches to reduce the influence of affected
-observations during model training by assigning different weights. The
-utilization of weights extends beyond merely including or excluding
-observations and can also balance the degree of influence each
-observation has on the forecasting model (Khoshgoftaar, Golawala, and
-Van Hulse 2007).
+\autocite{harvey2006forecasting}, enabling forecasting models to better
+accommodate interruptions in data over time. Time-varying parameters are
+frequently utilized in dynamic forecasting models, such as state-space
+models or Bayesian structural time series models
+\autocite{talih2005structural}. Some models employ approaches to reduce
+the influence of affected observations during model training by
+assigning different weights. The utilization of weights extends beyond
+merely including or excluding observations and can also balance the
+degree of influence each observation has on the forecasting model
+\autocite{khoshgoftaar2007empirical}.
 
 The prediction intervals from highly adaptive models tend to be wide
 because the model will have heavily discounted past data. In fact, the
@@ -400,29 +546,29 @@ necessarily improve forecasting.
 
 One modelling approach that has gained popularity in handling
 disruptions is the intervention model, also known as interrupted time
-series (ITS) modelling, introduced by Box and Tiao (1975). This approach
-focuses on understanding how and whether outcomes change following the
-implementation of an intervention, policy, or programme at a specific
-time point. ITS models provide a robust tool for analysing policy and
-programme evaluation across diverse domains (Bernal, Cummins, and
-Gasparrini 2017; McDowall, McCleary, and Bartos 2019). These models can
-forecast future values by developing models that incorporate a range of
-components, such as pre-intervention levels, trends, seasonality,
+series (ITS) modelling, introduced by \textcite{box1975intervention}.
+This approach focuses on understanding how and whether outcomes change
+following the implementation of an intervention, policy, or programme at
+a specific time point. ITS models provide a robust tool for analysing
+policy and programme evaluation across diverse domains
+\autocite{bernal2017interrupted,mcdowall2019interrupted}. These models
+can forecast future values by developing models that incorporate a range
+of components, such as pre-intervention levels, trends, seasonality,
 covariates related to the intervention time, and other external factors
 that might affect the outcome variable. A related approach is the
 multiple regimes model, which is particularly useful in forecasting due
 to its ability to capture structural changes and transitions observed in
-interrupted time series data (Koop and Potter 2007).
+interrupted time series data \autocite{Koopg2007}.
 
-A special case of the intervention models proposed by Box and Tiao
-(1975) is a dynamic regression (or regression with ARIMA errors) model.
-This model includes covariates describing the interruption explicitly,
-with an ARIMA process describing the remaining time series dynamics. For
-example, if the intervention involves a simple level shift with a
-reverse level shift at the end of the intervention, we can use a dummy
-variable to indicate the interruption period and allow the model to
-adjust to the interruption. More complicated interventions can be
-handled by using more covariates.
+A special case of the intervention models proposed by
+\textcite{box1975intervention} is a dynamic regression (or regression
+with ARIMA errors) model. This model includes covariates describing the
+interruption explicitly, with an ARIMA process describing the remaining
+time series dynamics. For example, if the intervention involves a simple
+level shift with a reverse level shift at the end of the intervention,
+we can use a dummy variable to indicate the interruption period and
+allow the model to adjust to the interruption. More complicated
+interventions can be handled by using more covariates.
 
 This has the advantage of retaining the memory of the past, and so the
 seasonal patterns and other dynamics will be retained. This allows the
@@ -448,11 +594,11 @@ been''. This solution requires a judgement to be made about when the
 disruption has begun, and when normality resumes.
 
 While many time series forecasting models struggle with missing data,
-several approaches can internally handle missing data (Twala, Jones, and
-Hand 2008). Wu, Chang, and Lee (2015) suggested a forecasting approach
-based on a Least Squares Support Vector Machine (LSSVM) that was
-particularly designed to handle time series forecasting with missing
-data. A different study by Tang et al. (2020) focused on local and
+several approaches can internally handle missing data
+\autocite{twala2008good}. \textcite{7157837} suggested a forecasting
+approach based on a Least Squares Support Vector Machine (LSSVM) that
+was particularly designed to handle time series forecasting with missing
+data. A different study by \textcite{tang2020joint} focused on local and
 global temporal dynamics for multivariate time series forecasting with
 missing data. Their proposed framework uses a memory network to capture
 global temporal patterns with local data as key components.
@@ -487,24 +633,25 @@ the previous solution.
 
 These approaches are sometimes called ``counterfactual'' methods, as
 they examine what would have happened to the forecast variable of
-interest if the disruptive event had not occurred. Athanasopoulos et al.
-(2023) proposed a variant of this approach for forecasting tourism
-recovery from COVID-19, combining forecast reconciliation and forecast
-combinations applied to historical data, to generate COVID-free
-counterfactual forecasts of what might have been if the pandemic never
-occurred. Then scenario-based judgemental probabilistic forecasts were
-compared with the counterfactual forecasts, to better understand the
-future recovery of the tourism sector from the pandemic.
+interest if the disruptive event had not occurred.
+\textcite{athanasopoulos2023probabilistic} proposed a variant of this
+approach for forecasting tourism recovery from COVID-19, combining
+forecast reconciliation and forecast combinations applied to historical
+data, to generate COVID-free counterfactual forecasts of what might have
+been if the pandemic never occurred. Then scenario-based judgemental
+probabilistic forecasts were compared with the counterfactual forecasts,
+to better understand the future recovery of the tourism sector from the
+pandemic.
 
 Inventory stockouts are a common cause of data interruption in the
 supply chain. To deal with these interruptions, a counterfactual
 approach is popular, whereby the demand corresponding to the stock-out
 period is estimated as if there were no stock-outs, and then forecasts
-are obtained. Bell (2000) presented an adjustment strategy for stock-out
-periods that involves smoothing demand volatility and correcting for
-stockouts using predicted variance conditioned on the observed stockout.
-Trapero, Frutos, and Pedregal (In Press) also used the Tobit Kalman
-filter (TKF) for models presented in a state space framework for
+are obtained. \textcite{Bell2000} presented an adjustment strategy for
+stock-out periods that involves smoothing demand volatility and
+correcting for stockouts using predicted variance conditioned on the
+observed stockout. \textcite{trapero2023demand} also used the Tobit
+Kalman filter (TKF) for models presented in a state space framework for
 forecasting purposes. This method can efficiently deal with trends,
 seasonality, and exogenous influences in censored data, as long as the
 forecasting model functions within a state space framework.
@@ -512,7 +659,7 @@ forecasting model functions within a state space framework.
 In the context of forecasting disruptions such as the COVID-19 pandemic,
 Bayesian approaches have also been proposed for detecting changing
 points in outbreaks and forecasting case numbers under counterfactual
-scenarios (Dehning et al. 2020).
+scenarios \autocite{dehning2020inferring}.
 
 \subsection{Downweight the interruption
 period}\label{downweight-the-interruption-period}
@@ -542,7 +689,7 @@ forecasting software does not allow for the explicit use of weights.
 \subsection{Ensemble models}\label{ensemble-models}
 
 As with many forecasting problems, taking an ensemble approach often
-leads to more accurate forecasts (Wang et al. 2023). Here, we could
+leads to more accurate forecasts \autocite{combinations}. Here, we could
 combine some or all four of the approaches discussed above to obtain an
 ensemble forecast. In fact, if we were unable to implement the weighted
 approach, by using an ensemble of the other approaches, we are
@@ -569,18 +716,12 @@ has been particularly evident.
 
 The Australian tourism data set is a monthly time series showing the
 number of short-term overseas visitors to Australia. The data
-(Australian Bureau of Statistics 2024) are available from January 2000
-to May 2023, and are shown in Figure~\ref{fig-tourism-plot1}. As the
-borders closed in March 2020, the number of visitors to Australia
-dropped to near zero and remained there until towards the end of 2021.
-The borders officially reopened on 21 February 2022, although it seems
-visitors began to arrive earlier than that.
-
-\begin{verbatim}
-Registered S3 method overwritten by 'tsibble':
-  method               from 
-  as_tibble.grouped_df dplyr
-\end{verbatim}
+\autocite{tourismdata} are available from January 2000 to May 2023, and
+are shown in Figure~\ref{fig-tourism-plot1}. As the borders closed in
+March 2020, the number of visitors to Australia dropped to near zero and
+remained there until towards the end of 2021. The borders officially
+reopened on 21 February 2022, although it seems visitors began to arrive
+earlier than that.
 
 \begin{figure}
 
@@ -591,20 +732,20 @@ Registered S3 method overwritten by 'tsibble':
 }
 
 \caption{\label{fig-tourism-plot1}Short-term visitor arrivals to
-Australia (monthly): Jan 2000 -- May 2023. Source: Australian Bureau of
-Statistics (2024). The Australian international borders closed in March
-2020 and officially reopened in February 2022.}
+Australia (monthly): Jan 2000 -- May 2023. Source:
+\textcite{tourismdata}. The Australian international borders closed in
+March 2020 and officially reopened in February 2022.}
 
 \end{figure}%
 
 We apply the first four solutions discussed in the previous section to
 these data, making 12 month forecasts at the end of each year from 2019
 to 2022. We fit ETS, ARIMA, and dynamic ARIMA models to the data
-(Hyndman and Athanasopoulos 2021), first applying a log transformation
-to ensure the resulting forecasts are positive. (A bias correction is
-also applied to ensure the back-transformed forecasts are the means of
-the forecast distributions.) A log transformation is possible because
-the observations never reach exactly zero, with the smallest number of
+\autocite{fpp3}, first applying a log transformation to ensure the
+resulting forecasts are positive. (A bias correction is also applied to
+ensure the back-transformed forecasts are the means of the forecast
+distributions.) A log transformation is possible because the
+observations never reach exactly zero, with the smallest number of
 visitors per month equal to 2250 in April 2020. For all forecasts, we
 also show 90\% prediction intervals.
 
@@ -759,11 +900,11 @@ obtained using the dynamic regression model.
 
 The pedestrian data set is a daily time series showing the number of
 pedestrians per day in Melbourne, Australia. The data were obtained from
-the Pedestrian Counting System maintained by the City of Melbourne (City
-of Melbourne 2024) and are based on automated hourly counts from sensors
-at 66 locations over the period from 2019-01-01 to 2021-12-31. All
-sensors had some missing data, and we chose to use sensors with no more
-than 720 missing hours, equivalent to 30 days of missing data. This
+the Pedestrian Counting System maintained by the City of Melbourne
+\autocite{pedestrians} and are based on automated hourly counts from
+sensors at 66 locations over the period from 2019-01-01 to 2021-12-31.
+All sensors had some missing data, and we chose to use sensors with no
+more than 720 missing hours, equivalent to 30 days of missing data. This
 resulted in 25 sensors being used in the analysis. The data were
 aggregated to daily counts for each sensor, and then the results were
 averaged across sensors to obtain a measure of pedestrian traffic per
@@ -782,7 +923,7 @@ Australia, from 2018 to 2023, based on automated hourly counts from
 sensors around the city. The counts are averaged over
 \texttt{r\ ngoodsensors} sensors, each of which had no more than 30 days
 of missing data. The gray shaded regions indicate periods of lockdown
-due to COVID-19. Source: City of Melbourne (2024)}
+due to COVID-19. Source: \textcite{pedestrians}}
 
 \end{figure}%
 
@@ -793,7 +934,8 @@ days in length. The first official lockdown period was from 31 March
 Oct 2021. However, the first period was preceded by over a week when
 most people elected to stay and work at home, so we have chosen to start
 the first period on 23 Mar 2020, to better reflect human behaviour.
-Otherwise, we have used the official lockdown dates (Wikipedia 2024).
+Otherwise, we have used the official lockdown dates
+\autocite{MelbourneLockdowns}.
 
 We evaluate the solutions discussed in Section~\ref{sec-methods} by
 using time series cross-validation, with the initial training set
@@ -965,9 +1107,8 @@ approach is producing counterfactual (``what might have been'')
 forecasts, the prediction intervals will often not include the actual
 observations during the disruption period. Prediction intervals for
 ensemble forecasts can be obtained by averaging the end points of the
-component prediction intervals (Lichtendahl Jr, Grushka-Cockayne, and
-Winkler 2013), for those models where the prediction intervals seem
-reasonable.
+component prediction intervals \autocite{lichtendahl2013better}, for
+those models where the prediction intervals seem reasonable.
 
 It is not uncommon for modellers to experience interruptions in time
 series data. Both those in charge of developing forecasting models, and
@@ -1053,8 +1194,8 @@ effective approaches for a range of practical applications.
 To enhance reproducibility and facilitate the adoption of proposed
 strategies, we provide the data and R code, as well as the entire paper
 written in R using \href{https://quarto.org/}{Quarto} and the targets
-package for R (Landau 2021). All materials required to reproduce this
-paper is accessible via the
+package for R \autocite{targetsr2021}. All materials required to
+reproduce this paper is accessible via the
 \href{https://github.com/bahmanrostamitabar/forecasting_interrupted_time_series}{GitHub
 repository} .
 
@@ -1065,160 +1206,8 @@ We thank Dr.~Stephan Kolassa and several referees for their thoughts and
 feedback on the first version of our paper. These comments have helped
 us to refine and improve our work.
 
-\section*{References}\label{references}
-\addcontentsline{toc}{section}{References}
 
-\phantomsection\label{refs}
-\begin{CSLReferences}{1}{0}
-\bibitem[\citeproctext]{ref-athanasopoulos2023probabilistic}
-Athanasopoulos, George, Rob J Hyndman, Nikolaos Kourentzes, and Mitchell
-O'Hara-Wild. 2023. {``Probabilistic Forecasts Using Expert Judgment: The
-Road to Recovery from COVID-19.''} \emph{Journal of Travel Research} 62
-(1): 233--58.
-
-\bibitem[\citeproctext]{ref-aue2013structural}
-Aue, Alexander, and Lajos Horváth. 2013. {``Structural Breaks in Time
-Series.''} \emph{Journal of Time Series Analysis} 34 (1): 1--16.
-
-\bibitem[\citeproctext]{ref-tourismdata}
-Australian Bureau of Statistics. 2024. {``Overseas Arrivals and
-Departures, Australia.''}
-\url{https://www.abs.gov.au/statistics/industry/tourism-and-transport/overseas-arrivals-and-departures-australia/oct-2023}.
-
-\bibitem[\citeproctext]{ref-Bell2000}
-Bell, P C. 2000. {``Forecasting Demand Variation When There Are
-Stockouts.''} \emph{Journal of the Operational Research Society} 51 (3):
-358--63.
-
-\bibitem[\citeproctext]{ref-bernal2017interrupted}
-Bernal, James Lopez, Steven Cummins, and Antonio Gasparrini. 2017.
-{``Interrupted Time Series Regression for the Evaluation of Public
-Health Interventions: A Tutorial.''} \emph{International Journal of
-Epidemiology} 46 (1): 348--55.
-
-\bibitem[\citeproctext]{ref-blazquez2021review}
-Blázquez-Garcı́a, Ane, Angel Conde, Usue Mori, and Jose A Lozano. 2021.
-{``A Review on Outlier/Anomaly Detection in Time Series Data.''}
-\emph{ACM Computing Surveys (CSUR)} 54 (3): 1--33.
-
-\bibitem[\citeproctext]{ref-box1975intervention}
-Box, George EP, and George C Tiao. 1975. {``Intervention Analysis with
-Applications to Economic and Environmental Problems.''} \emph{Journal of
-the American Statistical Association} 70 (349): 70--79.
-
-\bibitem[\citeproctext]{ref-pedestrians}
-City of Melbourne. 2024. {``Pedestrian Counting System.''} Melbourne,
-Australia. \url{https://www.pedestrian.melbourne.vic.gov.au/}.
-
-\bibitem[\citeproctext]{ref-dehning2020inferring}
-Dehning, Jonas, Johannes Zierenberg, F Paul Spitzner, Michael Wibral,
-Joao Pinheiro Neto, Michael Wilczek, and Viola Priesemann. 2020.
-{``Inferring Change Points in the Spread of COVID-19 Reveals the
-Effectiveness of Interventions.''} \emph{Science} 369 (6500): eabb9789.
-
-\bibitem[\citeproctext]{ref-fildes2008forecasting}
-Fildes, Robert, Konstantinos Nikolopoulos, Sven F Crone, and Aris A
-Syntetos. 2008. {``Forecasting and Operational Research: A Review.''}
-\emph{Journal of the Operational Research Society} 59: 1150--72.
-
-\bibitem[\citeproctext]{ref-gardner2006exponential}
-Gardner Jr, Everette S. 2006. {``Exponential Smoothing: The State of the
-Art---Part II.''} \emph{International Journal of Forecasting} 22 (4):
-637--66.
-
-\bibitem[\citeproctext]{ref-harvey2006forecasting}
-Harvey, Andrew. 2006. {``Forecasting with Unobserved Components Time
-Series Models.''} \emph{Handbook of Economic Forecasting} 1: 327--412.
-
-\bibitem[\citeproctext]{ref-fpp3}
-Hyndman, Rob J, and George Athanasopoulos. 2021. \emph{Forecasting:
-Principles and Practice}. 3rd ed. Melbourne, Australia: OTexts.
-\url{http://OTexts.org/fpp3}.
-
-\bibitem[\citeproctext]{ref-hyndman2002state}
-Hyndman, Rob J, Anne B Koehler, Ralph D Snyder, and Simone Grose. 2002.
-{``A State Space Framework for Automatic Forecasting Using Exponential
-Smoothing Methods.''} \emph{International Journal of Forecasting} 18
-(3): 439--54.
-
-\bibitem[\citeproctext]{ref-khoshgoftaar2007empirical}
-Khoshgoftaar, Taghi M, Moiz Golawala, and Jason Van Hulse. 2007. {``An
-Empirical Study of Learning from Imbalanced Data Using Random Forest.''}
-In \emph{19th IEEE International Conference on Tools with Artificial
-Intelligence (ICTAI 2007)}, 2:310--17. IEEE.
-
-\bibitem[\citeproctext]{ref-Koopg2007}
-Koop, Gary, and Simon M. Potter. 2007. {``{Estimation and Forecasting in
-Models with Multiple Breaks}.''} \emph{The Review of Economic Studies}
-74 (3): 763--89.
-
-\bibitem[\citeproctext]{ref-targetsr2021}
-Landau, William Michael. 2021. {``The Targets r Package: A Dynamic
-Make-Like Function-Oriented Pipeline Toolkit for Reproducibility and
-High-Performance Computing.''} \emph{Journal of Open Source Software} 6
-(57): 2959. \url{https://doi.org/10.21105/joss.02959}.
-
-\bibitem[\citeproctext]{ref-lichtendahl2013better}
-Lichtendahl Jr, Kenneth C, Yael Grushka-Cockayne, and Robert L Winkler.
-2013. {``Is It Better to Average Probabilities or Quantiles?''}
-\emph{Management Science} 59 (7): 1594--1611.
-
-\bibitem[\citeproctext]{ref-mcdowall2019interrupted}
-McDowall, David, Richard McCleary, and Bradley J Bartos. 2019.
-\emph{Interrupted Time Series Analysis}. Oxford University Press.
-
-\bibitem[\citeproctext]{ref-talagala2020anomaly}
-Talagala, Priyanga Dilini, Rob J Hyndman, Kate Smith-Miles, Sevvandi
-Kandanaarachchi, and Mario A Munoz. 2020. {``Anomaly Detection in
-Streaming Nonstationary Temporal Data.''} \emph{Journal of Computational
-and Graphical Statistics} 29 (1): 13--27.
-
-\bibitem[\citeproctext]{ref-talih2005structural}
-Talih, Makram, and Nicolas Hengartner. 2005. {``Structural Learning with
-Time-Varying Components: Tracking the Cross-Section of Financial Time
-Series.''} \emph{Journal of the Royal Statistical Society Series B:
-Statistical Methodology} 67 (3): 321--41.
-
-\bibitem[\citeproctext]{ref-tang2020joint}
-Tang, Xianfeng, Huaxiu Yao, Yiwei Sun, Charu Aggarwal, Prasenjit Mitra,
-and Suhang Wang. 2020. {``Joint Modeling of Local and Global Temporal
-Dynamics for Multivariate Time Series Forecasting with Missing
-Values.''} In \emph{Proceedings of the AAAI Conference on Artificial
-Intelligence}, 34:5956--63. 04.
-
-\bibitem[\citeproctext]{ref-trapero2023demand}
-Trapero, Juan R, Enrique Holgado de Frutos, and Diego J Pedregal. In
-Press. {``Demand Forecasting Under Lost Sales Stock Policies.''}
-\emph{International Journal of Forecasting}, In Press.
-
-\bibitem[\citeproctext]{ref-truong2020selective}
-Truong, Charles, Laurent Oudre, and Nicolas Vayatis. 2020. {``Selective
-Review of Offline Change Point Detection Methods.''} \emph{Signal
-Processing} 167: 107299.
-
-\bibitem[\citeproctext]{ref-twala2008good}
-Twala, Bheki E T H, M C Jones, and David J Hand. 2008. {``Good Methods
-for Coping with Missing Data in Decision Trees.''} \emph{Pattern
-Recognition Letters} 29 (7): 950--56.
-
-\bibitem[\citeproctext]{ref-combinations}
-Wang, Xiaoqian, Rob J Hyndman, Feng Li, and Yanfei Kang. 2023.
-{``Forecast Combinations: An over 50-Year Review.''} \emph{International
-J Forecasting} 39 (4): 1518--47.
-\url{http://robjhyndman.com/publications/combinations/}.
-
-\bibitem[\citeproctext]{ref-MelbourneLockdowns}
-Wikipedia. 2024. {``{COVID-19} Pandemic in {Victoria}.''}
-\url{https://en.wikipedia.org/wiki/COVID-19_pandemic_in_Victoria\#Lockdown_statistics}.
-
-\bibitem[\citeproctext]{ref-7157837}
-Wu, Shin-Fu, Chia-Yung Chang, and Shie-Jue Lee. 2015. {``Time Series
-Forecasting with Missing Values.''} In \emph{2015 1st International
-Conference on Industrial Networks and Intelligent Systems (INISCom)},
-151--56. \url{https://doi.org/10.4108/icst.iniscom.2015.258269}.
-
-\end{CSLReferences}
-
+\printbibliography[title=References]
 
 
 

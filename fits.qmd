@@ -4,17 +4,19 @@ author:
 - name: Rob J Hyndman
   affiliations:
     - department: Department of Econometrics & Business Statistics
-    - name: Monash University
-    - city: Clayton VIC
-    - country: Australia
-    - postal-code: 3800
+      name: Monash University
+      city: Clayton VIC
+      country: Australia
+      postal-code: 3800
   email: Rob.Hyndman@monash.edu
+  orcid: 0000-0002-2140-5352
 - name: Bahman Rostami-Tabar
   affiliations:
     - name: Cardiff Business School
-    - postal-code: Wales CF10 3EU
-    - country: United Kingdom
+      postal-code: Wales CF10 3EU
+      country: United Kingdom
   email: rostami-tabarb@cardiff.ac.uk
+  orcid: 0000-0002-3730-0045
   corresponding: true
 abstract: "Forecasting interrupted time series data is a major challenge for forecasting teams, especially in light of events such as the COVID-19 pandemic. This paper investigates several strategies for dealing with interruptions in time series forecasting, including highly adaptable models, intervention models, marking interrupted periods as missing, forecasting what may have been, downweighting the interruption period, and ensemble models.  Each approach offers specific advantages and disadvantages, such as adaptability, memory retention, data integrity, flexibility, and accuracy. We evaluate the effectiveness of these strategies using two actual datasets that were interrupted by COVID-19, and we provide recommendations for how to handle these interruptions. This work contributes to the literature on time series forecasting, offering insights for academics and practitioners dealing with interrupted data in numerous domains."
 keywords:
@@ -24,13 +26,16 @@ keywords:
   - intervention analysis
   - structural breaks
 bibliography: references.bib
-wpnumber: no/yr
-jelcodes: ""
-blind: false
-cover: false
-linestretch: 1.5
 format:
-  wp-pdf:
+  wp-pdf+wp:
+    include-in-header: header.tex
+    keep-tex: true
+    linestretch: 1.5
+    wpnumber: no/24
+    jelcodes: ""
+    blind: false
+    cover: true
+  tandf-pdf:
     include-in-header: header.tex
     keep-tex: true
 ---
@@ -41,7 +46,6 @@ format:
 #| eval: true
 # Load all required packages
 library(targets)
-library(fpp3)
 
 # Set ggplot colours and fonts
 options(
@@ -50,11 +54,9 @@ options(
   ggplot2.discrete.colour = c("#D55E00", "#0072B2", "#009E73", "#CC79A7", "#E69F00", "#56B4E9", "#F0E442"),
   ggplot2.discrete.fill = c("#D55E00", "#0072B2", "#009E73", "#CC79A7", "#E69F00", "#56B4E9", "#F0E442")
 )
-#theme_set(theme_get() + theme(text = element_text(family = "Fira Sans")))
 ggplot2::theme_set(ggthemes::theme_few())
-# Load main data objects from targets folder
-tar_config_set(store = here::here("_targets"))
-tar_load(c(austa))
+# Load austa data 
+tar_load(austa)
 ```
 
 # Introduction {#sec-introduction}
@@ -148,7 +150,7 @@ The Australian tourism data set is a monthly time series showing the number of s
 tar_read(tourism_plot1)
 ```
 
-We apply the first four solutions discussed in the previous section to these data, making 12 month forecasts at the end of each year from 2019 to 2022. We fit ETS, ARIMA, and dynamic ARIMA models to the data [@fpp3], first applying a log transformation to ensure the resulting forecasts are positive. (A bias correction is also applied to ensure the back-transformed forecasts are the means of the forecast distributions.) A log transformation is possible because the observations never reach exactly zero, with the smallest number of visitors per month equal to `r min(austa$Visitors)*1000` in `r austa |> filter(Visitors == min(Visitors)) |> pull(Month) |> format("%B %Y")`. For all forecasts, we also show 90% prediction intervals.
+We apply the first four solutions discussed in the previous section to these data, making 12 month forecasts at the end of each year from 2019 to 2022. We fit ETS, ARIMA, and dynamic ARIMA models to the data [@fpp3], first applying a log transformation to ensure the resulting forecasts are positive. (A bias correction is also applied to ensure the back-transformed forecasts are the means of the forecast distributions.) A log transformation is possible because the observations never reach exactly zero, with the smallest number of visitors per month equal to `r min(austa$Visitors)*1000` in `r austa |> dplyr::filter(Visitors == min(Visitors)) |> dplyr::pull(Month) |> format("%B %Y")`. For all forecasts, we also show 90% prediction intervals.
 
 ```{r}
 #| label: fig-tsol1-plot
@@ -208,7 +210,7 @@ tar_load(c(raw_walkers, walkers2, lockdowns))
 nsensors <- length(unique(raw_walkers$Sensor))
 ngoodsensors <- length(unique(walkers2$Sensor))
 lockdowns <- lockdowns |>
-  mutate(Duration = End - Start + 1)
+  dplyr::mutate(Duration = End - Start + 1)
 ```
 
 The pedestrian data set is a daily time series showing the number of pedestrians per day in Melbourne, Australia. The data were obtained from the Pedestrian Counting System maintained by the City of Melbourne [@pedestrians] and are based on automated hourly counts from sensors at `r nsensors` locations over the period from `r min(raw_walkers$Date)` to `r max(raw_walkers$Date)`. All sensors had some missing data, and we chose to use sensors with no more than `r 30*24` missing hours, equivalent to 30 days of missing data. This resulted in `r ngoodsensors` sensors being used in the analysis. The data were aggregated to daily counts for each sensor, and then the results were averaged across sensors to obtain a measure of pedestrian traffic per day. The resulting time series is shown in @fig-walkers.

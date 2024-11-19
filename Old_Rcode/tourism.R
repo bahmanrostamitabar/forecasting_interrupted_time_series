@@ -20,6 +20,7 @@ austa |>
   ggplot(aes(x = Month, y = Visitors)) +
   geom_line() +
   labs(
+    x = "Month",
     y = "Thousands of visitors",
     title = "Total short-term visitors to Australia"
   )
